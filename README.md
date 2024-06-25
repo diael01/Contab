@@ -1,2 +1,0 @@
-# Contab
-.NET Contab App
