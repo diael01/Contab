@@ -1,0 +1,27 @@
+  if exists ( select * from sys.tables where name = N'COPI_RET')
+ DROP TABLE [COPI_RET];
+ CREATE TABLE [COPI_RET] (
+[MARCA]                            Integer, 
+[RETZ]                             Integer, 
+[BEN]                              Integer, 
+[NRDOC]                            Integer, 
+[ANDOC]                            Integer, 
+[LNDOC]                            Integer, 
+[ZIDOC]                            Integer, 
+[DRL]                              Numeric(10,2), 
+[RLR]                              Numeric(10,2), 
+[RRL]                              Numeric(10,2), 
+[DDL]                              Numeric(10,2), 
+[DL]                               Numeric(10,2), 
+[RDL]                              Numeric(10,2), 
+[DPEN]                             Numeric(10,2), 
+[ROL]                              Char(6), 
+[SV]                               Char(1), 
+[UR]                               Numeric(10,2), 
+[TIP60]                            Char(1), 
+[PROC60]                           Numeric(10,4), 
+[RLR_LIC]                          Numeric(10,2), 
+[RLR_AV]                           Numeric(10,2), 
+[RATE]                             Numeric(10,2), 
+[RPL]                              Numeric(10,2), 
+[PRI]                              Integer);

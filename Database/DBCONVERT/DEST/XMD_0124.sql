@@ -1,0 +1,27 @@
+  if exists ( select * from sys.tables where name = N'XMD_0124')
+ DROP TABLE [XMD_0124];
+ CREATE TABLE [XMD_0124] (
+[MARCA]                            Integer, 
+[NUME]                             Char(31), 
+[CNPASIG]                          Numeric(13,0), 
+[CNP_CTR]                          Numeric(13,0), 
+[NR_CTR]                           Char(20), 
+[DATA_CTR]                         DateTime, 
+[COTA_CTR]                         Numeric(5,2), 
+[SUMA_CTR]                         Numeric(7,2), 
+[DEN]                              Char(30), 
+[CUI]                              Numeric(13,0), 
+[COTA]                             Numeric(5,2), 
+[SUMA]                             Numeric(7,2), 
+[NR_CAZ]                           Integer, 
+[CNP_D]                            Numeric(13,0), 
+[DEN_D]                            Char(31), 
+[NR_ACT_D]                         Char(20), 
+[DATA_D]                           DateTime, 
+[CNP_B]                            Numeric(13,0), 
+[DEN_B]                            Char(31), 
+[CUANTUM_D]                        Integer, 
+[DETASAT]                          Integer, 
+[DATAD1]                           DateTime, 
+[DATAD2]                           DateTime, 
+[CUI_ANGAJ]                        Numeric(13,0));

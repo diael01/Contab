@@ -1,0 +1,28 @@
+  if exists ( select * from sys.tables where name = N'COP_RAV1')
+ DROP TABLE [COP_RAV1];
+ CREATE TABLE [COP_RAV1] (
+[MARCA]                            Integer, 
+[COD_RET]                          Integer, 
+[COD_SEC]                          Integer, 
+[COD_ACT]                          Integer, 
+[COD_LM]                           Integer, 
+[SCH]                              Char(1), 
+[NR_DOC]                           Char(15), 
+[RATA_CHZ1]                        Integer, 
+[LN_I_CAR]                         Integer, 
+[AN_I_CAR]                         Integer, 
+[TAXA_I_CAR]                       Integer, 
+[FOND_CAR]                         Integer, 
+[COTIZ_LN]                         Integer, 
+[LN_IMPR]                          Integer, 
+[AN_IMPR]                          Integer, 
+[IMPR_ACORD]                       Integer, 
+[IMPR_RET]                         Integer, 
+[DOB_CAR]                          Integer, 
+[DOB_RES]                          Integer, 
+[NECAL_DOB]                        Integer, 
+[RATA_CHZ2]                        Integer, 
+[CHZ_PR]                           Integer, 
+[RATA_RCHZ1]                       Integer, 
+[NUME]                             Char(31), 
+[ARR]                              Numeric(8,2));

@@ -1,0 +1,25 @@
+  if exists ( select * from sys.tables where name = N'DED_23')
+ DROP TABLE [DED_23];
+ CREATE TABLE [DED_23] (
+[MARCA]                            Integer, 
+[CNP_ANG]                          Numeric(13,0), 
+[CNP_PERS]                         Numeric(13,0), 
+[NUME]                             Char(40), 
+[PRENUME]                          Char(40), 
+[SOT]                              Char(1), 
+[COPIL]                            Char(1), 
+[ALTA]                             Char(1), 
+[INVALID_I]                        Char(1), 
+[INVALID_II]                       Char(1), 
+[COEF_01]                          Numeric(6,2), 
+[COEF_02]                          Numeric(6,2), 
+[COEF_03]                          Numeric(6,2), 
+[COEF_04]                          Numeric(6,2), 
+[COEF_05]                          Numeric(6,2), 
+[COEF_06]                          Numeric(6,2), 
+[COEF_07]                          Numeric(6,2), 
+[COEF_08]                          Numeric(6,2), 
+[COEF_09]                          Numeric(6,2), 
+[COEF_10]                          Numeric(6,2), 
+[COEF_11]                          Numeric(6,2), 
+[COEF_12]                          Numeric(6,2));

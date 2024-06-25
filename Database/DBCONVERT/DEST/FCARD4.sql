@@ -1,0 +1,26 @@
+  if exists ( select * from sys.tables where name = N'FCARD4')
+ DROP TABLE [FCARD4];
+ CREATE TABLE [FCARD4] (
+[BANCA_PLAT]                       Char(21), 
+[CONT_S]                           Char(24), 
+[NUME_PLAT]                        Char(25), 
+[CIF]                              Char(25), 
+[STRADA]                           Char(15), 
+[ORAS]                             Char(13), 
+[CODBIC]                           Char(24), 
+[CONT_D]                           Char(24), 
+[BENE]                             Char(31), 
+[BANCA]                            Char(31), 
+[SUCURS]                           Char(26), 
+[EMAIL]                            Char(25), 
+[CNP]                              Char(27), 
+[NR_OPL]                           Char(8), 
+[DATA_PL]                          Char(6), 
+[VALUTA]                           Char(12), 
+[SUMA]                             Char(10), 
+[DET1]                             Char(13), 
+[DET2]                             Char(15), 
+[DET3]                             Char(9), 
+[DET4]                             Char(9), 
+[URGENT]                           Char(6), 
+[PL_BUGET]                         Char(11));

@@ -1,0 +1,28 @@
+  if exists ( select * from sys.tables where name = N'XL_CASA')
+ DROP TABLE [XL_CASA];
+ CREATE TABLE [XL_CASA] (
+[MARCA]                            Integer, 
+[RET]                              Integer, 
+[BEN]                              Integer, 
+[NRDOC]                            Integer, 
+[ANDOC]                            Integer, 
+[LNDOC]                            Integer, 
+[ZIDOC]                            Integer, 
+[RDRL]                             Numeric(8,2), 
+[RRLLR]                            Numeric(8,2), 
+[RDDLL]                            Numeric(7,2), 
+[RDLL1]                            Numeric(7,2), 
+[BANCA]                            Char(3), 
+[NRBANCA]                          Integer, 
+[COMIS_V]                          Numeric(5,2), 
+[COMIS_T]                          Char(1), 
+[COMISION]                         Numeric(5,2), 
+[AC]                               Integer, 
+[NUME]                             Char(20), 
+[SEC]                              Integer, 
+[DRL]                              Numeric(9,2), 
+[RLR]                              Numeric(8,2), 
+[RRL]                              Numeric(8,2), 
+[DDL]                              Numeric(8,2), 
+[DL]                               Numeric(7,2), 
+[RDL]                              Numeric(7,2));

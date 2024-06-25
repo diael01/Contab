@@ -1,0 +1,28 @@
+  if exists ( select * from sys.tables where name = N'MANE')
+ DROP TABLE [MANE];
+ CREATE TABLE [MANE] (
+[MARCAL]                           Integer, 
+[SECL]                             Integer, 
+[ACL]                              Integer, 
+[CLML]                             Integer, 
+[SCHL]                             Char(1), 
+[CFL]                              Char(6), 
+[RTRTLL]                           Numeric(10,2), 
+[CHEL]                             Char(6), 
+[STRL]                             Integer, 
+[NRCAGL]                           Char(3), 
+[SPAGL]                            Integer, 
+[OLAL]                             Integer, 
+[RTATR]                            Numeric(10,2), 
+[RTACR]                            Numeric(10,2), 
+[SAREP]                            Numeric(10,2), 
+[OLAT]                             Integer, 
+[RTATT]                            Numeric(10,2), 
+[RTRAT]                            Numeric(10,2), 
+[RTACRT]                           Numeric(10,2), 
+[SAREPTAR2]                        Numeric(10,2), 
+[RTROR]                            Numeric(10,4), 
+[RPR]                              Numeric(10,2), 
+[CATEGS]                           Integer, 
+[GRADS]                            Char(2), 
+[NP]                               Char(20));

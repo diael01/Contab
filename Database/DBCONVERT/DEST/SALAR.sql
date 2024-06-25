@@ -1,0 +1,26 @@
+  if exists ( select * from sys.tables where name = N'SALAR')
+ DROP TABLE [SALAR];
+ CREATE TABLE [SALAR] (
+[MARCA]                            Integer, 
+[ZI_MOD]                           Integer, 
+[COD_FUNC]                         Char(6), 
+[CATEG]                            Integer, 
+[GRAD]                             Char(2), 
+[RETRIB]                           Numeric(10,2), 
+[IND_COND]                         Numeric(8,2), 
+[PROCENT]                          Numeric(6,2), 
+[COD_DCM]                          Char(1), 
+[AN_DCM]                           Integer, 
+[LN_DCM]                           Integer, 
+[ZI_DCM]                           Integer, 
+[COD_SEC]                          Integer, 
+[COD_ACT]                          Integer, 
+[COD_LM]                           Integer, 
+[SCH]                              Char(1), 
+[REGIM_LZ]                         Integer, 
+[GRMUNCA]                          Integer, 
+[NIV]                              Char(1), 
+[SP_V]                             Integer, 
+[CONT]                             Char(10), 
+[RETRIBV]                          Numeric(10,0), 
+[RETR0110]                         Integer);

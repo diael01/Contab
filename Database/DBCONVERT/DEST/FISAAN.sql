@@ -1,0 +1,27 @@
+  if exists ( select * from sys.tables where name = N'FISAAN')
+ DROP TABLE [FISAAN];
+ CREATE TABLE [FISAAN] (
+[MARCA]                            Integer, 
+[NUME]                             Char(31), 
+[SEX]                              Char(1), 
+[FUNCT]                            Char(6), 
+[LOCM]                             Char(6), 
+[RETRIB]                           Integer, 
+[BRUT]                             Integer, 
+[TICH]                             Integer, 
+[TICH_CAD]                         Integer, 
+[VALCM]                            Integer, 
+[SC1L]                             Integer, 
+[SFDSAN]                           Integer, 
+[SCTR3]                            Integer, 
+[IDR]                              Integer, 
+[LN]                               Integer, 
+[AN]                               Integer, 
+[OLAL]                             Integer, 
+[OREL]                             Integer, 
+[OINVL]                            Integer, 
+[OANL]                             Integer, 
+[OTBL]                             Integer, 
+[OCOL]                             Integer, 
+[COFRL]                            Integer, 
+[TT]                               Integer);
