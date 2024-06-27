@@ -27,6 +27,21 @@ namespace UnitTests
             await orgService.DeleteNode(orgId);
         }
 
+        [Fact]
+        public async Task UpdateOrganization_Unit_Should_Be_OK()
+        {
+
+            var orgId = await AddOrg();
+            var orgNode = await DBContext.Organisations.Where(e => e.OrgNode.GetLevel() == 0).FirstOrDefaultAsync();
+            orgNode.Name = "ChangedName";
+            orgNode.Location = "Location";
+            orgNode.LongName = "LongName";
+            var orgDTO = mapper.Map<OrgDTO>(orgNode);
+            orgDTO.OrgNodeText = orgId;
+            await orgService.UpdateNode(orgDTO);
+            await orgService.DeleteNode(orgId);
+        }
+
         //level 1
         [Fact]
         public async Task AddDepartments_Should_Be_OK()

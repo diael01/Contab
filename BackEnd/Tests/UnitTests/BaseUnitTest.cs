@@ -2,6 +2,8 @@
 using Contracts.Mapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Moq;
 using Repository.Models;
 
@@ -24,10 +26,9 @@ namespace UnitTests
    .Configuration
    .ConfigurationExtensions
    .GetConnectionString(cfg, "ContabDB");
-            //var conn = cfg.GetConnectionString("ConnectionStrings:ContabDB");
             if (conn == null)
                 throw new Exception("Connection string not found");
-            optionsBuilder.UseSqlServer(conn);
+            optionsBuilder.UseSqlServer(conn, x => x.UseHierarchyId());
             DBContext = new ContabContext(optionsBuilder.Options);
             if (mapper == null)
             {

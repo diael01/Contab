@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Models;
 
 public partial class Organisation
 {
-    public int Id { get; set; }
-
     public HierarchyId OrgNode { get; set; } = null!;
 
     public short? OrgLevel { get; set; }
@@ -17,6 +17,10 @@ public partial class Organisation
     public string? LongName { get; set; }
 
     public string? Location { get; set; }
+
+    public int? CodCor { get; set; }
+
+    public string? CodGrm { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 

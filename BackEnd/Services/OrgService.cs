@@ -61,7 +61,15 @@ namespace Services
 
         public async Task<string> UpdateNode(OrgDTO org)
         {
-            throw new NotImplementedException();
+            var id = HierarchyId.Parse(org.OrgNodeText);
+            var node = DBContext.Organisations.Where(e => e.OrgNode == id).FirstOrDefault();
+            node.Name = org.Name;
+            node.Location = org.Location;
+            node.LongName = org.LongName;
+            node.Type = org.Type;
+            DBContext.Entry(node).State = EntityState.Modified;
+            await DBContext.SaveChangesAsync();
+            return id.ToString();
         }
 
         public async Task DeleteNode(string nodeId)

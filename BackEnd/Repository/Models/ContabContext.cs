@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Models;
 
@@ -15,23 +17,22 @@ public partial class ContabContext : DbContext
 
     public virtual DbSet<Organisation> Organisations { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=localhost;Database=Contab;Trusted_Connection=True;TrustServerCertificate=True", x => x.UseHierarchyId());
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Organisation>(entity =>
         {
-            entity.HasKey(e => e.OrgNode).HasName("PK__Organisa__C1ECAF2AA0021A4B");
+            entity.HasKey(e => e.OrgNode).HasName("PK__Organisa__C1ECAF2ACF19B09D");
 
             entity.ToTable("Organisation");
 
             entity.HasIndex(e => new { e.OrgLevel, e.OrgNode }, "Org_BreadthFirst");
 
+            entity.Property(e => e.CodGrm)
+                .HasMaxLength(3)
+                .IsUnicode(false)
+                .IsFixedLength();
             entity.Property(e => e.CreatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.CreatedBy).HasMaxLength(32);
-            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Location)
                 .HasMaxLength(64)
                 .IsUnicode(false);
