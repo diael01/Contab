@@ -2,7 +2,9 @@
 using Contracts.Interfaces;
 using Contracts.Models;
 using Contracts.Models.Enums;
+using Contracts.Validation;
 using FluentAssertions;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
 using Services;
@@ -33,7 +35,8 @@ namespace UnitTests
 
             var orgId = await AddOrg();
             var orgNode = await DBContext.Organisations.Where(e => e.OrgNode.GetLevel() == 0).FirstOrDefaultAsync();
-            orgNode.Name = "ChangedName";
+            new OrgValidator().ValidateAndThrow(orgNode!);
+            orgNode!.Name = "ChangedName";
             orgNode.Location = "Location";
             orgNode.LongName = "LongName";
             var orgDTO = mapper.Map<OrgDTO>(orgNode);
@@ -189,7 +192,7 @@ namespace UnitTests
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = name;
-            dto.Type = (int)OrganisationType.Department;
+            dto.Type = (int)NodeType.Department;
             dto.ParentNodeText = orgId;
 
             //Act add company
@@ -201,7 +204,7 @@ namespace UnitTests
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = "Construct";
-            dto.Type = (int)OrganisationType.Company;
+            dto.Type = (int)NodeType.Company;
 
             //Act add company
             return (await orgService.AddNode(dto)).ToString();
@@ -212,7 +215,7 @@ namespace UnitTests
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = name;
-            dto.Type = (int)OrganisationType.Activity;
+            dto.Type = (int)NodeType.Activity;
             dto.ParentNodeText = deptId;
 
             //Act add activity
@@ -224,7 +227,7 @@ namespace UnitTests
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = name;
-            dto.Type = (int)OrganisationType.Function;
+            dto.Type = (int)NodeType.Function;
             dto.ParentNodeText = actId;
 
             //Act add function

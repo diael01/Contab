@@ -2,6 +2,8 @@
 using Contracts.Interfaces;
 using Contracts.Models;
 using Contracts.Models.Enums;
+using Contracts.Validation;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
 
@@ -29,7 +31,7 @@ namespace Services
         public async Task<OrgDTO> GetNodeById(string id)
         {
             var nodeId = HierarchyId.Parse(id);
-            var nodeOrg = await DBContext.Organisations.Where(e => e.OrgNode== nodeId).FirstOrDefaultAsync();
+            var nodeOrg = await DBContext.Organisations.Where(e => e.OrgNode == nodeId).FirstOrDefaultAsync();
             var nodeDTO = Mapper.Map<OrgDTO>(nodeOrg);
             return nodeDTO;
         }
@@ -39,12 +41,12 @@ namespace Services
             var orgdb = Mapper.Map<Organisation>(org);
             switch (orgdb.Type)
             {
-                case (int)OrganisationType.Company:
+                case (int)NodeType.Company:
                     orgdb.OrgNode = HierarchyId.GetRoot();
                     break;
-                case (int)OrganisationType.Department:
-                case (int)OrganisationType.Activity:
-                case (int)OrganisationType.Function:
+                case (int)NodeType.Department:
+                case (int)NodeType.Activity:
+                case (int)NodeType.Function:
                     var node = HierarchyId.Parse(org.ParentNodeText);
                     var lastChild = DBContext.Organisations.Where(e => e.OrgNode.GetAncestor(1) == node).Max(e => e.OrgNode);
                     orgdb.OrgNode = node.GetDescendant(lastChild, null);
@@ -63,7 +65,8 @@ namespace Services
         {
             var id = HierarchyId.Parse(org.OrgNodeText);
             var node = DBContext.Organisations.Where(e => e.OrgNode == id).FirstOrDefault();
-            node.Name = org.Name;
+            new OrgValidator().ValidateAndThrow(node!);
+            node!.Name = org.Name;
             node.Location = org.Location;
             node.LongName = org.LongName;
             node.Type = org.Type;
@@ -79,7 +82,6 @@ namespace Services
             if (node != null)
             {
                 DBContext.Remove(node);
-                //DBContext.Entry(node).State = EntityState.Deleted;
                 await DBContext.SaveChangesAsync();
             }
         }

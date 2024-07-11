@@ -1,14 +1,14 @@
 ﻿namespace IntegrationTests
 {
-  public abstract class BaseIntegrationTest : CustomWebApplicationFactory<Program>
-  {
-    protected readonly CustomWebApplicationFactory<Program> factory;
-    protected readonly HttpClient client;
-    protected HttpResponseMessage? health;
-    public BaseIntegrationTest()
+    public abstract class BaseIntegrationTest : CustomWebApplicationFactory<Program>
     {
-      factory = new CustomWebApplicationFactory<Program>();
-      client = factory.CreateClient();
+        protected readonly CustomWebApplicationFactory<Program> factory;
+        protected readonly HttpClient httpClient;
+        protected HttpResponseMessage? health;
+        public BaseIntegrationTest()
+        {
+            factory = new CustomWebApplicationFactory<Program>();
+            httpClient = factory.CreateClient();
+        }
     }
-  }
 }

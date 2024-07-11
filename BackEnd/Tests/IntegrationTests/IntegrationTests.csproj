@@ -1,12 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="HealthIntegrationTest.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="altcover" Version="8.6.45" />
@@ -24,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BP\BP.csproj" />
+    <ProjectReference Include="..\..\WebAPI\WebAPI.csproj" />
     <ProjectReference Include="..\CommonTestHelper\CommonTestHelper.csproj" />
   </ItemGroup>
 

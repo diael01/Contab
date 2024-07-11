@@ -1,16 +1,19 @@
 ﻿using Contracts.Models;
+using Contracts.Models.Enums;
 
 namespace CommonTestHelper
 {
-  public static class TestData
-  {
-    public static ClientDTO GetClientDTO()
+    public static class TestData
     {
-      ClientDTO cli = new ClientDTO();
-      cli.Id = 0;
-      cli.Name = "TestCliName";
-      cli.Ip = "TestIP";
-      return cli;
+        public static OrgDTO GetOrgDTO()
+        {
+            OrgDTO org = new OrgDTO();
+
+            org.Type = (int)NodeType.Company;
+            org.Name = "Construct";
+            org.Location = "Location";
+
+            return org;
+        }
     }
-  }
 }

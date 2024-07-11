@@ -1,6 +1,6 @@
 ﻿namespace Contracts.Models.Enums
 {
-    public enum OrganisationType
+    public enum NodeType
     {
         Company,
         Department, // Business, Finance, IT, R&D, HR, Operations, Marketing, Manufcturing,Sales, https://www.pinterest.com/pin/26458716560839117/

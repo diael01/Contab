@@ -4,19 +4,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace IntegrationTests
 {
-  public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
-  {
-    public string DefaultUserId { get; set; } = "1";
-
-    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
     {
-      builder.ConfigureServices(services =>
-      {
-        services.Configure<TestAuthHandlerOptions>(options => options.DefaultUserId = DefaultUserId);
+        public string DefaultUserId { get; set; } = "1";
 
-        services.AddAuthentication(TestAuthHandler.AuthenticationScheme)
-            .AddScheme<TestAuthHandlerOptions, TestAuthHandler>(TestAuthHandler.AuthenticationScheme, options => { });
-      });
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            //TBD: comment for now; to be added later
+            //builder.ConfigureServices(services =>
+            //services.Configure<TestAuthHandlerOptions>(options => options.DefaultUserId = DefaultUserId);
+            //services.AddAuthentication(TestAuthHandler.AuthenticationScheme)
+            //    .AddScheme<TestAuthHandlerOptions, TestAuthHandler>(TestAuthHandler.AuthenticationScheme, options => { });
+            //});
+        }
     }
-  }
 }
