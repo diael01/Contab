@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IntegrationTests
@@ -11,7 +10,7 @@ namespace IntegrationTests
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            
+
             builder.ConfigureServices(services =>
             {
                 services.Configure<TestAuthHandlerOptions>(options => options.DefaultUserId = DefaultUserId);

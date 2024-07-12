@@ -23,7 +23,7 @@ namespace CommonTestHelper
                     org.Type = (int)NodeType.Function;
                     break;
             }
-            
+
             org.Name = "Construct";
             org.Location = "Location";
 

@@ -49,7 +49,7 @@ namespace WebApi.Controllers
             new NodeValidator().ValidateAndThrow(org);
             var id = await OrgService.UpdateNode(org);
             return !String.IsNullOrWhiteSpace(id) ? Ok(id) : Problem(Constants.ContabError);
-           
+
         }
 
         // DELETE api/<OrganisationController>/5
@@ -109,7 +109,7 @@ namespace WebApi.Controllers
             {
                 return Problem(Constants.ContabError);
             }
-}
+        }
 
         [HttpGet]
         [Route("GetFunctions")]
