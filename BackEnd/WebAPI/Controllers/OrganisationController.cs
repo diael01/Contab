@@ -2,14 +2,14 @@
 using Contracts.Models;
 using Contracts.Validation;
 using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace WebAPI.Controllers
+namespace WebApi.Controllers
 {
-    [Route("api/v1/[controller]")]
+    // [Route("api/v1/[controller]")]
+    [Route("/api/v1/Org")]
     [ApiController]
     public class OrgController : ControllerBase
     {
@@ -22,75 +22,107 @@ namespace WebAPI.Controllers
         [HttpGet]
         [Route("GetNodeById")]
         public async Task<OrgDTO> GetNodebyId(string nodeId)
-        //public IEnumerable<string> Get()
         {
             var node = await OrgService.GetNodeById(nodeId);
             return node;
         }
 
-        [HttpGet]
-        [Route("GetOrganisations")]
-        public async Task<IEnumerable<OrgDTO>> GetOrganisations()
-        //public IEnumerable<string> Get()
-        {
-            var orgs = await OrgService.GetNodes(1);
-            return orgs;
-        }
-
-        [HttpGet]
-        [Route("GetDepartments")]
-        public async Task<IEnumerable<OrgDTO>> GetDepartments()
-        {
-            var depts = await OrgService.GetNodes(2);
-            return depts;
-        }
-
-        [HttpGet]
-        [Route("GetActivities")]
-        public async Task<IEnumerable<OrgDTO>> GetActivities()
-        {
-            var acts = await OrgService.GetNodes(3);
-            return acts;
-        }
-
-        [HttpGet]
-        [Route("GetFunctions")]
-        public async Task<IEnumerable<OrgDTO>> GetFunctions()
-        {
-            var fncs = await OrgService.GetNodes(4);
-            return fncs;
-        }
-
         // POST api/<OrganisationController>
         [HttpPost]
         [Route("AddNode")]
-        public async Task<string> AddNode([FromBody] OrgDTO org)
+        public async Task<IActionResult> AddNode([FromBody] OrgDTO org)
         {
             //validate
+            //OrgDTO org = new OrgDTO();
             new NodeValidator().ValidateAndThrow(org);
-            var nodeId = await OrgService.AddNode(org);
-            return nodeId;
+            var id = await OrgService.AddNode(org);
+            return !String.IsNullOrWhiteSpace(id) ? Ok(id) : Problem(Constants.ContabError);
         }
 
         // PUT api/<OrganisationController>/5
         //[HttpPut("{id}")]
         [HttpPut]
         [Route("UpdateNode")]
-        public async Task<string> UpdateNode([FromBody] OrgDTO org)
+        public async Task<IActionResult> UpdateNode([FromBody] OrgDTO org)
         {
             //validate
             new NodeValidator().ValidateAndThrow(org);
-            var nodeId = await OrgService.UpdateNode(org);
-            return nodeId;
+            var id = await OrgService.UpdateNode(org);
+            return !String.IsNullOrWhiteSpace(id) ? Ok(id) : Problem(Constants.ContabError);
+           
         }
 
         // DELETE api/<OrganisationController>/5
         [HttpDelete("{id}")]
         [Route("DeleteNode")]
-        public async Task DeleteNode(string nodeId)
+        public async Task<IActionResult> DeleteNode(string nodeId)
         {
             //validate
-            await OrgService.DeleteNode(nodeId);
+            try
+            {
+                await OrgService.DeleteNode(nodeId);
+                return Ok();
+            } catch (Exception ex)
+            {
+                return Problem(Constants.ContabError);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetOrganisations")]
+        public async Task<IActionResult> GetOrganisations()
+        {
+            try
+            {
+                var orgs = await OrgService.GetNodes(0);
+                var content = JsonContent.Create(orgs);
+                return Ok(content);
+            } catch (Exception ex)
+            {
+                return Problem(Constants.ContabError);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetDepartments")]
+        public async Task<IActionResult> GetDepartments()
+        {
+            try
+            {
+                var depts = await OrgService.GetNodes(1);
+                return Ok(depts);
+            } catch (Exception ex)
+            {
+                return Problem(Constants.ContabError);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetActivities")]
+        public async Task<IActionResult> GetActivities()
+        {
+            try
+            {
+                var acts = await OrgService.GetNodes(2);
+                return Ok(acts);
+            } catch (Exception ex)
+            {
+                return Problem(Constants.ContabError);
+            }
+}
+
+        [HttpGet]
+        [Route("GetFunctions")]
+        public async Task<IActionResult> GetFunctions()
+        {
+            try
+            {
+                var fncs = await OrgService.GetNodes(3);
+                return Ok(fncs);
+            } catch (Exception ex)
+            {
+                return Problem(Constants.ContabError);
+            }
         }
     }
 }

@@ -53,7 +53,7 @@ namespace IntegrationTests
         public async Task AddOrg_Integration_Should_Return_OK()
         {
             // Arrange             
-            var content = JsonContent.Create(TestData.GetOrgDTO());
+            var content = JsonContent.Create(TestData.GetOrgDTO(0));
 
             // Act          
             var add = await httpClient.PostAsync("/api/v1/Org/AddNode", content);
@@ -74,7 +74,7 @@ namespace IntegrationTests
         public async Task UpdateOrg_Integration_Should_Return_OK()
         {
             // Arrange
-            var org = TestData.GetOrgDTO();
+            var org = TestData.GetOrgDTO(0);
             var content = JsonContent.Create(org);
             var add = await httpClient.PostAsync("/api/v1/Org/AddNode", content);
             add.Should().NotBeNull();

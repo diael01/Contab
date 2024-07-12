@@ -1,5 +1,37 @@
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Infrastructure.Extensions;
 using Serilog;
-using WebApi.Extensions;
+using VisionRmmApi.Extensions;
+
+
+//var builder = WebApplication.CreateBuilder(args);
+
+//// Add services to the container.
+
+//builder.Services.AddControllers();
+//// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+//builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen();
+
+//var app = builder.Build();
+
+//// Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+
+//app.UseHttpsRedirection();
+
+//app.UseAuthorization();
+
+//app.MapControllers();
+
+//app.Run();
+
+
+
 
 //logging
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +42,8 @@ Log.Information("Starting up");
 
 //builder.AddAuthInfrastructure();
 builder.Services.AddCors();
-builder.Host.ConfigureAppSettings();
 builder.AddDbInfrastructure(builder.Configuration);
+builder.Host.ConfigureAppSettings();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -41,3 +73,4 @@ app.MapControllers();
 app.Run();
 
 public partial class Program { }
+
