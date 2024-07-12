@@ -45,11 +45,15 @@ namespace Infrastructure.Exceptions
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     break;
             }
-            logger.LogError(exception.Message);
+            //logger.LogError(exception.Message);
+            var msg = exception.InnerException != null ? exception.InnerException.Message : exception.Message;
+            if(msg!=null)
+              logger.LogError(msg);
             await context.Response.WriteAsync(JsonConvert.SerializeObject(new
             {
                 context.Response.StatusCode,
-                exception.Message
+                msg,
+         
             }));
         }
     }

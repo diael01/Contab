@@ -19,13 +19,13 @@ namespace WebApi.Controllers
             OrgService = os;
         }
 
-        [HttpGet]
-        [Route("GetNodeById")]
-        public async Task<OrgDTO> GetNodebyId(string nodeId)
-        {
-            var node = await OrgService.GetNodeById(nodeId);
-            return node;
-        }
+        //[HttpGet]
+        //[Route("GetNodeById")]
+        //public async Task<OrgDTO> GetNodebyId(string nodeId)
+        //{
+        //    var node = await OrgService.GetNodeById(nodeId);
+        //    return node;
+        //}
 
         // POST api/<OrganisationController>
         [HttpPost]
@@ -39,7 +39,7 @@ namespace WebApi.Controllers
             return !String.IsNullOrWhiteSpace(id) ? Ok(id) : Problem(Constants.ContabError);
         }
 
-        // PUT api/<OrganisationController>/5
+        //PUT api/<OrganisationController>/5
         //[HttpPut("{id}")]
         [HttpPut]
         [Route("UpdateNode")]
@@ -52,77 +52,46 @@ namespace WebApi.Controllers
 
         }
 
-        // DELETE api/<OrganisationController>/5
-        [HttpDelete("{id}")]
+        //// DELETE api/<OrganisationController>/5
+        [HttpDelete]
         [Route("DeleteNode")]
         public async Task<IActionResult> DeleteNode(string nodeId)
         {
-            //validate
-            try
-            {
-                await OrgService.DeleteNode(nodeId);
-                return Ok();
-            } catch (Exception ex)
-            {
-                return Problem(Constants.ContabError);
-            }
+             await OrgService.DeleteNode(nodeId);
+             return Ok();
         }
 
         [HttpGet]
         [Route("GetOrganisations")]
         public async Task<IActionResult> GetOrganisations()
         {
-            try
-            {
-                var orgs = await OrgService.GetNodes(0);
-                var content = JsonContent.Create(orgs);
-                return Ok(content);
-            } catch (Exception ex)
-            {
-                return Problem(Constants.ContabError);
-            }
+            var orgs = await OrgService.GetNodes(0);
+            var content = JsonContent.Create(orgs);
+            return Ok(content);
         }
 
         [HttpGet]
         [Route("GetDepartments")]
         public async Task<IActionResult> GetDepartments()
         {
-            try
-            {
-                var depts = await OrgService.GetNodes(1);
-                return Ok(depts);
-            } catch (Exception ex)
-            {
-                return Problem(Constants.ContabError);
-            }
+            var depts = await OrgService.GetNodes(1);
+            return Ok(depts);
         }
 
         [HttpGet]
         [Route("GetActivities")]
         public async Task<IActionResult> GetActivities()
         {
-            try
-            {
-                var acts = await OrgService.GetNodes(2);
-                return Ok(acts);
-            } catch (Exception ex)
-            {
-                return Problem(Constants.ContabError);
-            }
+            var acts = await OrgService.GetNodes(2);
+            return Ok(acts);
         }
 
         [HttpGet]
         [Route("GetFunctions")]
         public async Task<IActionResult> GetFunctions()
         {
-            try
-            {
-                var fncs = await OrgService.GetNodes(3);
-                return Ok(fncs);
-            } catch (Exception ex)
-            {
-                return Problem(Constants.ContabError);
-            }
+            var fncs = await OrgService.GetNodes(3);
+            return Ok(fncs);
         }
     }
 }
