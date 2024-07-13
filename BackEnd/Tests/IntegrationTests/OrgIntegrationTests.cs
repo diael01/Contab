@@ -15,7 +15,23 @@ namespace IntegrationTests
         [TestMethod]
         public async Task GetNodes_Integration_Should_Return_OK()
         {
-            // Arrange - in base test     
+            // Arrange - in base test
+            var content = JsonContent.Create(TestData.GetOrgDTO(0));          
+            var comp = await httpClient.PostAsync("/api/v1/Org/AddNode", content);
+            comp.Should().NotBeNull();
+            comp.StatusCode.Should().Be(HttpStatusCode.OK);
+            content = JsonContent.Create(TestData.GetOrgDTO(1, await comp.Content.ReadAsStringAsync()));
+            var dept = await httpClient.PostAsync("/api/v1/Org/AddNode", content);
+            dept.Should().NotBeNull();
+            dept.StatusCode.Should().Be(HttpStatusCode.OK);
+            content = JsonContent.Create(TestData.GetOrgDTO(2, await dept.Content.ReadAsStringAsync()));
+            var act = await httpClient.PostAsync("/api/v1/Org/AddNode", content);
+            act.Should().NotBeNull();
+            act.StatusCode.Should().Be(HttpStatusCode.OK);
+            content = JsonContent.Create(TestData.GetOrgDTO(3, await act.Content.ReadAsStringAsync()));
+            var fnc = await httpClient.PostAsync("/api/v1/Org/AddNode", content);
+            fnc.Should().NotBeNull();
+            fnc.StatusCode.Should().Be(HttpStatusCode.OK);
             // Act      
             using (HttpResponseMessage response = await httpClient.GetAsync("/api/v1/Org/GetOrganisations"))
             {
@@ -33,6 +49,23 @@ namespace IntegrationTests
             {
                 await CheckResponse(response);
             }
+            //cleanup
+            OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            {
+                ["id"] = await fnc.Content.ReadAsStringAsync()
+            });
+            OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            {
+                ["id"] = await act.Content.ReadAsStringAsync()
+            });
+            OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            {
+                ["id"] = await dept.Content.ReadAsStringAsync()
+            });
+            OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            {
+                ["id"] = await comp.Content.ReadAsStringAsync()
+            });
         }
 
         private async Task CheckResponse(HttpResponseMessage response)
@@ -80,6 +113,7 @@ namespace IntegrationTests
             add.Should().NotBeNull();
             add.StatusCode.Should().Be(HttpStatusCode.OK);
             org.Name = "TestDataNameUpdate";
+            org.OrgNodeText = await add.Content.ReadAsStringAsync();
             content = JsonContent.Create(org);
 
             // Act
@@ -95,14 +129,14 @@ namespace IntegrationTests
             };
 
             // Act
-            var customer = await httpClient.GetAsync(QueryHelpers.AddQueryString("/api/v1/Org/GetNodeById", query!));
-            string contentString = await customer.Content.ReadAsStringAsync();
+            var node = await httpClient.GetAsync(QueryHelpers.AddQueryString("/api/v1/Org/GetNodeById", query!));
+            string contentString = await node.Content.ReadAsStringAsync();
             var orgres = JsonConvert.DeserializeObject<OrgDTO>(contentString);
             orgres.Should().NotBeNull();
             orgres!.Name.Should().Be(org.Name);
 
             // Remove the object to leave the DB in the same state  
-            query = new Dictionary<string, string> { ["id"] = await add.Content.ReadAsStringAsync() };
+            query = new Dictionary<string, string> { ["id"] = orgres.OrgNodeText!};
             OrgHelper.DeleteNode(httpClient, query);
         }
 

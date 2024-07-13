@@ -72,9 +72,11 @@ namespace Services
             node.Location = org.Location;
             node.LongName = org.LongName;
             node.Type = org.Type;
+            node.UpdatedAt = DateTime.Now;
+            node.UpdatedBy = "system";
             DBContext.Entry(node).State = EntityState.Modified;
             await DBContext.SaveChangesAsync();
-            return id.ToString();
+            return node.OrgNode.ToString();
         }
 
         public async Task DeleteNode(string nodeId)
@@ -83,8 +85,15 @@ namespace Services
             var node = DBContext.Organisations.Where(e => e.OrgNode == id).FirstOrDefault();
             if (node != null)
             {
-                DBContext.Remove(node);
+                DBContext.Entry(node).State = EntityState.Deleted;
+                //DBContext.Remove(node);
+                //try
+                //{
                 await DBContext.SaveChangesAsync();
+                //} catch (Exception ex)
+                //{
+                //    Console.WriteLine(ex.Message);
+                //}
             }
         }
     }

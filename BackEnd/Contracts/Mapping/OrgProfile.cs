@@ -13,13 +13,13 @@ namespace Contracts.Mapping
             CreateMap<OrgDTO, Organisation>();
 
             // Mapping when property names are different
-            //CreateMap<User, UserViewModel>()
-            //    .ForMember(dest =>
-            //    dest.FName,
-            //    opt => opt.MapFrom(src => src.FirstName))
-            //    .ForMember(dest =>
-            //    dest.LName,
-            //    opt => opt.MapFrom(src => src.LastName));
+            CreateMap<Organisation, OrgDTO>()
+               .ForMember(dest =>
+               dest.OrgNodeText,
+               opt => opt.MapFrom(src => src.OrgNode.ToString()));
+               //.ForMember(dest =>
+               //dest.LName,
+               //opt => opt.MapFrom(src => src.LastName));
         }
     }
 }

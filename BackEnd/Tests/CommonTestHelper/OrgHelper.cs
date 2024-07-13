@@ -10,7 +10,7 @@ namespace CommonTestHelper
         public static async void DeleteNode(HttpClient httpClient, Dictionary<string, string> query)
         {
             var uri = QueryHelpers.AddQueryString("/api/v1/Org/DeleteNode", query!);
-            var remove = await httpClient.GetAsync(uri);
+            var remove = await httpClient.DeleteAsync(uri);
             remove.Should().NotBeNull();
             remove.StatusCode.Should().Be(HttpStatusCode.OK);
         }

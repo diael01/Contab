@@ -19,13 +19,14 @@ namespace WebApi.Controllers
             OrgService = os;
         }
 
-        //[HttpGet]
-        //[Route("GetNodeById")]
-        //public async Task<OrgDTO> GetNodebyId(string nodeId)
-        //{
-        //    var node = await OrgService.GetNodeById(nodeId);
-        //    return node;
-        //}
+        [HttpGet]
+        [Route("GetNodeById")]
+        public async Task<IActionResult> GetNodeById([FromQuery] string id)
+        {
+            var node = await OrgService.GetNodeById(id);
+            new NodeValidator().ValidateAndThrow(node);
+            return Ok(node);
+        }
 
         // POST api/<OrganisationController>
         [HttpPost]
@@ -55,9 +56,9 @@ namespace WebApi.Controllers
         //// DELETE api/<OrganisationController>/5
         [HttpDelete]
         [Route("DeleteNode")]
-        public async Task<IActionResult> DeleteNode(string nodeId)
+        public async Task<IActionResult> DeleteNode([FromQuery] string id)
         {
-             await OrgService.DeleteNode(nodeId);
+             await OrgService.DeleteNode(id);
              return Ok();
         }
 
