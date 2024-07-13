@@ -47,13 +47,13 @@ namespace Infrastructure.Exceptions
             }
             //logger.LogError(exception.Message);
             var msg = exception.InnerException != null ? exception.InnerException.Message : exception.Message;
-            if(msg!=null)
-              logger.LogError(msg);
+            if (msg != null)
+                logger.LogError(msg);
             await context.Response.WriteAsync(JsonConvert.SerializeObject(new
             {
                 context.Response.StatusCode,
                 msg,
-         
+
             }));
         }
     }

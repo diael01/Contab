@@ -56,10 +56,10 @@ namespace Services
             orgdb.CreatedBy = "system";
             orgdb.UpdatedAt = DateTime.Now;
             orgdb.UpdatedBy = "system";
-            
+
             await DBContext.AddAsync(orgdb);
             await DBContext.SaveChangesAsync();
-           
+
             return orgdb.OrgNode.ToString();
         }
 

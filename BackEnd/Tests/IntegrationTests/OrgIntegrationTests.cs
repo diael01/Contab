@@ -16,7 +16,7 @@ namespace IntegrationTests
         public async Task GetNodes_Integration_Should_Return_OK()
         {
             // Arrange - in base test
-            var content = JsonContent.Create(TestData.GetOrgDTO(0));          
+            var content = JsonContent.Create(TestData.GetOrgDTO(0));
             var comp = await httpClient.PostAsync("/api/v1/Org/AddNode", content);
             comp.Should().NotBeNull();
             comp.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -136,7 +136,7 @@ namespace IntegrationTests
             orgres!.Name.Should().Be(org.Name);
 
             // Remove the object to leave the DB in the same state  
-            query = new Dictionary<string, string> { ["id"] = orgres.OrgNodeText!};
+            query = new Dictionary<string, string> { ["id"] = orgres.OrgNodeText! };
             OrgHelper.DeleteNode(httpClient, query);
         }
 

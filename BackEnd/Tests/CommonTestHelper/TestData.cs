@@ -5,7 +5,7 @@ namespace CommonTestHelper
 {
     public static class TestData
     {
-        public static OrgDTO GetOrgDTO(int level, string? parent=null)
+        public static OrgDTO GetOrgDTO(int level, string? parent = null)
         {
             OrgDTO org = new OrgDTO();
             switch (level)

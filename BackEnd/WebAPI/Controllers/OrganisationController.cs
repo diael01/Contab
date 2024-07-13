@@ -58,8 +58,8 @@ namespace WebApi.Controllers
         [Route("DeleteNode")]
         public async Task<IActionResult> DeleteNode([FromQuery] string id)
         {
-             await OrgService.DeleteNode(id);
-             return Ok();
+            await OrgService.DeleteNode(id);
+            return Ok();
         }
 
         [HttpGet]
