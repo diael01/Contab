@@ -50,19 +50,19 @@ namespace IntegrationTests
                 await CheckResponse(response);
             }
             //cleanup
-            OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            await OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
             {
                 ["id"] = await fnc.Content.ReadAsStringAsync()
             });
-            OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            await OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
             {
                 ["id"] = await act.Content.ReadAsStringAsync()
             });
-            OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            await OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
             {
                 ["id"] = await dept.Content.ReadAsStringAsync()
             });
-            OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            await OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
             {
                 ["id"] = await comp.Content.ReadAsStringAsync()
             });
@@ -96,7 +96,7 @@ namespace IntegrationTests
             add.StatusCode.Should().Be(HttpStatusCode.OK);
 
             // Remove the object to leave the DB in the same state  
-            OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            await OrgHelper.DeleteNode(httpClient, new Dictionary<string, string>
             {
                 ["id"] = await add.Content.ReadAsStringAsync()
             });
@@ -137,7 +137,7 @@ namespace IntegrationTests
 
             // Remove the object to leave the DB in the same state  
             query = new Dictionary<string, string> { ["id"] = orgres.OrgNodeText! };
-            OrgHelper.DeleteNode(httpClient, query);
+            await OrgHelper.DeleteNode(httpClient, query);
         }
 
     }

@@ -7,7 +7,7 @@ namespace CommonTestHelper
 {
     public static class OrgHelper
     {
-        public static async void DeleteNode(HttpClient httpClient, Dictionary<string, string> query)
+        public static async Task DeleteNode(HttpClient httpClient, Dictionary<string, string> query)
         {
             var uri = QueryHelpers.AddQueryString("/api/v1/Org/DeleteNode", query!);
             var remove = await httpClient.DeleteAsync(uri);

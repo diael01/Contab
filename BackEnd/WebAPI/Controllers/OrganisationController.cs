@@ -67,8 +67,8 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetOrganisations()
         {
             var orgs = await OrgService.GetNodes(0);
-            var content = JsonContent.Create(orgs);
-            return Ok(content);
+            //var content = JsonContent.Create(orgs);
+            return Ok(orgs);
         }
 
         [HttpGet]
