@@ -15,31 +15,23 @@ GO
 	[ParentNode] [hierarchyid],
 	[ParentNodeText] [nvarchar](128),
 	[EmpLevel]  AS ([EmpNode].[GetLevel]()),
-	[Name] [nvarchar](32) NOT NULL,
-	[LongName] [varchar](64) NULL,
-	[Location] [varchar](64) NULL,
+	[NameSurname] [nvarchar](128) NOT NULL,
+	[Gender] char(1) NOT NULL,
+	[Birthday]  [smalldatetime] NOT NULL,
+	[CivilStatus] char(1) NULL,
+	[CodJudet]  [char](2) not NULL,
+	[Pensionar] bit not null,
+	[HiringDate] [smalldatetime] NOT NULL,
+	[FirstHiringDate] [smalldatetime] NOT NULL, --calculate seniority
+	[CountyCode]  [char](2) NULL, --cod judet
+	[Location] [varchar](128) NULL,
     [CreatedAt] [smalldatetime] NULL,
 	[CreatedBy] [nvarchar](32) NULL,
 	[UpdatedAt] [smalldatetime] NOT NULL,
 	[UpdatedBy] [nvarchar](32) NOT NULL,
-[MARCA]                            Integer, 
-[NP]                               Char(31), -- nume prenume
-[SEX]                              Char(1), 
-[AN_N]                             Integer, 
-[LN_N]                             Integer, 
-[ZI_N]                             Integer, 
-[S_CIVIL]                          Char(1), 
-[COD_JUD]                          Integer, 
-[PEN_FC]                           Integer, -- pensionar sau nu
-[AN_A]                             Integer, -- data angajare
-[LN_A]                             Integer, 
-[ZI_A]                             Integer, 
-[AN_VT]                            Integer, -- data primei angajari
-[LN_VT]                            Integer, 
-[ZI_VT]                            Integer, 
-[AN_VN]                            Integer, -- vechime normata - obligtorie?
-[LN_VN]                            Integer, 
-[ZI_VN]                            Integer, 
+
+
+
 [AN_SV]                            Integer, -- ??? ang+x ani => an spor vechime inceput
 [LN_SV]                            Integer, 
 [P_SV]                             Char(2), --? pensie spor vechime

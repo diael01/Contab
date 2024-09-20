@@ -17,7 +17,8 @@ CREATE TABLE [dbo].[Organisation](
 	[OrgLevel]  AS ([OrgNode].[GetLevel]()),
 	[Name] [nvarchar](64) NOT NULL,
 	[LongName] [varchar](128) NULL,
-	[Location] [varchar](128) NULL,
+	[CountyCode]  [char](2) NULL, --cod judet
+	[Location] [varchar](128) NULL, --adresa
 	[CodCor] int NULL,
 	[CodGrm] [char](3) NULL,
 	[CreatedAt] [smalldatetime] NULL,

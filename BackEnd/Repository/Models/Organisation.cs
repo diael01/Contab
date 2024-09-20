@@ -20,6 +20,8 @@ public partial class Organisation
 
     public string? LongName { get; set; }
 
+    public string? CountyCode { get; set; }
+
     public string? Location { get; set; }
 
     public int? CodCor { get; set; }
