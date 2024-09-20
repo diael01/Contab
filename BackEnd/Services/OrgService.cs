@@ -49,6 +49,7 @@ namespace Services
                 case (int)NodeType.Activity:
                 case (int)NodeType.Function:
                     var node = HierarchyId.Parse(org.ParentNodeText);
+                    orgdb.ParentNode = node;
                     if (node != null)
                     {
                         var lastChild = DBContext.Organisations.Where(e => e.OrgNode.GetAncestor(1) == node).Max(e => e.OrgNode);
