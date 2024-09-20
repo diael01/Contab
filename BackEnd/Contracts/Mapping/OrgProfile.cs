@@ -18,7 +18,7 @@ namespace Contracts.Mapping
                dest.OrgNodeText,
                opt => opt.MapFrom(src => src.OrgNode.ToString()));
             //.ForMember(dest =>
-            //dest.LName,
+            //dest.ParentNodeText,
             //opt => opt.MapFrom(src => src.LastName));
         }
     }

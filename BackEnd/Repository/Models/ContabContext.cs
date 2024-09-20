@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Models;
 
@@ -19,7 +21,7 @@ public partial class ContabContext : DbContext
     {
         modelBuilder.Entity<Organisation>(entity =>
         {
-            entity.HasKey(e => e.OrgNode).HasName("PK__Organisa__C1ECAF2ACF19B09D");
+            entity.HasKey(e => e.OrgNode).HasName("PK__Organisa__C1ECAF2A91DC3932");
 
             entity.ToTable("Organisation");
 
@@ -39,6 +41,8 @@ public partial class ContabContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Name).HasMaxLength(32);
             entity.Property(e => e.OrgLevel).HasComputedColumnSql("([OrgNode].[GetLevel]())", false);
+            entity.Property(e => e.OrgNodeText).HasMaxLength(128);
+            entity.Property(e => e.ParentNodeText).HasMaxLength(128);
             entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(32);
         });

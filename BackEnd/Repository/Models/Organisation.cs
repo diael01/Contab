@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Models;
 
@@ -6,9 +8,15 @@ public partial class Organisation
 {
     public HierarchyId OrgNode { get; set; } = null!;
 
+    public string? OrgNodeText { get; set; }
+
+    public HierarchyId? ParentNode { get; set; }
+
+    public string? ParentNodeText { get; set; }
+
     public short? OrgLevel { get; set; }
 
-    public int Type { get; set; }
+    public int Level { get; set; }
 
     public string Name { get; set; } = null!;
 

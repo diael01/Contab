@@ -11,19 +11,19 @@ namespace CommonTestHelper
             switch (level)
             {
                 case 0:
-                    org.Type = (int)NodeType.Company;
+                    org.Level = (int)NodeType.Company;
                     org.Name = "Company";
                     break;
                 case 1:
-                    org.Type = (int)NodeType.Department;
+                    org.Level = (int)NodeType.Department;
                     org.Name = "Department";
                     break;
                 case 2:
-                    org.Type = (int)NodeType.Activity;
+                    org.Level = (int)NodeType.Activity;
                     org.Name = "Activity";
                     break;
                 case 3:
-                    org.Type = (int)NodeType.Function;
+                    org.Level = (int)NodeType.Function;
                     org.Name = "Function";
                     break;
             }

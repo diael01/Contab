@@ -8,7 +8,7 @@
 
         public string Name { get; set; } = null!;
 
-        public int Type { get; set; }
+        public int Level { get; set; }
 
         public string? LongName { get; set; }
 

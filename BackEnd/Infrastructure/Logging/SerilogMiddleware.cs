@@ -12,7 +12,7 @@ namespace Infrastructure.Logging
 
         static readonly ILogger Log = Serilog.Log.ForContext<SerilogMiddleware>();
 
-        static readonly HashSet<string> HeaderWhitelist = new HashSet<string> { "Content-Type", "Content-Length", "User-Agent" };
+        static readonly HashSet<string> HeaderWhitelist = new HashSet<string> { "Content-Level", "Content-Length", "User-Agent" };
 
         readonly RequestDelegate _next;
 

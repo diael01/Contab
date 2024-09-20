@@ -10,7 +10,7 @@ namespace Contracts.Validation
         {
             RuleFor(org => org).NotNull();
             RuleFor(org => org.Name).NotNull();
-            RuleFor(org => org.Type).NotNull();
+            RuleFor(org => org.Level).NotNull();
         }
     }
 
@@ -20,7 +20,7 @@ namespace Contracts.Validation
         {
             RuleFor(org => org).NotNull();
             RuleFor(org => org.Name).NotNull();
-            RuleFor(org => org.Type).NotNull();
+            RuleFor(org => org.Level).NotNull();
             //RuleFor(org => org.OrgLevel).GreaterThan(0);//TBD: fix
         }
     }

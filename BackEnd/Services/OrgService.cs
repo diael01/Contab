@@ -24,6 +24,7 @@ namespace Services
         public async Task<IEnumerable<OrgDTO>> GetNodes(int level)
         {
             var list = await DBContext.Organisations.Where(e => e.OrgNode.GetLevel() == level).ToListAsync();
+            //todo: retrieve the parent for easy query
             var dtoList = Mapper.Map<IEnumerable<OrgDTO>>(list);
             return dtoList;
         }
@@ -39,7 +40,7 @@ namespace Services
         public async Task<string> AddNode(OrgDTO org)
         {
             var orgdb = Mapper.Map<Organisation>(org);
-            switch (orgdb.Type)
+            switch (orgdb.Level)
             {
                 case (int)NodeType.Company:
                     orgdb.OrgNode = HierarchyId.GetRoot();
@@ -48,8 +49,14 @@ namespace Services
                 case (int)NodeType.Activity:
                 case (int)NodeType.Function:
                     var node = HierarchyId.Parse(org.ParentNodeText);
-                    var lastChild = DBContext.Organisations.Where(e => e.OrgNode.GetAncestor(1) == node).Max(e => e.OrgNode);
-                    orgdb.OrgNode = node.GetDescendant(lastChild, null);
+                    if (node != null)
+                    {
+                        var lastChild = DBContext.Organisations.Where(e => e.OrgNode.GetAncestor(1) == node).Max(e => e.OrgNode);
+                        if (lastChild != null)
+                            orgdb.OrgNode = node.GetDescendant(lastChild, null);
+                        else
+                            orgdb.OrgNode = node.GetDescendant(null, null);
+                    }
                     break;
             }
             orgdb.CreatedAt = DateTime.Now;
@@ -71,7 +78,7 @@ namespace Services
             node!.Name = org.Name;
             node.Location = org.Location;
             node.LongName = org.LongName;
-            node.Type = org.Type;
+            node.Level = org.Level;
             node.UpdatedAt = DateTime.Now;
             node.UpdatedBy = "system";
             DBContext.Entry(node).State = EntityState.Modified;

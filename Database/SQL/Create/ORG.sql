@@ -9,9 +9,13 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[Organisation](
-	[OrgNode] [hierarchyid] primary key clustered not null,
+	[Id] int identity(1,1) primary key clustered not null,
+	[OrgNode] [hierarchyid],--primary key clustered not null,
+	[OrgNodeText] [nvarchar](128),
+	[ParentNode] [hierarchyid],
+	[ParentNodeText] [nvarchar](128),
 	[OrgLevel]  AS ([OrgNode].[GetLevel]()),
-	[Type] int NOT NULL,
+	[Level] int NOT NULL,
 	[Name] [nvarchar](32) NOT NULL,
 	[LongName] [varchar](64) NULL,
 	[Location] [varchar](64) NULL,

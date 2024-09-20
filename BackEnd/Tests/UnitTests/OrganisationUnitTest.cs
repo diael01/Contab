@@ -53,24 +53,30 @@ namespace UnitTests
             var orgId = await AddOrg();
 
             //Act add department
-            string deptId = string.Empty;
+            string deptId1 = string.Empty;
+            string deptId2 = string.Empty;
+            string deptId3 = string.Empty;
             for (int i = 0; i < 3; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        deptId = await AddDept(orgId, "HumanResources");
+                        deptId1 = await AddDept(orgId, "HumanResources");
+                        deptId1.Should().NotBeNull();
                         break;
                     case 1:
-                        deptId = await AddDept(orgId, "Finance");
+                        deptId2 = await AddDept(orgId, "Finance");
+                        deptId2.Should().NotBeNull();
                         break;
                     case 2:
-                        deptId = await AddDept(orgId, "Engineering");
+                        deptId3 = await AddDept(orgId, "Engineering");
+                        deptId3.Should().NotBeNull();
                         break;
                 }
-                deptId.Should().NotBeNull();
-                await orgService.DeleteNode(deptId);
             }
+            await orgService.DeleteNode(deptId1);
+            await orgService.DeleteNode(deptId2);
+            await orgService.DeleteNode(deptId3);
             await orgService.DeleteNode(orgId);
         }
 
@@ -192,7 +198,7 @@ namespace UnitTests
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = name;
-            dto.Type = (int)NodeType.Department;
+            dto.Level = (int)NodeType.Department;
             dto.ParentNodeText = orgId;
 
             //Act add company
@@ -204,7 +210,7 @@ namespace UnitTests
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = "Construct";
-            dto.Type = (int)NodeType.Company;
+            dto.Level = (int)NodeType.Company;
 
             //Act add company
             return (await orgService.AddNode(dto)).ToString();
@@ -215,7 +221,7 @@ namespace UnitTests
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = name;
-            dto.Type = (int)NodeType.Activity;
+            dto.Level = (int)NodeType.Activity;
             dto.ParentNodeText = deptId;
 
             //Act add activity
@@ -227,7 +233,7 @@ namespace UnitTests
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = name;
-            dto.Type = (int)NodeType.Function;
+            dto.Level = (int)NodeType.Function;
             dto.ParentNodeText = actId;
 
             //Act add function
