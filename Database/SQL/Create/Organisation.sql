@@ -1,6 +1,5 @@
-USE [Contab]
+USE Contab
 GO
-
 /****** Object:  Table [dbo].[Organisation]    Script Date: 6/11/2024 3:33:48 PM ******/
 SET ANSI_NULLS ON
 GO
@@ -16,7 +15,6 @@ CREATE TABLE [dbo].[Organisation](
 	[ParentNode] [hierarchyid],
 	[ParentNodeText] [nvarchar](128),
 	[OrgLevel]  AS ([OrgNode].[GetLevel]()),
-	[Level] int NOT NULL,
 	[Name] [nvarchar](32) NOT NULL,
 	[LongName] [varchar](64) NULL,
 	[Location] [varchar](64) NULL,

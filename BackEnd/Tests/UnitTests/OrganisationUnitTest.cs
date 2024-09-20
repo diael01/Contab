@@ -209,7 +209,6 @@ namespace UnitTests
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = name;
-            dto.Level = (int)NodeType.Department;
             dto.ParentNodeText = orgId;
 
             //Act add company
@@ -221,7 +220,6 @@ namespace UnitTests
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = "Construct";
-            dto.Level = (int)NodeType.Company;
 
             //Act add company
             return (await orgService.AddNode(dto)).ToString();
@@ -232,7 +230,6 @@ namespace UnitTests
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = name;
-            dto.Level = (int)NodeType.Activity;
             dto.ParentNodeText = deptId;
 
             //Act add activity
@@ -244,7 +241,6 @@ namespace UnitTests
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = name;
-            dto.Level = (int)NodeType.Function;
             dto.ParentNodeText = actId;
 
             //Act add function

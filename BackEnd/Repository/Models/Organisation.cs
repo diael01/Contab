@@ -16,8 +16,6 @@ public partial class Organisation
 
     public short? OrgLevel { get; set; }
 
-    public int Level { get; set; }
-
     public string Name { get; set; } = null!;
 
     public string? LongName { get; set; }

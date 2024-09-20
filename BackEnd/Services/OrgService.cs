@@ -40,26 +40,22 @@ namespace Services
         public async Task<string> AddNode(OrgDTO org)
         {
             var orgdb = Mapper.Map<Organisation>(org);
-            switch (orgdb.Level)
+            if (org.ParentNodeText == null)
+                orgdb.OrgNode = HierarchyId.GetRoot();
+            else 
             {
-                case (int)NodeType.Company:
-                    orgdb.OrgNode = HierarchyId.GetRoot();
-                    break;
-                case (int)NodeType.Department:
-                case (int)NodeType.Activity:
-                case (int)NodeType.Function:
-                    var node = HierarchyId.Parse(org.ParentNodeText);
-                    orgdb.ParentNode = node;
-                    if (node != null)
-                    {
-                        var lastChild = DBContext.Organisations.Where(e => e.OrgNode.GetAncestor(1) == node).Max(e => e.OrgNode);
-                        if (lastChild != null)
-                            orgdb.OrgNode = node.GetDescendant(lastChild, null);
-                        else
-                            orgdb.OrgNode = node.GetDescendant(null, null);
-                    }
-                    break;
+                var node = HierarchyId.Parse(org.ParentNodeText);
+                orgdb.ParentNode = node;
+                if (node != null)
+                {
+                    var lastChild = DBContext.Organisations.Where(e => e.OrgNode.GetAncestor(1) == node).Max(e => e.OrgNode);
+                    if (lastChild != null)
+                        orgdb.OrgNode = node.GetDescendant(lastChild, null);
+                    else
+                        orgdb.OrgNode = node.GetDescendant(null, null);
+                }
             }
+            orgdb.OrgNodeText = orgdb.OrgNode.ToString();
             orgdb.CreatedAt = DateTime.Now;
             orgdb.CreatedBy = "system";
             orgdb.UpdatedAt = DateTime.Now;
@@ -68,7 +64,7 @@ namespace Services
             await DBContext.AddAsync(orgdb);
             await DBContext.SaveChangesAsync();
 
-            return orgdb.OrgNode.ToString();
+            return orgdb.OrgNodeText;
         }
 
         public async Task<string> UpdateNode(OrgDTO org)
@@ -79,7 +75,7 @@ namespace Services
             node!.Name = org.Name;
             node.Location = org.Location;
             node.LongName = org.LongName;
-            node.Level = org.Level;
+            node.OrgLevel = org.OrgLevel;
             node.UpdatedAt = DateTime.Now;
             node.UpdatedBy = "system";
             DBContext.Entry(node).State = EntityState.Modified;
@@ -94,14 +90,8 @@ namespace Services
             if (node != null)
             {
                 DBContext.Entry(node).State = EntityState.Deleted;
-                //DBContext.Remove(node);
-                //try
-                //{
                 await DBContext.SaveChangesAsync();
-                //} catch (Exception ex)
-                //{
-                //    Console.WriteLine(ex.Message);
-                //}
+               
             }
         }
     }

@@ -21,7 +21,7 @@ public partial class ContabContext : DbContext
     {
         modelBuilder.Entity<Organisation>(entity =>
         {
-            entity.HasKey(e => e.OrgNode).HasName("PK__Organisa__C1ECAF2A91DC3932");
+            entity.HasKey(e => e.OrgNode).HasName("PK__Organisa__C1ECAF2AD28780D3");
 
             entity.ToTable("Organisation");
 
