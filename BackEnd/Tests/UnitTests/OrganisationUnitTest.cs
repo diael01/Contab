@@ -8,6 +8,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
 using Services;
+using System;
 
 namespace UnitTests
 {
@@ -89,22 +90,26 @@ namespace UnitTests
 
             //Act add Activity
             OrgDTO dto = new OrgDTO();
-            string actId = string.Empty;
+            string actId1 = string.Empty;
+            string actId2 = string.Empty;
             for (int i = 0; i < 2; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        actId = await AddActivity(deptId, "R&D");
+                        actId1 = await AddActivity(deptId, "R&D");
+                        actId1.Should().NotBeNull();
                         break;
                     case 1:
-                        actId = await AddActivity(deptId, "IT");
+                        actId2 = await AddActivity(deptId, "IT");
+                        actId2.Should().NotBeNull();
                         break;
                 }
-                actId.Should().NotBeNull();
-                await orgService.DeleteNode(actId);
+                
+               
             }
-
+            await orgService.DeleteNode(actId1);
+            await orgService.DeleteNode(actId2);
             await orgService.DeleteNode(deptId);
             await orgService.DeleteNode(orgId);
         }
@@ -119,25 +124,31 @@ namespace UnitTests
             var actId = await AddActivity(deptId, "IT");
 
             //Act add Function
-            string fnId = string.Empty;
+            string fnId1 = string.Empty;
+            string fnId2 = string.Empty;
+            string fnId3 = string.Empty;
             for (int i = 0; i < 3; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        fnId = await AddFunction(actId, "SoftwareDeveloper");
+                        fnId1 = await AddFunction(actId, "SoftwareDeveloper");
+                        fnId1.Should().NotBeNull();
                         break;
                     case 1:
-                        fnId = await AddFunction(actId, "QA");
+                        fnId2 = await AddFunction(actId, "QA");
+                        fnId2.Should().NotBeNull();
                         break;
                     case 2:
-                        fnId = await AddFunction(actId, "BuildEngineer");
+                        fnId3 = await AddFunction(actId, "BuildEngineer");
+                        fnId3.Should().NotBeNull();
                         break;
                 }
-                //Assert   
-                fnId.Should().NotBeNull();
-                await orgService.DeleteNode(fnId);
+                
             }
+            await orgService.DeleteNode(fnId1);
+            await orgService.DeleteNode(fnId2);
+            await orgService.DeleteNode(fnId3);
             await orgService.DeleteNode(actId);
             await orgService.DeleteNode(deptId);
             await orgService.DeleteNode(orgId);
