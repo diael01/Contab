@@ -7,10 +7,11 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
+ if exists ( select * from sys.tables where name = N'Organisation')
+ DROP TABLE [dbo].[Organisation];
+ GO
 CREATE TABLE [dbo].[Organisation](
-	[Id] int identity(1,1) primary key clustered not null,
-	[OrgNode] [hierarchyid],--primary key clustered not null,
+	[OrgNode] [hierarchyid] primary key clustered not null,
 	[OrgNodeText] [nvarchar](128),
 	[ParentNode] [hierarchyid],
 	[ParentNodeText] [nvarchar](128),
@@ -25,7 +26,6 @@ CREATE TABLE [dbo].[Organisation](
 	[CreatedBy] [nvarchar](32) NULL,
 	[UpdatedAt] [smalldatetime] NOT NULL,
 	[UpdatedBy] [nvarchar](32) NOT NULL);
-
 CREATE INDEX Org_BreadthFirst ON Organisation(OrgLevel, OrgNode);
 GO 
 
