@@ -1,14 +1,12 @@
 ﻿
 using Contracts.Interfaces;
 using Contracts.Models;
-using Contracts.Models.Enums;
 using Contracts.Validation;
 using FluentAssertions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
 using Services;
-using System;
 
 namespace UnitTests
 {
@@ -105,8 +103,8 @@ namespace UnitTests
                         actId2.Should().NotBeNull();
                         break;
                 }
-                
-               
+
+
             }
             await orgService.DeleteNode(actId1);
             await orgService.DeleteNode(actId2);
@@ -144,7 +142,7 @@ namespace UnitTests
                         fnId3.Should().NotBeNull();
                         break;
                 }
-                
+
             }
             await orgService.DeleteNode(fnId1);
             await orgService.DeleteNode(fnId2);

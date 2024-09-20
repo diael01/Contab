@@ -22,9 +22,9 @@ CREATE TABLE [dbo].[Organisation](
 	[CodCor] int NULL,
 	[CodGrm] [char](3) NULL,
 	[CreatedAt] [smalldatetime] NULL,
-	[CreatedBy] [nvarchar](32) NULL,
+	[CreatedBy] [nvarchar](128) NULL,
 	[UpdatedAt] [smalldatetime] NOT NULL,
-	[UpdatedBy] [nvarchar](32) NOT NULL);
+	[UpdatedBy] [nvarchar](128) NOT NULL);
 CREATE INDEX Org_BreadthFirst ON Organisation(OrgLevel, OrgNode);
 GO 
 

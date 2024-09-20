@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
 using Contracts.Models;
-using Contracts.Models.Enums;
 using Contracts.Validation;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +41,7 @@ namespace Services
             var orgdb = Mapper.Map<Organisation>(org);
             if (org.ParentNodeText == null)
                 orgdb.OrgNode = HierarchyId.GetRoot();
-            else 
+            else
             {
                 var node = HierarchyId.Parse(org.ParentNodeText);
                 orgdb.ParentNode = node;
@@ -91,7 +90,7 @@ namespace Services
             {
                 DBContext.Entry(node).State = EntityState.Deleted;
                 await DBContext.SaveChangesAsync();
-               
+
             }
         }
     }

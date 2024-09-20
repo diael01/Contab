@@ -1,5 +1,4 @@
 ﻿using Contracts.Models;
-using Contracts.Models.Enums;
 
 namespace CommonTestHelper
 {
