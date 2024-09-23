@@ -7,25 +7,28 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-  if exists ( select * from sys.tables where name = N'Personal')
- DROP TABLE [Personal];
- CREATE TABLE [dbo].[Personal] (
+  if exists ( select * from sys.tables where name = N'Employee')
+ DROP TABLE [Employee];
+ CREATE TABLE [dbo].[Employee] (
  [EmpNode] [hierarchyid] primary key clustered NOT NULL,
 	[EmpNodeText] [nvarchar](128) NULL,
-	[ParentNode] [hierarchyid] NULL,
-	[ParentNodeText] [nvarchar](128) NULL,
 	[EmpLevel]  AS ([EmpNode].[GetLevel]()),
-	[NameSurname] [nvarchar](128) NOT NULL,
-	[Gender] [char](1) NOT NULL,
-	[Birthday] [smalldatetime] NOT NULL,
+	[ManagerNode] [hierarchyid] not NULL,
+	[ManagerNodeText] [nvarchar](128) NULL,
+	[EmployeeFunctionNode] [hierarchyid] not NULL,
+	[EmployeeFunctionNodeText] [nvarchar](128) NULL,
+	[Name] [nvarchar](128) NOT NULL,
+	[Surname] [nvarchar](64) NOT NULL,
+	[Gender] [char](1) NULL,--tbd: not null
+	[Birthday] [smalldatetime] NULL,--tbd: not null
 	[CivilStatus] [char](1) NULL,
-	[HiringDate] [smalldatetime] NOT NULL,
+	[HiringDate] [smalldatetime] NULL,--tbd: not null
 	[FirstHiringDate] [smalldatetime] NULL,--tbd: calculate seniority
 	[CountyCode] [char](2) not NULL,--cod judet
-	[Phone] [nvarchar](32) NULL,
+	[Phone] [nvarchar](32) NULL,--tbd: not null
 	[Location] [varchar](128) NULL,
-	[IdCardSerieNo] [nvarchar](128) NULL,
-	[IdCardCnp] [nvarchar](128) NULL,
+	[IdCardSerieNo] [nvarchar](128) NULL,--tbd: not null
+	[IdCardCnp] [nvarchar](128) NULL,--tbd: not null
 	[Bank1Code] [char](3) NULL,
 	[Bank1Iban] [nvarchar](128) NULL,
 	[LunchTickets] [int] NULL,
@@ -38,11 +41,16 @@ GO
 	[Studies] [nvarchar](128) NULL,--studii sup, necalif, aso
 	[Bank2Code] [char](3) NULL,
 	[Bank2Iban] [nvarchar](128) NULL,
-	[Retired] [bit] NOT NULL,
+	[Retired] [bit] NULL,--tbd: to be not null
 	[RetirementSeniority] [char](2) NULL,--P_SV
 	[RetirementSupplement] [int] NULL,--PEN-SUP
-	[RetirementExclusionReason] [int] NULL);-- 0 means no pensie privata = MOTIVEXC
-CREATE INDEX Emp_BreadthFirst ON Personal(EmpLevel, EmpNode);
+	[RetirementExclusionReason] [int] NULL, -- 0 means no pensie privata = MOTIVEX
+	[CreatedAt] [smalldatetime] NULL,
+	[CreatedBy] [nvarchar](128) NULL,
+	[UpdatedAt] [smalldatetime] NOT NULL,
+	[UpdatedBy] [nvarchar](128) NOT NULL
+	);
+CREATE INDEX Emp_BreadthFirst ON Employee(EmpLevel, EmpNode);
 
 --[MARCA]                            Integer, 
 --[NP]                               Char(31), 

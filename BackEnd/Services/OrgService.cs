@@ -39,7 +39,7 @@ namespace Services
         public async Task<string> AddNode(OrgDTO org)
         {
             var orgdb = Mapper.Map<Organisation>(org);
-            if (org.ParentNodeText == null)
+            if (string.IsNullOrEmpty(org.ParentNodeText) || string.IsNullOrWhiteSpace(org.ParentNodeText))
                 orgdb.OrgNode = HierarchyId.GetRoot();
             else
             {
