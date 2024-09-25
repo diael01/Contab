@@ -1,6 +1,4 @@
-﻿
-using Contracts.Models;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Net;
 

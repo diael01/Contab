@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Contracts.Models
+﻿namespace Contracts.Models
 {
     public class EmpDTO
     {
@@ -16,7 +10,7 @@ namespace Contracts.Models
 
         public short EmpLevel { get; set; }
 
-        public string? EmpFunctionText { get; set; } = null!; 
+        public string? EmpFunctionText { get; set; } = null!;
 
         public string? Surname { get; set; }
 

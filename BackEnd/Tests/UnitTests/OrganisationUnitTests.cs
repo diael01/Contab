@@ -1,4 +1,5 @@
 ﻿
+using CommonTestHelper;
 using Contracts.Interfaces;
 using Contracts.Models;
 using Contracts.Validation;
@@ -7,7 +8,6 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
 using Services;
-using CommonTestHelper;
 
 namespace UnitTests
 {
@@ -203,6 +203,6 @@ namespace UnitTests
             }
         }
 
-     
+
     }
 }

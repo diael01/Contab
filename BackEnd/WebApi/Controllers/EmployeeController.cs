@@ -34,7 +34,7 @@ namespace WebApi.Controllers
             public async Task<IActionResult> AddNode([FromBody] EmpDTO emp)
             {
                 //validate
-               
+
                 new EmpDTOValidator().ValidateAndThrow(emp);
                 var id = await EmployeeService.AddEmployee(emp);
                 return !String.IsNullOrWhiteSpace(id) ? Ok(id) : Problem(Constants.ContabError);

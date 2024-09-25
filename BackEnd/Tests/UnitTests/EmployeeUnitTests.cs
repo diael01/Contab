@@ -4,7 +4,6 @@ using Contracts.Interfaces;
 using Contracts.Models;
 using Contracts.Validation;
 using FluentAssertions;
-using FluentAssertions.Equivalency;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
