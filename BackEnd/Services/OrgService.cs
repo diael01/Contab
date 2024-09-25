@@ -73,7 +73,7 @@ namespace Services
             new OrgValidator().ValidateAndThrow(node!);
             node!.Name = org.Name;
             node.Location = org.Location;
-            node.LongName = org.LongName;
+            node.Surname = org.Surname;
             node.OrgLevel = org.OrgLevel;
             node.UpdatedAt = DateTime.Now;
             node.UpdatedBy = "system";

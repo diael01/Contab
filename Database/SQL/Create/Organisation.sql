@@ -15,8 +15,8 @@ CREATE TABLE [dbo].[Organisation](
 	[ParentNode] [hierarchyid],
 	[ParentNodeText] [nvarchar](128),
 	[OrgLevel]  AS ([OrgNode].[GetLevel]()),
-	[Name] [nvarchar](64) NOT NULL,
-	[LongName] [varchar](128) NULL,
+	[Name] [nvarchar](128) NOT NULL,
+	[Surname] [varchar](128) NULL,
 	[CountyCode]  [char](2) NULL, --cod judet
 	[Location] [varchar](128) NULL, --adresa
 	[CodCor] int NULL,

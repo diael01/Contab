@@ -27,7 +27,7 @@ public partial class ContabContext : DbContext
     {
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.EmpNode).HasName("PK__Employee__11EA28CC993D59B2");
+            entity.HasKey(e => e.EmpNode).HasName("PK__Employee__11EA28CC198EFF39");
 
             entity.ToTable("Employee");
 
@@ -54,9 +54,9 @@ public partial class ContabContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.CreatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.CreatedBy).HasMaxLength(128);
+            entity.Property(e => e.EmpFunctionNodeText).HasMaxLength(128);
             entity.Property(e => e.EmpLevel).HasComputedColumnSql("([EmpNode].[GetLevel]())", false);
             entity.Property(e => e.EmpNodeText).HasMaxLength(128);
-            entity.Property(e => e.EmployeeFunctionNodeText).HasMaxLength(128);
             entity.Property(e => e.FirstHiringDate).HasColumnType("smalldatetime");
             entity.Property(e => e.Gender)
                 .HasMaxLength(1)
@@ -81,6 +81,16 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.Surname).HasMaxLength(64);
             entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
+
+            entity.HasOne(d => d.EmpFunctionNodeNavigation).WithMany(p => p.Employees)
+                .HasForeignKey(d => d.EmpFunctionNode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Employee_Organisation");
+
+            entity.HasOne(d => d.ManagerNodeNavigation).WithMany(p => p.InverseManagerNodeNavigation)
+                .HasForeignKey(d => d.ManagerNode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Employee_Employee");
         });
 
         modelBuilder.Entity<Organisation>(entity =>
@@ -104,13 +114,13 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.Location)
                 .HasMaxLength(128)
                 .IsUnicode(false);
-            entity.Property(e => e.LongName)
-                .HasMaxLength(128)
-                .IsUnicode(false);
             entity.Property(e => e.Name).HasMaxLength(64);
             entity.Property(e => e.OrgLevel).HasComputedColumnSql("([OrgNode].[GetLevel]())", false);
             entity.Property(e => e.OrgNodeText).HasMaxLength(128);
             entity.Property(e => e.ParentNodeText).HasMaxLength(128);
+            entity.Property(e => e.Surname)
+                .HasMaxLength(128)
+                .IsUnicode(false);
             entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
         });

@@ -10,7 +10,7 @@
 
         public short OrgLevel { get; set; }
 
-        public string? LongName { get; set; }
+        public string? Surname { get; set; }
 
         public string? Location { get; set; }
 

@@ -26,5 +26,26 @@ namespace CommonTestHelper
             org.Location = "Location";
             return org;
         }
+
+        public static EmpDTO GetEmpDTO(int level, string? parent = null)
+        {
+            EmpDTO emp = new EmpDTO();
+            switch (level)
+            {
+                case 0:
+                    emp.Name = "Eu";
+                    break;
+                case 1:
+                    emp.Name = "mama";
+                    break;
+                case 2:
+                    emp.Name = "Vili";
+                    break;
+              
+            }
+            emp.ManagerNodeText = parent;
+            emp.Location = "Location";
+            return emp;
+        }
     }
 }

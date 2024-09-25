@@ -1,55 +1,78 @@
-USE Contab
+USE [Contab]
 GO
-/****** Object:  Table [dbo].[Organisation]    Script Date: 6/11/2024 3:33:48 PM ******/
+
+/****** Object:  Table [dbo].[Employee]    Script Date: 9/25/2024 12:08:20 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
-  if exists ( select * from sys.tables where name = N'Employee')
+ if exists ( select * from sys.tables where name = N'Employee')
  DROP TABLE [Employee];
- CREATE TABLE [dbo].[Employee] (
- [EmpNode] [hierarchyid] primary key clustered NOT NULL,
+CREATE TABLE [dbo].[Employee](
+	[EmpNode] [hierarchyid] NOT NULL,
 	[EmpNodeText] [nvarchar](128) NULL,
 	[EmpLevel]  AS ([EmpNode].[GetLevel]()),
-	[ManagerNode] [hierarchyid] not NULL,
+	[ManagerNode] [hierarchyid] NOT NULL,
 	[ManagerNodeText] [nvarchar](128) NULL,
-	[EmployeeFunctionNode] [hierarchyid] not NULL,
-	[EmployeeFunctionNodeText] [nvarchar](128) NULL,
+	[EmpFunctionNode] [hierarchyid] NOT NULL,
+	[EmpFunctionNodeText] [nvarchar](128) NULL,
 	[Name] [nvarchar](128) NOT NULL,
-	[Surname] [nvarchar](64) NOT NULL,
-	[Gender] [char](1) NULL,--tbd: not null
-	[Birthday] [smalldatetime] NULL,--tbd: not null
+	[Surname] [nvarchar](128) NULL,
+	[Gender] [char](1) NULL,
+	[Birthday] [smalldatetime] NULL,
 	[CivilStatus] [char](1) NULL,
-	[HiringDate] [smalldatetime] NULL,--tbd: not null
-	[FirstHiringDate] [smalldatetime] NULL,--tbd: calculate seniority
-	[CountyCode] [char](2) not NULL,--cod judet
-	[Phone] [nvarchar](32) NULL,--tbd: not null
+	[HiringDate] [smalldatetime] NULL,
+	[FirstHiringDate] [smalldatetime] NULL,
+	[CountyCode] [char](2) NULL,
+	[Phone] [nvarchar](32) NULL,
 	[Location] [varchar](128) NULL,
-	[IdCardSerieNo] [nvarchar](128) NULL,--tbd: not null
-	[IdCardCnp] [nvarchar](128) NULL,--tbd: not null
+	[IdCardSerieNo] [nvarchar](128) NULL,
+	[IdCardCnp] [nvarchar](128) NULL,
 	[Bank1Code] [char](3) NULL,
 	[Bank1Iban] [nvarchar](128) NULL,
 	[LunchTickets] [int] NULL,
 	[AvansOrLiquidaton] [bit] NULL,
-	[YearSeniority] [int] NULL,--AN_SV
-	[MonthSeniority] [int] NULL,--LN_SV
-	[Insured] [bit] NULL,--asigurat sau nu? ce fel de insured?
-	[Insurance] [nvarchar](128) NULL,--ASCASA , ce casa de asigurari
-	LastIdCardCreationDate [smalldatetime] NULL,-- = CALIF
-	[Studies] [nvarchar](128) NULL,--studii sup, necalif, aso
+	[YearSeniority] [int] NULL,
+	[MonthSeniority] [int] NULL,
+	[Insured] [bit] NULL,
+	[Insurance] [nvarchar](128) NULL,
+	[LastIdCardCreationDate] [smalldatetime] NULL,
+	[Studies] [nvarchar](128) NULL,
 	[Bank2Code] [char](3) NULL,
 	[Bank2Iban] [nvarchar](128) NULL,
-	[Retired] [bit] NULL,--tbd: to be not null
-	[RetirementSeniority] [char](2) NULL,--P_SV
-	[RetirementSupplement] [int] NULL,--PEN-SUP
-	[RetirementExclusionReason] [int] NULL, -- 0 means no pensie privata = MOTIVEX
+	[Retired] [bit] NULL,
+	[RetirementSeniority] [char](2) NULL,
+	[RetirementSupplement] [int] NULL,
+	[RetirementExclusionReason] [int] NULL,
 	[CreatedAt] [smalldatetime] NULL,
 	[CreatedBy] [nvarchar](128) NULL,
 	[UpdatedAt] [smalldatetime] NOT NULL,
-	[UpdatedBy] [nvarchar](128) NOT NULL
-	);
+	[UpdatedBy] [nvarchar](128) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EmpNode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Employee]  WITH CHECK ADD  CONSTRAINT [FK_Employee_Employee] FOREIGN KEY([ManagerNode])
+REFERENCES [dbo].[Employee] ([EmpNode])
+GO
+
+ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Employee]
+GO
+
+ALTER TABLE [dbo].[Employee]  WITH CHECK ADD  CONSTRAINT [FK_Employee_Organisation] FOREIGN KEY([EmpFunctionNode])
+REFERENCES [dbo].[Organisation] ([OrgNode])
+GO
+
+ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Organisation]
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Employee', @level2type=N'CONSTRAINT',@level2name=N'FK_Employee_Employee'
+GO
+
 CREATE INDEX Emp_BreadthFirst ON Employee(EmpLevel, EmpNode);
 
 --[MARCA]                            Integer, 

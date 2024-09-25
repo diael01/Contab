@@ -82,7 +82,7 @@ namespace Services
             //new OrgValidator().ValidateAndThrow(node!);
             node!.Name = emp.Name;
             node.Location = emp.Location;
-            node.LongName = emp.LongName;
+            node.Surname = emp.Surname;
             node.OrgLevel = emp.EmpLevel;
             node.UpdatedAt = DateTime.Now;
             node.UpdatedBy = "system";
@@ -99,7 +99,6 @@ namespace Services
             {
                 DBContext.Entry(node).State = EntityState.Deleted;
                 await DBContext.SaveChangesAsync();
-
             }
         }
     }

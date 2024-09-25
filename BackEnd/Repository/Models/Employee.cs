@@ -16,13 +16,13 @@ public partial class Employee
 
     public string? ManagerNodeText { get; set; }
 
-    public HierarchyId EmployeeFunctionNode { get; set; } = null!;
+    public HierarchyId EmpFunctionNode { get; set; } = null!;
 
-    public string? EmployeeFunctionNodeText { get; set; }
+    public string? EmpFunctionNodeText { get; set; }
 
     public string Name { get; set; } = null!;
 
-    public string Surname { get; set; } = null!;
+    public string? Surname { get; set; }
 
     public string? Gender { get; set; }
 
@@ -34,7 +34,7 @@ public partial class Employee
 
     public DateTime? FirstHiringDate { get; set; }
 
-    public string CountyCode { get; set; } = null!;
+    public string? CountyCode { get; set; }
 
     public string? Phone { get; set; }
 
@@ -83,4 +83,10 @@ public partial class Employee
     public DateTime UpdatedAt { get; set; }
 
     public string UpdatedBy { get; set; } = null!;
+
+    public virtual Organisation EmpFunctionNodeNavigation { get; set; } = null!;
+
+    public virtual ICollection<Employee> InverseManagerNodeNavigation { get; set; } = new List<Employee>();
+
+    public virtual Employee ManagerNodeNavigation { get; set; } = null!;
 }

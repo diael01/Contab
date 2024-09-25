@@ -18,7 +18,7 @@ namespace Contracts.Models
 
         public string? EmpFunctionText { get; set; } = null!; 
 
-        public string? LongName { get; set; }
+        public string? Surname { get; set; }
 
         public string? Location { get; set; }
 

@@ -7,24 +7,25 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
 using Services;
+using CommonTestHelper;
 
 namespace UnitTests
 {
 
-    public class OrganisationUnitTest : BaseUnitTest
+    public class OrganisationUnitTests : BaseUnitTest
     {
 
         IOrgService orgService;
-        public OrganisationUnitTest() : base()
+        public OrganisationUnitTests() : base()
         {
-            orgService = new OrgService(DBContext, mapper);
+            orgService = CommonHelper.orgService = new OrgService(DBContext, mapper);
         }
         //root
         [Fact]
         public async Task AddOrganization_Unit_Should_Be_OK()
         {
 
-            var orgId = await AddOrg();
+            var orgId = await CommonHelper.AddOrg();
             await orgService.DeleteNode(orgId);
         }
 
@@ -32,12 +33,12 @@ namespace UnitTests
         public async Task UpdateOrganization_Unit_Should_Be_OK()
         {
 
-            var orgId = await AddOrg();
+            var orgId = await CommonHelper.AddOrg();
             var orgNode = await DBContext.Organisations.Where(e => e.OrgNode.GetLevel() == 0).FirstOrDefaultAsync();
             new OrgValidator().ValidateAndThrow(orgNode!);
             orgNode!.Name = "ChangedName";
             orgNode.Location = "Location";
-            orgNode.LongName = "LongName";
+            orgNode.Surname = "Surname";
             var orgDTO = mapper.Map<OrgDTO>(orgNode);
             orgDTO.OrgNodeText = orgId;
             await orgService.UpdateNode(orgDTO);
@@ -49,7 +50,7 @@ namespace UnitTests
         public async Task AddDepartments_Should_Be_OK()
         {
             //Arrange
-            var orgId = await AddOrg();
+            var orgId = await CommonHelper.AddOrg();
 
             //Act add department
             string deptId1 = string.Empty;
@@ -60,15 +61,15 @@ namespace UnitTests
                 switch (i)
                 {
                     case 0:
-                        deptId1 = await AddDept(orgId, "HumanResources");
+                        deptId1 = await CommonHelper.AddDept(orgId, "HumanResources");
                         deptId1.Should().NotBeNull();
                         break;
                     case 1:
-                        deptId2 = await AddDept(orgId, "Finance");
+                        deptId2 = await CommonHelper.AddDept(orgId, "Finance");
                         deptId2.Should().NotBeNull();
                         break;
                     case 2:
-                        deptId3 = await AddDept(orgId, "Engineering");
+                        deptId3 = await CommonHelper.AddDept(orgId, "Engineering");
                         deptId3.Should().NotBeNull();
                         break;
                 }
@@ -83,8 +84,8 @@ namespace UnitTests
         [Fact]
         public async Task AddActivities_Should_Be_OK()
         {
-            var orgId = await AddOrg();
-            var deptId = await AddDept(orgId, "Engineering");
+            var orgId = await CommonHelper.AddOrg();
+            var deptId = await CommonHelper.AddDept(orgId, "Engineering");
 
             //Act add Activity
             OrgDTO dto = new OrgDTO();
@@ -95,11 +96,11 @@ namespace UnitTests
                 switch (i)
                 {
                     case 0:
-                        actId1 = await AddActivity(deptId, "R&D");
+                        actId1 = await CommonHelper.AddActivity(deptId, "R&D");
                         actId1.Should().NotBeNull();
                         break;
                     case 1:
-                        actId2 = await AddActivity(deptId, "IT");
+                        actId2 = await CommonHelper.AddActivity(deptId, "IT");
                         actId2.Should().NotBeNull();
                         break;
                 }
@@ -117,9 +118,9 @@ namespace UnitTests
         public async Task AddFunctions_Should_Be_OK()
         {
             //Arrange
-            var orgId = await AddOrg();
-            var deptId = await AddDept(orgId, "Engineering");
-            var actId = await AddActivity(deptId, "IT");
+            var orgId = await CommonHelper.AddOrg();
+            var deptId = await CommonHelper.AddDept(orgId, "Engineering");
+            var actId = await CommonHelper.AddActivity(deptId, "IT");
 
             //Act add Function
             string fnId1 = string.Empty;
@@ -130,15 +131,15 @@ namespace UnitTests
                 switch (i)
                 {
                     case 0:
-                        fnId1 = await AddFunction(actId, "SoftwareDeveloper");
+                        fnId1 = await CommonHelper.AddFunction(actId, "SoftwareDeveloper");
                         fnId1.Should().NotBeNull();
                         break;
                     case 1:
-                        fnId2 = await AddFunction(actId, "QA");
+                        fnId2 = await CommonHelper.AddFunction(actId, "QA");
                         fnId2.Should().NotBeNull();
                         break;
                     case 2:
-                        fnId3 = await AddFunction(actId, "BuildEngineer");
+                        fnId3 = await CommonHelper.AddFunction(actId, "BuildEngineer");
                         fnId3.Should().NotBeNull();
                         break;
                 }
@@ -202,47 +203,6 @@ namespace UnitTests
             }
         }
 
-        private async Task<string> AddDept(string orgId, string name)
-        {
-            //Arrange
-            OrgDTO dto = new OrgDTO();
-            dto.Name = name;
-            dto.ParentNodeText = orgId;
-
-            //Act add company
-            return (await orgService.AddNode(dto)).ToString();
-        }
-
-        private async Task<string> AddOrg()
-        {
-            //Arrange
-            OrgDTO dto = new OrgDTO();
-            dto.Name = "Construct";
-
-            //Act add company
-            return (await orgService.AddNode(dto)).ToString();
-        }
-
-        private async Task<string> AddActivity(string deptId, string name)
-        {
-            //Arrange
-            OrgDTO dto = new OrgDTO();
-            dto.Name = name;
-            dto.ParentNodeText = deptId;
-
-            //Act add activity
-            return (await orgService.AddNode(dto)).ToString();
-        }
-
-        private async Task<string> AddFunction(string actId, string name)
-        {
-            //Arrange
-            OrgDTO dto = new OrgDTO();
-            dto.Name = name;
-            dto.ParentNodeText = actId;
-
-            //Act add function
-            return (await orgService.AddNode(dto)).ToString();
-        }
+     
     }
 }

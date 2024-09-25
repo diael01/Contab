@@ -18,7 +18,7 @@ public partial class Organisation
 
     public string Name { get; set; } = null!;
 
-    public string? LongName { get; set; }
+    public string? Surname { get; set; }
 
     public string? CountyCode { get; set; }
 
@@ -35,4 +35,6 @@ public partial class Organisation
     public DateTime UpdatedAt { get; set; }
 
     public string UpdatedBy { get; set; } = null!;
+
+    public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 }
