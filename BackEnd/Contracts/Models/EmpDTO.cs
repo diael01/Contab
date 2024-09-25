@@ -4,7 +4,13 @@
     {
         public string? EmpNodeText { get; set; } = null!; //hierarchyId as string as is
 
-        public string? ManagerNodeText { get; set; } = null!; //ParentNode hierarchyId as string
+        public string? ManagerNodeText { get; set; } = null!; //ManagerNode hierarchyId as string
+
+        public string? ManagerNodeName { get; set; } //for user easy swagger
+
+        public string? FunctionNodeText { get; set; } = null!; //FunctionNode hierarchyId as string
+
+        public string? FunctionNodeName { get; set; } //for user easy swagger
 
         public string Name { get; set; } = null!;
 

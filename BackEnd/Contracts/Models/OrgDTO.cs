@@ -6,6 +6,8 @@
 
         public string? ParentNodeText { get; set; } = null!; //ParentNode hierarchyId as string
 
+        public string? ParentNodeName { get; set; } //for user easy swagger
+
         public string Name { get; set; } = null!;
 
         public short OrgLevel { get; set; }

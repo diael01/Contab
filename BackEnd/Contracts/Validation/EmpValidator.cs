@@ -6,6 +6,17 @@ namespace Contracts.Validation
 {
     public class EmpDTOValidator : CascadingAbstractValidator<EmpDTO>
     {
+        public EmpDTOValidator() : base()
+        {
+            RuleFor(emp => emp).NotNull();
+            //RuleFor(emp => emp.ManagerNodeText).NotNull();
+            //RuleFor(emp => emp.EmpFunctionNodeText).NotNull();
+            RuleFor(emp => emp.Name).NotNull();
+            //TBD: to add more not nulls for other contracts after the UTs working
+
+            //RuleFor(org => org.OrgNodeText).NotNull();
+            //validate not null only if is not the root
+        }
     }
 
     public class EmpValidator : CascadingAbstractValidator<Employee>

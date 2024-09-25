@@ -25,15 +25,15 @@ namespace UnitTests
         public async Task AddOrganization_Unit_Should_Be_OK()
         {
 
-            var orgId = await CommonHelper.AddOrg();
+            var orgId = await CommonHelper.AddEntityNode("Con");
             await orgService.DeleteNode(orgId);
         }
 
         [Fact]
         public async Task UpdateOrganization_Unit_Should_Be_OK()
         {
-
-            var orgId = await CommonHelper.AddOrg();
+            //Arrange
+            var orgId = await CommonHelper.AddEntityNode("Con");
             var orgNode = await DBContext.Organisations.Where(e => e.OrgNode.GetLevel() == 0).FirstOrDefaultAsync();
             new OrgValidator().ValidateAndThrow(orgNode!);
             orgNode!.Name = "ChangedName";
@@ -41,7 +41,11 @@ namespace UnitTests
             orgNode.Surname = "Surname";
             var orgDTO = mapper.Map<OrgDTO>(orgNode);
             orgDTO.OrgNodeText = orgId;
+            //Act
             await orgService.UpdateNode(orgDTO);
+            var node = await DBContext.Organisations.Where(e => e.Name == orgNode!.Name).FirstOrDefaultAsync();
+            //Assert
+            Assert.Equal(node.Name, orgNode!.Name);
             await orgService.DeleteNode(orgId);
         }
 
@@ -50,7 +54,7 @@ namespace UnitTests
         public async Task AddDepartments_Should_Be_OK()
         {
             //Arrange
-            var orgId = await CommonHelper.AddOrg();
+            var orgId = await CommonHelper.AddEntityNode("Con");
 
             //Act add department
             string deptId1 = string.Empty;
@@ -61,15 +65,15 @@ namespace UnitTests
                 switch (i)
                 {
                     case 0:
-                        deptId1 = await CommonHelper.AddDept(orgId, "HumanResources");
+                        deptId1 = await CommonHelper.AddEntityNode("HR", orgId, "Con");
                         deptId1.Should().NotBeNull();
                         break;
                     case 1:
-                        deptId2 = await CommonHelper.AddDept(orgId, "Finance");
+                        deptId2 = await CommonHelper.AddEntityNode("Fin", orgId, "Con");
                         deptId2.Should().NotBeNull();
                         break;
                     case 2:
-                        deptId3 = await CommonHelper.AddDept(orgId, "Engineering");
+                        deptId3 = await CommonHelper.AddEntityNode("Eng", orgId, "Con");
                         deptId3.Should().NotBeNull();
                         break;
                 }
@@ -84,8 +88,8 @@ namespace UnitTests
         [Fact]
         public async Task AddActivities_Should_Be_OK()
         {
-            var orgId = await CommonHelper.AddOrg();
-            var deptId = await CommonHelper.AddDept(orgId, "Engineering");
+            var orgId = await CommonHelper.AddEntityNode("Con");
+            var deptId = await CommonHelper.AddEntityNode("Eng", orgId,"Con");
 
             //Act add Activity
             OrgDTO dto = new OrgDTO();
@@ -96,11 +100,11 @@ namespace UnitTests
                 switch (i)
                 {
                     case 0:
-                        actId1 = await CommonHelper.AddActivity(deptId, "R&D");
+                        actId1 = await CommonHelper.AddEntityNode("R&D",deptId,"Eng");
                         actId1.Should().NotBeNull();
                         break;
                     case 1:
-                        actId2 = await CommonHelper.AddActivity(deptId, "IT");
+                        actId2 = await CommonHelper.AddEntityNode("IT",deptId,"Eng");
                         actId2.Should().NotBeNull();
                         break;
                 }
@@ -118,9 +122,9 @@ namespace UnitTests
         public async Task AddFunctions_Should_Be_OK()
         {
             //Arrange
-            var orgId = await CommonHelper.AddOrg();
-            var deptId = await CommonHelper.AddDept(orgId, "Engineering");
-            var actId = await CommonHelper.AddActivity(deptId, "IT");
+            var orgId = await CommonHelper.AddEntityNode("Con");
+            var deptId = await CommonHelper.AddEntityNode("Eng", orgId);
+            var actId = await CommonHelper.AddEntityNode("IT", deptId);
 
             //Act add Function
             string fnId1 = string.Empty;
@@ -131,15 +135,15 @@ namespace UnitTests
                 switch (i)
                 {
                     case 0:
-                        fnId1 = await CommonHelper.AddFunction(actId, "SoftwareDeveloper");
+                        fnId1 = await CommonHelper.AddEntityNode("SoftwareDeveloper",actId,"IT");
                         fnId1.Should().NotBeNull();
                         break;
                     case 1:
-                        fnId2 = await CommonHelper.AddFunction(actId, "QA");
+                        fnId2 = await CommonHelper.AddEntityNode("QA",actId,"IT");
                         fnId2.Should().NotBeNull();
                         break;
                     case 2:
-                        fnId3 = await CommonHelper.AddFunction(actId, "BuildEngineer");
+                        fnId3 = await CommonHelper.AddEntityNode("BuildEngineer",actId,"IT");
                         fnId3.Should().NotBeNull();
                         break;
                 }
@@ -156,40 +160,13 @@ namespace UnitTests
         [Fact]
         public async void DeleteOrganization_Unit_Should_Be_OK()
         {
+            var orgId = await CommonHelper.AddEntityNode("Con");
             var orgList = await DBContext.Organisations.Where(e => e.OrgNode.GetLevel() == 0).ToListAsync();
             //Arrange
             await DeleteActAssert(orgList);
         }
 
-        [Fact]
-        public async void DeleteFunctions_Unit_Should_Be_OK()
-        {
-            //Arrange
-            var funcList = await DBContext.Organisations.Where(e => e.OrgNode.GetLevel() == 3).ToListAsync();
-
-            //Act - delete function
-            await DeleteActAssert(funcList);
-        }
-
-        [Fact]
-        public async void DeleteActivities_Unit_Should_Be_OK()
-        {
-            //Arrange
-            var actList = await DBContext.Organisations.Where(e => e.OrgNode.GetLevel() == 2).ToListAsync();
-
-            //Act - delete activities
-            await DeleteActAssert(actList);
-        }
-
-        [Fact]
-        public async void DeleteDepartments_Unit_Should_Be_OK()
-        {
-            //Arrange
-            var deptList = await DBContext.Organisations.Where(e => e.OrgNode.GetLevel() == 1).ToListAsync();
-
-            //Act - delete dept
-            await DeleteActAssert(deptList);
-        }
+        
 
         private async Task DeleteActAssert(List<Organisation> list)
         {

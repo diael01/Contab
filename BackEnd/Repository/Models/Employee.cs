@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Models;
 
@@ -10,13 +12,17 @@ public partial class Employee
 
     public short? EmpLevel { get; set; }
 
-    public HierarchyId ManagerNode { get; set; } = null!;
+    public HierarchyId? ManagerNode { get; set; }
 
     public string? ManagerNodeText { get; set; }
+
+    public string? ManagerNodeName { get; set; }
 
     public HierarchyId EmpFunctionNode { get; set; } = null!;
 
     public string? EmpFunctionNodeText { get; set; }
+
+    public string? EmpFunctionNodeName { get; set; }
 
     public string Name { get; set; } = null!;
 
@@ -86,5 +92,5 @@ public partial class Employee
 
     public virtual ICollection<Employee> InverseManagerNodeNavigation { get; set; } = new List<Employee>();
 
-    public virtual Employee ManagerNodeNavigation { get; set; } = null!;
+    public virtual Employee? ManagerNodeNavigation { get; set; }
 }

@@ -29,53 +29,53 @@ namespace UnitTests
         {
 
             //Arrange
-            var orgId = await CommonHelper.AddOrg();
-            var deptId = await CommonHelper.AddDept(orgId, "Engineering");
-            var actId = await CommonHelper.AddActivity(deptId, "IT");
+            var orgId = await CommonHelper.AddEntityNode("Con");
 
-            var dto = TestData.GetEmpDTO(0);
+            var deptId = await CommonHelper.AddEntityNode("Business", orgId, "Con");
+            var actId = await CommonHelper.AddEntityNode("Mgmt", deptId, "Business");
+            var funcId1 = await CommonHelper.AddEntityNode("CEO", actId, "Mgmt");
+            var funcId2 = await CommonHelper.AddEntityNode("CTO", actId, "Mgmt");
+            var funcId3 = await CommonHelper.AddEntityNode("Manager", actId, "Mgmt");
+
+            var dto = TestData.GetEmpDTO(0,null, "CEO");
             //EmpDTO dto = new EmpDTO();
             //dto.Name = "Eu";
             //dto.ManagerNodeText = null;
-            var empId1 = await empService.AddEmployee(dto);
+            var empId = await empService.AddEmployee(dto);
 
             //Act add employee level 1
-            dto.Name = "mama1";
-            dto.ManagerNodeText = "/";// my sub 1
-            var empId2 = await empService.AddEmployee(dto);
+            var dto1 = TestData.GetEmpDTO(1, "Eu", "CTO");
+            var empId1 = await empService.AddEmployee(dto1);
 
             //Act add employee level 1
-            dto.Name = "mama11";
-            dto.ManagerNodeText = "/"; // my sub 2
-            var empId3 = await empService.AddEmployee(dto);
+            var dto2 = TestData.GetEmpDTO(2, "mama", "Manager");
+            var empId2 = await empService.AddEmployee(dto2);
 
-            //Act add employee level 2
-            dto.Name = "vili2";
-            dto.ManagerNodeText = "/1"; // mama1 sub 1
-            var empId4 = await empService.AddEmployee(dto);
 
-            //Act add employee level 2
-            dto.Name = "vili22";
-            dto.ManagerNodeText = "/1";//mama1 sub 2
-            var empId5 = await empService.AddEmployee(dto);
+            //await empService.DeleteEmployee(empId2);
+            //await empService.DeleteEmployee(empId1);
+            //await empService.DeleteEmployee(empId);
 
-            //Act add employee level 2
-            dto.Name = "vili23";        //mama11 sub 1
-            dto.ManagerNodeText = "/2";
-            var empId6 = await empService.AddEmployee(dto);
+            //await orgService.DeleteNode(funcId3);
+            //await orgService.DeleteNode(funcId1);
+            //await orgService.DeleteNode(funcId2);
 
-            await empService.DeleteEmployee(empId6);
-            await empService.DeleteEmployee(empId5);
-            await empService.DeleteEmployee(empId4);
+            //await orgService.DeleteNode(actId);
+            //await orgService.DeleteNode(deptId);
+            //await orgService.DeleteNode(orgId);
 
-            await empService.DeleteEmployee(empId3);
-            await empService.DeleteEmployee(empId2);
-            await empService.DeleteEmployee(empId1);
         }
 
         [Fact]
         public async Task UpdateEmployee_Unit_Should_Be_OK()
         {
+            //Arrange
+            var orgId = await CommonHelper.AddEntityNode("Con");
+            var deptId = await CommonHelper.AddEntityNode("Business", orgId, "Con");
+            var actId = await CommonHelper.AddEntityNode("Mgmt", deptId, "Business");
+            var funcId = await CommonHelper.AddEntityNode("CEO", actId, "Mgmt");
+
+
             var dto = TestData.GetEmpDTO(0);
             var empId = await empService.AddEmployee(dto);
             var empNode = await DBContext.Employees.Where(e => e.EmpNode.GetLevel() == 0).FirstOrDefaultAsync();
@@ -87,6 +87,10 @@ namespace UnitTests
             empDTO.EmpNodeText = empId;
             await empService.UpdateEmployee(empDTO);
             await empService.DeleteEmployee(empId);
+            await orgService.DeleteNode(funcId);
+            await orgService.DeleteNode(actId);
+            await orgService.DeleteNode(deptId);
+            await orgService.DeleteNode(orgId);
         }
 
 
@@ -102,16 +106,16 @@ namespace UnitTests
             var empId2 = await empService.AddEmployee(dto2);
 
             //Act
-            //Assert
+            //Assert -- delete level 2
             var empList = await DBContext.Employees.Where(e => e.EmpNode.GetLevel() == 2).ToListAsync();
-            await DeleteActAssert(empList);
-            //Assert
-            empList = await DBContext.Employees.Where(e => e.EmpNode.GetLevel() == 1).ToListAsync();
-
-            await DeleteActAssert(empList);
+            //Assert -- delete level 1
+            var empList1 = await DBContext.Employees.Where(e => e.EmpNode.GetLevel() == 1).ToListAsync();
+            //delete root
             empService.DeleteEmployee(empId);
 
             //Assert
+            await DeleteActAssert(empList);
+            await DeleteActAssert(empList1);
             var root = DBContext.Employees.Where(e => e.EmpNode.ToString() == empId).FirstOrDefault();
             root.Should().BeNull();
         }

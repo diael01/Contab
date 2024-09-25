@@ -7,47 +7,20 @@ namespace CommonTestHelper
     {
         public static IOrgService orgService;
 
-        public static async Task<string> AddDept(string orgId, string name)
+
+        public static async Task<string> AddEntityNode(string name, string nodeId=null, string parentName = null)
         {
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = name;
-            dto.ParentNodeText = orgId;
+            if (!string.IsNullOrEmpty(nodeId))
+                dto.ParentNodeText = nodeId;
+            dto.ParentNodeName = parentName;
 
             //Act add company
             return (await orgService.AddNode(dto)).ToString();
         }
 
-        public static async Task<string> AddOrg()
-        {
-            //Arrange
-            OrgDTO dto = new OrgDTO();
-            dto.Name = "Construct";
 
-            //Act add company
-            return (await orgService.AddNode(dto)).ToString();
-        }
-
-        public static async Task<string> AddActivity(string deptId, string name)
-        {
-            //Arrange
-            OrgDTO dto = new OrgDTO();
-            dto.Name = name;
-            dto.ParentNodeText = deptId;
-
-            //Act add activity
-            return (await orgService.AddNode(dto)).ToString();
-        }
-
-        public static async Task<string> AddFunction(string actId, string name)
-        {
-            //Arrange
-            OrgDTO dto = new OrgDTO();
-            dto.Name = name;
-            dto.ParentNodeText = actId;
-
-            //Act add function
-            return (await orgService.AddNode(dto)).ToString();
-        }
     }
 }

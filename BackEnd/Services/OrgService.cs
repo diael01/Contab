@@ -43,8 +43,7 @@ namespace Services
                 orgdb.OrgNode = HierarchyId.GetRoot();
             else
             {
-                var node = HierarchyId.Parse(org.ParentNodeText);
-                orgdb.ParentNode = node;
+                HierarchyId node = GetEmpFromDTO(org);
                 if (node != null)
                 {
                     var lastChild = DBContext.Organisations.Where(e => e.OrgNode.GetAncestor(1) == node).Max(e => e.OrgNode);
@@ -52,7 +51,7 @@ namespace Services
                         orgdb.OrgNode = node.GetDescendant(lastChild, null);
                     else
                         orgdb.OrgNode = node.GetDescendant(null, null);
-                }
+                } else return null;
             }
             orgdb.OrgNodeText = orgdb.OrgNode.ToString();
             orgdb.CreatedAt = DateTime.Now;
@@ -92,6 +91,24 @@ namespace Services
                 await DBContext.SaveChangesAsync();
 
             }
+        }
+
+        private HierarchyId GetEmpFromDTO(OrgDTO org)
+        {
+            HierarchyId node;
+            new NodeValidator().ValidateAndThrow(org);
+            if (!string.IsNullOrEmpty(org.ParentNodeText))
+                node = HierarchyId.Parse(org.ParentNodeText);
+            else
+            {
+                //search the node via name
+                var obj = DBContext.Organisations.Where(e => e.Name == org.ParentNodeName).FirstOrDefault();
+                if (obj != null)
+                    node = obj.ParentNode!;
+                else
+                    return null;
+            }
+            return node;
         }
     }
 }

@@ -4,6 +4,8 @@ using Contracts.Models;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
+using System.Xml.Linq;
+using Contracts.Validation;
 
 namespace Services
 {
@@ -37,20 +39,22 @@ namespace Services
         public async Task<string> AddEmployee(EmpDTO emp)
         {
             var empdb = Mapper.Map<Employee>(emp);
+            new EmpValidator().ValidateAndThrow(empdb);
             if (string.IsNullOrEmpty(emp.ManagerNodeText) || string.IsNullOrWhiteSpace(emp.ManagerNodeText))
                 empdb.EmpNode = HierarchyId.GetRoot();
             else
             {
-                var node = HierarchyId.Parse(emp.ManagerNodeText);
-                empdb.ManagerNode = node;
+                HierarchyId node = GetNodeFromDTO(emp);
                 if (node != null)
                 {
                     var lastChild = DBContext.Employees.Where(e => e.EmpNode.GetAncestor(1) == node).Max(e => e.EmpNode);
                     if (lastChild != null)
-                        empdb.EmpNode = node.GetDescendant(lastChild, null);
+                        empdb.EmpNode = node!.GetDescendant(lastChild, null);
                     else
-                        empdb.EmpNode = node.GetDescendant(null, null);
-                }
+                        empdb.EmpNode = node!.GetDescendant(null, null);
+                } 
+                else return null;
+                
             }
             empdb.ManagerNodeText = empdb.EmpNode.ToString();
             empdb.CreatedAt = DateTime.Now;
@@ -66,29 +70,47 @@ namespace Services
 
         public async Task<string> UpdateEmployee(EmpDTO emp)
         {
-            var id = HierarchyId.Parse(emp.ManagerNodeText);
-            var node = DBContext.Organisations.Where(e => e.OrgNode == id).FirstOrDefault();
+            var id = GetNodeFromDTO(emp);
+            var node = DBContext.Employees.Where(e => e.EmpNode == id).FirstOrDefault();
             //new OrgValidator().ValidateAndThrow(node!);
             node!.Name = emp.Name;
             node.Location = emp.Location;
             node.Surname = emp.Surname;
-            node.OrgLevel = emp.EmpLevel;
+            node.EmpLevel = emp.EmpLevel;
             node.UpdatedAt = DateTime.Now;
             node.UpdatedBy = "system";
             DBContext.Entry(node).State = EntityState.Modified;
             await DBContext.SaveChangesAsync();
-            return node.OrgNode.ToString();
+            return node.EmpNode.ToString();
         }
 
         public async Task DeleteEmployee(string nodeId)
         {
             var id = HierarchyId.Parse(nodeId);
-            var node = DBContext.Organisations.Where(e => e.OrgNode == id).FirstOrDefault();
+            var node = DBContext.Employees.Where(e => e.EmpNode == id).FirstOrDefault();
             if (node != null)
             {
                 DBContext.Entry(node).State = EntityState.Deleted;
                 await DBContext.SaveChangesAsync();
             }
         }
-    }
+
+        private HierarchyId GetNodeFromDTO(EmpDTO emp)
+        {
+            HierarchyId node;
+            new EmpDTOValidator().ValidateAndThrow(emp);
+            if (!string.IsNullOrEmpty(emp.ManagerNodeText))
+                node = HierarchyId.Parse(emp.ManagerNodeText);
+            else
+            {
+                //search the node via name
+                var obj = DBContext.Employees.Where(e => e.Name == emp.ManagerNodeName).FirstOrDefault();
+                if (obj != null)
+                    node = obj.ManagerNode!;
+                else
+                    return null;
+            }
+            return node;
+        }
+ }
 }

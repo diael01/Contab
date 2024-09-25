@@ -27,23 +27,30 @@ namespace CommonTestHelper
             return org;
         }
 
-        public static EmpDTO GetEmpDTO(int level, string? parent = null)
+        public static EmpDTO GetEmpDTO(int level, string? manager = null, string func = null)
         {
             EmpDTO emp = new EmpDTO();
             switch (level)
             {
                 case 0:
                     emp.Name = "Eu";
+                    //emp.ManagerNodeText = "Eu";
+                    //emp.FunctionNodeName = "CEO";
                     break;
                 case 1:
                     emp.Name = "mama";
+                    //emp.ManagerNodeName = "Eu";
+                    //emp.FunctionNodeName = "CTO";
                     break;
                 case 2:
                     emp.Name = "Vili";
+                    //emp.ManagerNodeName = "mama";
+                    //emp.FunctionNodeName = "Sr. Dev";
                     break;
 
             }
-            emp.ManagerNodeText = parent;
+            emp.FunctionNodeName = func;
+            emp.ManagerNodeName = manager;
             emp.Location = "Location";
             return emp;
         }

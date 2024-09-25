@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Models;
 
@@ -25,7 +27,7 @@ public partial class ContabContext : DbContext
     {
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.EmpNode).HasName("PK__Employee__11EA28CC198EFF39");
+            entity.HasKey(e => e.EmpNode).HasName("PK__Employee__11EA28CC1B370135");
 
             entity.ToTable("Employee");
 
@@ -52,6 +54,7 @@ public partial class ContabContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.CreatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.CreatedBy).HasMaxLength(128);
+            entity.Property(e => e.EmpFunctionNodeName).HasMaxLength(128);
             entity.Property(e => e.EmpFunctionNodeText).HasMaxLength(128);
             entity.Property(e => e.EmpLevel).HasComputedColumnSql("([EmpNode].[GetLevel]())", false);
             entity.Property(e => e.EmpNodeText).HasMaxLength(128);
@@ -68,6 +71,7 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.Location)
                 .HasMaxLength(128)
                 .IsUnicode(false);
+            entity.Property(e => e.ManagerNodeName).HasMaxLength(128);
             entity.Property(e => e.ManagerNodeText).HasMaxLength(128);
             entity.Property(e => e.Name).HasMaxLength(128);
             entity.Property(e => e.Phone).HasMaxLength(32);
@@ -76,7 +80,7 @@ public partial class ContabContext : DbContext
                 .IsUnicode(false)
                 .IsFixedLength();
             entity.Property(e => e.Studies).HasMaxLength(128);
-            entity.Property(e => e.Surname).HasMaxLength(64);
+            entity.Property(e => e.Surname).HasMaxLength(128);
             entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
 
@@ -87,13 +91,12 @@ public partial class ContabContext : DbContext
 
             entity.HasOne(d => d.ManagerNodeNavigation).WithMany(p => p.InverseManagerNodeNavigation)
                 .HasForeignKey(d => d.ManagerNode)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Employee_Employee");
         });
 
         modelBuilder.Entity<Organisation>(entity =>
         {
-            entity.HasKey(e => e.OrgNode).HasName("PK__Organisa__C1ECAF2A25B95E8C");
+            entity.HasKey(e => e.OrgNode).HasName("PK__Organisa__C1ECAF2A8212DE08");
 
             entity.ToTable("Organisation");
 
@@ -112,9 +115,10 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.Location)
                 .HasMaxLength(128)
                 .IsUnicode(false);
-            entity.Property(e => e.Name).HasMaxLength(64);
+            entity.Property(e => e.Name).HasMaxLength(128);
             entity.Property(e => e.OrgLevel).HasComputedColumnSql("([OrgNode].[GetLevel]())", false);
             entity.Property(e => e.OrgNodeText).HasMaxLength(128);
+            entity.Property(e => e.ParentNodeName).HasMaxLength(128);
             entity.Property(e => e.ParentNodeText).HasMaxLength(128);
             entity.Property(e => e.Surname)
                 .HasMaxLength(128)
