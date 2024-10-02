@@ -4,9 +4,9 @@ using Repository.Models;
 
 namespace Contracts.Mapping
 {
-    public class EmpProfile : Profile
+    public class EmployeeProfile : Profile
     {
-            public EmpProfile()
+            public EmployeeProfile()
             {
                 CreateMap<Employee, EmpDTO>();
                 CreateMap<EmpDTO, Employee>();
@@ -18,10 +18,10 @@ namespace Contracts.Mapping
                    opt => opt.MapFrom(src => src.EmpNode.ToString()))
                   .ForMember(dest =>
                     dest.ManagerNodeText,
-                    opt => opt.MapFrom(src => src.ManagerNode))
+                    opt => opt.MapFrom(src => src.ManagerNode.ToString()))
                  .ForMember(dest =>
-                    dest.FunctionNodeText,
-                    opt => opt.MapFrom(src => src.EmpFunctionNode));
+                    dest.EmpFunctionNodeText,
+                    opt => opt.MapFrom(src => src.EmpFunctionNode.ToString()));
         }
         
     }

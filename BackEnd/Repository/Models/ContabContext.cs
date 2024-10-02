@@ -27,7 +27,7 @@ public partial class ContabContext : DbContext
     {
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.EmpNode).HasName("PK__Employee__11EA28CC1B370135");
+            entity.HasKey(e => e.EmpNode).HasName("PK__Employee__11EA28CC5C5E796A");
 
             entity.ToTable("Employee");
 
@@ -96,7 +96,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Organisation>(entity =>
         {
-            entity.HasKey(e => e.OrgNode).HasName("PK__Organisa__C1ECAF2A8212DE08");
+            entity.HasKey(e => e.OrgNode).HasName("PK__Organisa__C1ECAF2AAB25842F");
 
             entity.ToTable("Organisation");
 

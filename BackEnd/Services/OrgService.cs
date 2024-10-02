@@ -58,6 +58,7 @@ namespace Services
             orgdb.CreatedBy = "system";
             orgdb.UpdatedAt = DateTime.Now;
             orgdb.UpdatedBy = "system";
+            new OrgValidator().ValidateAndThrow(orgdb);
 
             await DBContext.AddAsync(orgdb);
             await DBContext.SaveChangesAsync();

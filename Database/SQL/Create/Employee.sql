@@ -10,7 +10,8 @@ GO
  if exists ( select * from sys.tables where name = N'Employee')
  DROP TABLE [Employee];
 CREATE TABLE [dbo].[Employee](
-	[EmpNode] [hierarchyid] NOT NULL,
+	--Id int identity(1,1) primary key clustered not null,
+	[EmpNode] [hierarchyid] primary key clustered NOT NULL,
 	[EmpNodeText] [nvarchar](128) NULL,
 	[EmpLevel]  AS ([EmpNode].[GetLevel]()),
 	[ManagerNode] [hierarchyid] NULL,
@@ -50,13 +51,9 @@ CREATE TABLE [dbo].[Employee](
 	[CreatedAt] [smalldatetime] NULL,
 	[CreatedBy] [nvarchar](128) NULL,
 	[UpdatedAt] [smalldatetime] NOT NULL,
-	[UpdatedBy] [nvarchar](128) NOT NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[EmpNode] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+	[UpdatedBy] [nvarchar](128) NOT NULL)
 GO
+
 
 ALTER TABLE [dbo].[Employee]  WITH CHECK ADD  CONSTRAINT [FK_Employee_Employee] FOREIGN KEY([ManagerNode])
 REFERENCES [dbo].[Employee] ([EmpNode])

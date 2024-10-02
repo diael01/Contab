@@ -14,7 +14,8 @@ namespace WebApi.Extensions
             if (settings != null)
                 svc.AddSingleton(settings);
             svc.TryAddScoped<IOrgService, OrgService>();
-            svc.AddAutoMapper(typeof(OrganisationProfile));//, typeof(DeviceProfile));
+            svc.TryAddScoped<IEmpService, EmpService>();
+            svc.AddAutoMapper(typeof(OrganisationProfile), typeof(EmployeeProfile));//, typeof(DeviceProfile));
             return svc;
         }
     }

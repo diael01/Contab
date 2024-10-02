@@ -7,7 +7,8 @@ using Repository.Models;
 
 namespace UnitTests
 {
-    public class BaseUnitTest
+
+    public class BaseUnitTest : IDisposable
     {
         protected ContabContext DBContext;
         protected Mock<IServiceProvider> mockService = new Mock<IServiceProvider>();
@@ -33,6 +34,7 @@ namespace UnitTests
                 var mappingConfig = new MapperConfiguration(mc =>
                 {
                     mc.AddProfile(new OrganisationProfile());
+                    mc.AddProfile(new EmployeeProfile());
                 });
                 mapper = mappingConfig.CreateMapper();
             }
@@ -48,6 +50,11 @@ namespace UnitTests
                 .AddJsonFile($"appsettings.{environment}.json", true, true)
                 .AddEnvironmentVariables()
                 .Build();
+        }
+
+        public void Dispose()
+        {
+            // Do "global" teardown here; Only called once.
         }
     }
 }

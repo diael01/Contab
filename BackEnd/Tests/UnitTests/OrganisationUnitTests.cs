@@ -43,7 +43,7 @@ namespace UnitTests
             orgDTO.OrgNodeText = orgId;
             //Act
             await orgService.UpdateNode(orgDTO);
-            var node = await DBContext.Organisations.Where(e => e.Name == orgNode!.Name).FirstOrDefaultAsync();
+            var node = await DBContext.Organisations.Where(e => String.Equals(e.Name.ToUpper(), orgNode.Name.ToUpper())).FirstOrDefaultAsync();
             //Assert
             Assert.Equal(node.Name, orgNode!.Name);
             await orgService.DeleteNode(orgId);

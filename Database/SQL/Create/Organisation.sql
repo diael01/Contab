@@ -10,10 +10,12 @@ GO
  DROP TABLE [dbo].[Organisation];
  GO
 CREATE TABLE [dbo].[Organisation](
+	--Id int identity(1,1) primary key clustered not null,
 	[OrgNode] [hierarchyid] primary key clustered not null,
 	[OrgNodeText] [nvarchar](128),
 	[ParentNode] [hierarchyid],
 	[ParentNodeText] [nvarchar](128),
+	[ParentNodeName] [nvarchar](128),--this is to add a node based on the Parent Node name for easy Swagger
 	[OrgLevel]  AS ([OrgNode].[GetLevel]()),
 	[Name] [nvarchar](128) NOT NULL,
 	[Surname] [varchar](128) NULL,

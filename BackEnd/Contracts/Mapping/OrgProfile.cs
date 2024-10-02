@@ -16,10 +16,10 @@ namespace Contracts.Mapping
             CreateMap<Organisation, OrgDTO>()
                .ForMember(dest =>
                dest.OrgNodeText,
-               opt => opt.MapFrom(src => src.OrgNode.ToString()));
-            //.ForMember(dest =>
-            //dest.ParentNodeText,
-            //opt => opt.MapFrom(src => src.LastName));
+               opt => opt.MapFrom(src => src.OrgNode.ToString()))
+            .ForMember(dest =>
+            dest.ParentNodeText,
+            opt => opt.MapFrom(src => src.Name));
         }
     }
 }

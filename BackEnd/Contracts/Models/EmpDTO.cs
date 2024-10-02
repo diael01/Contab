@@ -1,26 +1,30 @@
-﻿namespace Contracts.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Contracts.Models
 {
     public class EmpDTO
     {
-        public string? EmpNodeText { get; set; } = null!; //hierarchyId as string as is
 
-        public string? ManagerNodeText { get; set; } = null!; //ManagerNode hierarchyId as string
+        public string? EmpNodeText { get; set; } //=>EmpDTO
 
-        public string? ManagerNodeName { get; set; } //for user easy swagger
+        public short? EmpLevel { get; set; } //=>EmpDTO
 
-        public string? FunctionNodeText { get; set; } = null!; //FunctionNode hierarchyId as string
+        public string? ManagerNodeText { get; set; } //=>EmpDTO
 
-        public string? FunctionNodeName { get; set; } //for user easy swagger
+        public string? ManagerNodeName { get; set; } //for swagger
 
-        public string Name { get; set; } = null!;
+        public string? EmpFunctionNodeText { get; set; } //=>EmpDTO
 
-        public short EmpLevel { get; set; }
+        public string? EmpFunctionNodeName { get; set; } //for swagger
 
-        public string? EmpFunctionText { get; set; } = null!;
+        public string Name { get; set; } = null!;//=>EmpDTO
 
-        public string? Surname { get; set; }
+        public string? Surname { get; set; } //=>EmpDTO
 
-        public string? Location { get; set; }
+        public string? Location { get; set; } //=>EmpDTO
+
+      
+
 
     }
 }
