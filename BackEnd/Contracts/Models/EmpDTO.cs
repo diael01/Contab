@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Contracts.Models
+﻿namespace Contracts.Models
 {
     public class EmpDTO
     {
@@ -23,7 +21,7 @@ namespace Contracts.Models
 
         public string? Location { get; set; } //=>EmpDTO
 
-      
+
 
 
     }

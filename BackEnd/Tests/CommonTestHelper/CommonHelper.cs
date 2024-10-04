@@ -8,7 +8,7 @@ namespace CommonTestHelper
         public static IOrgService orgService;
 
 
-        public static async Task<string> AddEntityNode(string name, string nodeId=null, string parentName = null)
+        public static async Task<string> AddEntityNode(string name, string nodeId = null, string parentName = null)
         {
             //Arrange
             OrgDTO dto = new OrgDTO();

@@ -1,30 +1,25 @@
 ﻿
 using CommonTestHelper;
-using Contracts.Interfaces;
 using Contracts.Models;
 using Contracts.Validation;
 using FluentAssertions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
-using Services;
 
 namespace UnitTests
 {
-
+    [Collection("Sequential")]
     public class OrganisationUnitTests : BaseUnitTest
     {
-
-        IOrgService orgService;
         public OrganisationUnitTests() : base()
         {
-            orgService = CommonHelper.orgService = new OrgService(DBContext, mapper);
         }
+
         //root
         [Fact]
         public async Task AddOrganization_Unit_Should_Be_OK()
         {
-
             var orgId = await CommonHelper.AddEntityNode("Con");
             await orgService.DeleteNode(orgId);
         }
@@ -89,7 +84,7 @@ namespace UnitTests
         public async Task AddActivities_Should_Be_OK()
         {
             var orgId = await CommonHelper.AddEntityNode("Con");
-            var deptId = await CommonHelper.AddEntityNode("Eng", orgId,"Con");
+            var deptId = await CommonHelper.AddEntityNode("Eng", orgId, "Con");
 
             //Act add Activity
             OrgDTO dto = new OrgDTO();
@@ -100,11 +95,11 @@ namespace UnitTests
                 switch (i)
                 {
                     case 0:
-                        actId1 = await CommonHelper.AddEntityNode("R&D",deptId,"Eng");
+                        actId1 = await CommonHelper.AddEntityNode("R&D", deptId, "Eng");
                         actId1.Should().NotBeNull();
                         break;
                     case 1:
-                        actId2 = await CommonHelper.AddEntityNode("IT",deptId,"Eng");
+                        actId2 = await CommonHelper.AddEntityNode("IT", deptId, "Eng");
                         actId2.Should().NotBeNull();
                         break;
                 }
@@ -135,15 +130,15 @@ namespace UnitTests
                 switch (i)
                 {
                     case 0:
-                        fnId1 = await CommonHelper.AddEntityNode("SoftwareDeveloper",actId,"IT");
+                        fnId1 = await CommonHelper.AddEntityNode("SoftwareDeveloper", actId, "IT");
                         fnId1.Should().NotBeNull();
                         break;
                     case 1:
-                        fnId2 = await CommonHelper.AddEntityNode("QA",actId,"IT");
+                        fnId2 = await CommonHelper.AddEntityNode("QA", actId, "IT");
                         fnId2.Should().NotBeNull();
                         break;
                     case 2:
-                        fnId3 = await CommonHelper.AddEntityNode("BuildEngineer",actId,"IT");
+                        fnId3 = await CommonHelper.AddEntityNode("BuildEngineer", actId, "IT");
                         fnId3.Should().NotBeNull();
                         break;
                 }
@@ -166,7 +161,7 @@ namespace UnitTests
             await DeleteActAssert(orgList);
         }
 
-        
+
 
         private async Task DeleteActAssert(List<Organisation> list)
         {

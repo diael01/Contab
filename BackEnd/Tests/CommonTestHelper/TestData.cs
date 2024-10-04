@@ -27,17 +27,17 @@ namespace CommonTestHelper
             return org;
         }
 
-        public static EmpDTO GetEmpDTO(short? level=null, string name=null, string manager=null, 
-                                                     string func = null, 
+        public static EmpDTO GetEmpDTO(short? level = null, string name = null, string manager = null,
+                                                     string func = null,
                                                      string funcText = null)
         {
             EmpDTO emp = new EmpDTO();
-            emp.Name = name==null ? "Eu" : name;
-            emp.EmpLevel = level==null ? 0 : level;
+            emp.Name = name == null ? "Eu" : name;
+            emp.EmpLevel = level == null ? 0 : level;
             emp.EmpFunctionNodeName = func == null ? "CEO" : func;
             emp.EmpFunctionNodeText = funcText;
             emp.ManagerNodeName = manager;
-            emp.Location = "Location"+name;
+            emp.Location = "Location_" + name;
             return emp;
         }
     }

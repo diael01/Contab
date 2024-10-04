@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
 using Contracts.Models;
+using Contracts.Validation;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
-using System.Xml.Linq;
-using Contracts.Validation;
 
 namespace Services
 {
@@ -46,8 +45,7 @@ namespace Services
                 string.IsNullOrWhiteSpace(emp.ManagerNodeText) && string.IsNullOrWhiteSpace(emp.ManagerNodeName))
             {
                 empdb.EmpNode = empdb.ManagerNode = HierarchyId.GetRoot();
-            }
-            else
+            } else
             {
                 HierarchyId node = GetManagerNodeFromDB(emp);
                 empdb.ManagerNode = node;

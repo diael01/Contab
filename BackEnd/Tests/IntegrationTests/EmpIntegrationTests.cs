@@ -1,10 +1,13 @@
 ﻿using CommonTestHelper;
+using Contracts.Interfaces;
 using Contracts.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
+using Repository.Models;
+using static CommonTestHelper.EmpHelper;
 
 namespace IntegrationTests
 {
@@ -16,6 +19,7 @@ namespace IntegrationTests
         public async Task GetNodes_Integration_Should_Return_OK()
         {
             // Arrange - in base test
+            var data = await EmpHelper.Setup(orgService, empService, DBContext);
             var content = JsonContent.Create(TestData.GetEmpDTO(0));
             var comp = await httpClient.PostAsync("/api/v1/Emp/AddEmployee", content);
             comp.Should().NotBeNull();
@@ -48,20 +52,11 @@ namespace IntegrationTests
             {
                 ["id"] = await comp.Content.ReadAsStringAsync()
             });
+
+            await EmpHelper.TearDown(data);
         }
 
-        private async Task CheckResponse(HttpResponseMessage response)
-        {
-            //Assert
-            response.Should().NotBeNull();
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-            using (HttpContent content = response.Content)
-            {
-                string contentString = await content.ReadAsStringAsync();
-                var cli = JsonConvert.DeserializeObject<EmpDTO[]>(contentString);
-                cli.Should().NotBeNull();
-            }
-        }
+     
 
 
         [TestMethod]

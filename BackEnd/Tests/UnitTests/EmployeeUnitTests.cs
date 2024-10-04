@@ -1,37 +1,21 @@
-﻿
-using AutoMapper;
-using CommonTestHelper;
-using Contracts.Interfaces;
+﻿using CommonTestHelper;
 using Contracts.Models;
-using Contracts.Validation;
 using FluentAssertions;
-using FluentAssertions.Equivalency;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
-using Services;
-using System;
-using UnitTests;
+using static CommonTestHelper.EmpHelper;
 
 namespace UnitTests
 {
 
-
+    [Collection("Sequential")]
     public class EmployeeUnitTests : BaseUnitTest, IDisposable
     {
-        IOrgService orgService;
-        IEmpService empService;
-        private class EmpData
-        {
-            public string orgId, deptId, actId, funcId1, funcId2, funcId3, empId, empId1, empId2;
-            public EmpDTO dto, dto1, dto2;
-        }
+       
 
         public EmployeeUnitTests() : base()
         {
-            orgService = new OrgService(DBContext, mapper);
-            empService = new EmpService(DBContext, mapper);
-            CommonHelper.orgService = orgService;
         }
 
         public async Task Dispose()
@@ -41,9 +25,9 @@ namespace UnitTests
         private async Task<EmpData> Setup()
         {
             EmpData d = new EmpData();
-            d.orgId = await CommonHelper.AddEntityNode("ConEmpTest");
+            d.orgId = await CommonHelper.AddEntityNode("Con");
 
-            d.deptId = await CommonHelper.AddEntityNode("Business", d.orgId, "ConEmpTest");
+            d.deptId = await CommonHelper.AddEntityNode("Business", d.orgId, "Con");
             d.actId = await CommonHelper.AddEntityNode("Mgmt", d.deptId, "Business");
             d.funcId1 = await CommonHelper.AddEntityNode("CEO", d.actId, "Mgmt");
             d.funcId2 = await CommonHelper.AddEntityNode("CTO", d.actId, "Mgmt");
@@ -80,7 +64,7 @@ namespace UnitTests
             await orgService.DeleteNode(d.orgId);
         }
 
-      
+
 
         //root
         [Fact]
@@ -129,7 +113,7 @@ namespace UnitTests
             //Assert
             await DeleteActAssert(empList);
             await DeleteActAssert(empList1);
-           
+
             await TearDown(d);
         }
 

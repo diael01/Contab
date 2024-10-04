@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using CommonTestHelper;
+using Contracts.Interfaces;
 using Contracts.Mapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Repository.Models;
+using Services;
 
 namespace UnitTests
 {
@@ -13,6 +16,8 @@ namespace UnitTests
         protected ContabContext DBContext;
         protected Mock<IServiceProvider> mockService = new Mock<IServiceProvider>();
         protected IMapper mapper;
+        protected IOrgService orgService;
+        protected IEmpService empService;
 
         public BaseUnitTest()
         {
@@ -21,10 +26,10 @@ namespace UnitTests
             IConfiguration cfg = GetTestDataConfiguration();
 
             var conn = Microsoft
-   .Extensions
-   .Configuration
-   .ConfigurationExtensions
-   .GetConnectionString(cfg, "ContabDB");
+                   .Extensions
+                   .Configuration
+                   .ConfigurationExtensions
+                   .GetConnectionString(cfg, "ContabDB");
             if (conn == null)
                 throw new Exception("Connection string not found");
             optionsBuilder.UseSqlServer(conn, x => x.UseHierarchyId());
@@ -38,6 +43,9 @@ namespace UnitTests
                 });
                 mapper = mappingConfig.CreateMapper();
             }
+            orgService = new OrgService(DBContext, mapper);
+            empService = new EmpService(DBContext, mapper);
+            CommonHelper.orgService = orgService;
         }
 
         public static IConfiguration GetTestDataConfiguration()
