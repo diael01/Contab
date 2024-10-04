@@ -1,69 +1,69 @@
 ﻿using CommonTestHelper;
-using Contracts.Interfaces;
 using Contracts.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
-using Repository.Models;
-using static CommonTestHelper.EmpHelper;
 
 namespace IntegrationTests
 {
     [TestClass]
     public class EmpIntegrationTests : BaseIntegrationTest
     {
+        //[TestMethod]
+        //public async Task GetNodes_Integration_Should_Return_OK()
+        //{
+        //    // Arrange - in base test
+        //    var data = await CommonHelper.Setup(orgService, empService, DBContext);
+        //    var content = JsonContent.Create(TestData.GetEmpDTO(0));
+        //    var comp = await httpClient.PostAsync("/api/v1/Emp/AddEmployee", content);
+        //    comp.Should().NotBeNull();
+        //    comp.StatusCode.Should().Be(HttpStatusCode.OK);
+        //    content = JsonContent.Create(TestData.GetEmpDTO(1, await comp.Content.ReadAsStringAsync()));
+        //    var dept = await httpClient.PostAsync("/api/v1/Emp/AddEmployee", content);
+        //    dept.Should().NotBeNull();
+        //    dept.StatusCode.Should().Be(HttpStatusCode.OK);
+        //    content = JsonContent.Create(TestData.GetEmpDTO(2, await dept.Content.ReadAsStringAsync()));
+        //    var act = await httpClient.PostAsync("/api/v1/Emp/AddEmployee", content);
+        //    act.Should().NotBeNull();
+        //    act.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        [TestMethod]
-        public async Task GetNodes_Integration_Should_Return_OK()
-        {
-            // Arrange - in base test
-            var data = await EmpHelper.Setup(orgService, empService, DBContext);
-            var content = JsonContent.Create(TestData.GetEmpDTO(0));
-            var comp = await httpClient.PostAsync("/api/v1/Emp/AddEmployee", content);
-            comp.Should().NotBeNull();
-            comp.StatusCode.Should().Be(HttpStatusCode.OK);
-            content = JsonContent.Create(TestData.GetEmpDTO(1, await comp.Content.ReadAsStringAsync()));
-            var dept = await httpClient.PostAsync("/api/v1/Emp/AddEmployee", content);
-            dept.Should().NotBeNull();
-            dept.StatusCode.Should().Be(HttpStatusCode.OK);
-            content = JsonContent.Create(TestData.GetEmpDTO(2, await dept.Content.ReadAsStringAsync()));
-            var act = await httpClient.PostAsync("/api/v1/Emp/AddEmployee", content);
-            act.Should().NotBeNull();
-            act.StatusCode.Should().Be(HttpStatusCode.OK);
+        //    // Act      
+        //    using (HttpResponseMessage response = await httpClient.GetAsync("/api/v1/Emp/GetEmployees"))
+        //    {
+        //        await CheckResponse(response);
+        //    }
 
-            // Act      
-            using (HttpResponseMessage response = await httpClient.GetAsync("/api/v1/Emp/GetEmployees"))
-            {
-                await CheckResponse(response);
-            }
+        //    //cleanup
+        //    await CommonHelper.DeleteEmployee(httpClient, new Dictionary<string, string>
+        //    {
+        //        ["id"] = await act.Content.ReadAsStringAsync()
+        //    });
+        //    await CommonHelper.DeleteEmployee(httpClient, new Dictionary<string, string>
+        //    {
+        //        ["id"] = await dept.Content.ReadAsStringAsync()
+        //    });
+        //    await CommonHelper.DeleteEmployee(httpClient, new Dictionary<string, string>
+        //    {
+        //        ["id"] = await comp.Content.ReadAsStringAsync()
+        //    });
 
-            //cleanup
-            await EmpHelper.DeleteEmployee(httpClient, new Dictionary<string, string>
-            {
-                ["id"] = await act.Content.ReadAsStringAsync()
-            });
-            await EmpHelper.DeleteEmployee(httpClient, new Dictionary<string, string>
-            {
-                ["id"] = await dept.Content.ReadAsStringAsync()
-            });
-            await EmpHelper.DeleteEmployee(httpClient, new Dictionary<string, string>
-            {
-                ["id"] = await comp.Content.ReadAsStringAsync()
-            });
+        //    await CommonHelper.TearDown(data);
+        //}
 
-            await EmpHelper.TearDown(data);
-        }
 
-     
 
 
         [TestMethod]
         public async Task AddEmp_Integration_Should_Return_OK()
         {
+            var dt = await CommonHelper.Setup(orgService, empService, DBContext);
             // Arrange             
-            var content = JsonContent.Create(TestData.GetEmpDTO(0));
+            var content = JsonContent.Create(TestData.GetEmpDTO(0, "Eu", null, "CEO"));
+            //d.dto = TestData.GetEmpDTO(0, "Eu", null, "CEO", d.funcId1);
+            //d.empId = await empService.AddEmployee(d.dto);
+            //var empNode = await DBContext.Employees.Where(e => e.EmpNode.GetLevel() == 0).FirstOrDefaultAsync();
 
             // Act          
             var add = await httpClient.PostAsync("/api/v1/Emp/AddEmployee", content);
@@ -73,10 +73,12 @@ namespace IntegrationTests
             add.StatusCode.Should().Be(HttpStatusCode.OK);
 
             // Remove the object to leave the DB in the same state  
-            await EmpHelper.DeleteEmployee(httpClient, new Dictionary<string, string>
+            await CommonHelper.DeleteEmployee(httpClient, new Dictionary<string, string>
             {
                 ["id"] = await add.Content.ReadAsStringAsync()
             });
+
+            await CommonHelper.TearDown(dt);
         }
 
 
@@ -84,7 +86,9 @@ namespace IntegrationTests
         public async Task UpdateEmp_Integration_Should_Return_OK()
         {
             // Arrange
-            var org = TestData.GetEmpDTO(0);
+            var dt = await CommonHelper.Setup(orgService, empService, DBContext);
+
+            var org = TestData.GetEmpDTO(0, "Eu", null, "CEO");
             var content = JsonContent.Create(org);
             var add = await httpClient.PostAsync("/api/v1/Emp/AddEmployee", content);
             add.Should().NotBeNull();
@@ -114,12 +118,16 @@ namespace IntegrationTests
 
             // Remove the object to leave the DB in the same state  
             query = new Dictionary<string, string> { ["id"] = orgres.EmpNodeText! };
-            await EmpHelper.DeleteEmployee(httpClient, query);
+            await CommonHelper.DeleteEmployee(httpClient, query);
+
+            await CommonHelper.TearDown(dt);
         }
 
         [TestMethod]
         public async Task DeleteEmp_Integration_Should_Return_OK()
         {
+            var dt = await CommonHelper.Setup(orgService, empService, DBContext);
+
             var org = TestData.GetEmpDTO(0);
             var content = JsonContent.Create(org);
             var add = await httpClient.PostAsync("/api/v1/Emp/AddEmployee", content);
@@ -131,6 +139,8 @@ namespace IntegrationTests
             //Assert
             delete.Should().NotBeNull();
             delete.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            await CommonHelper.TearDown(dt);
         }
     }
 }

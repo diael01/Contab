@@ -9,7 +9,7 @@ namespace Contracts.Mapping
     {
         public OrganisationProfile()
         {
-            CreateMap<Organisation, OrgDTO>();
+            //CreateMap<Organisation, OrgDTO>();
             CreateMap<OrgDTO, Organisation>();
 
             // Mapping when property names are different

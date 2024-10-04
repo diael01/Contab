@@ -4,7 +4,7 @@ using FluentAssertions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
-using static CommonTestHelper.EmpHelper;
+using static CommonTestHelper.CommonHelper;
 
 namespace UnitTests
 {
@@ -12,7 +12,7 @@ namespace UnitTests
     [Collection("Sequential")]
     public class EmployeeUnitTests : BaseUnitTest, IDisposable
     {
-       
+
 
         public EmployeeUnitTests() : base()
         {

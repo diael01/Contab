@@ -6,6 +6,7 @@ namespace IntegrationTests
     [TestClass]
     public class HealthIntegrationTest : BaseIntegrationTest
     {
+
         [TestMethod]
         public async Task GetHealth_Integration_Should_Return_OK()
         {

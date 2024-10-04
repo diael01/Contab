@@ -8,7 +8,7 @@ namespace Contracts.Mapping
     {
         public EmployeeProfile()
         {
-            CreateMap<Employee, EmpDTO>();
+            //CreateMap<Employee, EmpDTO>();
             CreateMap<EmpDTO, Employee>();
 
             // Mapping when property names are different
