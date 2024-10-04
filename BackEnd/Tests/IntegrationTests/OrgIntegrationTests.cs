@@ -35,19 +35,19 @@ namespace IntegrationTests
             // Act      
             using (HttpResponseMessage response = await httpClient.GetAsync("/api/v1/Org/GetOrganisations"))
             {
-                await CheckResponse(response);
+                await CommonHelper.CheckResponse(response);
             }
             using (HttpResponseMessage response = await httpClient.GetAsync("/api/v1/Org/GetDepartments"))
             {
-                await CheckResponse(response);
+                await CommonHelper.CheckResponse(response);
             }
             using (HttpResponseMessage response = await httpClient.GetAsync("/api/v1/Org/GetActivities"))
             {
-                await CheckResponse(response);
+                await CommonHelper.CheckResponse(response);
             }
             using (HttpResponseMessage response = await httpClient.GetAsync("/api/v1/Org/GetFunctions"))
             {
-                await CheckResponse(response);
+                await CommonHelper.CheckResponse(response);
             }
             //cleanup
             await CommonHelper.DeleteNode(httpClient, new Dictionary<string, string>
@@ -68,18 +68,18 @@ namespace IntegrationTests
             });
         }
 
-        private async Task CheckResponse(HttpResponseMessage response)
-        {
-            //Assert
-            response.Should().NotBeNull();
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-            using (HttpContent content = response.Content)
-            {
-                string contentString = await content.ReadAsStringAsync();
-                var cli = JsonConvert.DeserializeObject<OrgDTO[]>(contentString);
-                cli.Should().NotBeNull();
-            }
-        }
+        //private async Task CheckResponse(HttpResponseMessage response)
+        //{
+        //    //Assert
+        //    response.Should().NotBeNull();
+        //    response.StatusCode.Should().Be(HttpStatusCode.OK);
+        //    using (HttpContent content = response.Content)
+        //    {
+        //        string contentString = await content.ReadAsStringAsync();
+        //        var cli = JsonConvert.DeserializeObject<OrgDTO[]>(contentString);
+        //        cli.Should().NotBeNull();
+        //    }
+        //}
 
 
         [TestMethod]

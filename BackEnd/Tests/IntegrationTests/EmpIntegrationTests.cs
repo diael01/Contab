@@ -59,11 +59,10 @@ namespace IntegrationTests
         public async Task AddEmp_Integration_Should_Return_OK()
         {
             var dt = await CommonHelper.Setup(orgService, empService, DBContext);
-            // Arrange             
-            var content = JsonContent.Create(TestData.GetEmpDTO(0, "Eu", null, "CEO"));
-            //d.dto = TestData.GetEmpDTO(0, "Eu", null, "CEO", d.funcId1);
-            //d.empId = await empService.AddEmployee(d.dto);
-            //var empNode = await DBContext.Employees.Where(e => e.EmpNode.GetLevel() == 0).FirstOrDefaultAsync();
+
+            // Arrange
+            var empdt = TestData.GetEmpDTO(0, "Eu", null, "CEO");
+            var content = JsonContent.Create(empdt);
 
             // Act          
             var add = await httpClient.PostAsync("/api/v1/Emp/AddEmployee", content);

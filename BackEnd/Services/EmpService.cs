@@ -37,15 +37,18 @@ namespace Services
 
         public async Task<string> AddEmployee(EmpDTO emp)
         {
+            if (string.IsNullOrEmpty(emp.EmpFunctionNodeText) && !string.IsNullOrEmpty(emp.EmpFunctionNodeName)) //coming from swagger or from UT
+                GetFunctionNodeFromDB(emp);
             new EmpDTOValidator().ValidateAndThrow(emp);
             var empdb = Mapper.Map<Employee>(emp);
+            //set the function node based on the Text which was retrieved from DB based on the name
             empdb.EmpFunctionNode = HierarchyId.Parse(emp.EmpFunctionNodeText);
-            if (string.IsNullOrEmpty(emp.ManagerNodeText) && string.IsNullOrEmpty(emp.ManagerNodeName)
-                ||
+            //set the manager node: if is null then the manager is the utmost top leve ie CEO
+            if (string.IsNullOrEmpty(emp.ManagerNodeText) && string.IsNullOrEmpty(emp.ManagerNodeName) ||
                 string.IsNullOrWhiteSpace(emp.ManagerNodeText) && string.IsNullOrWhiteSpace(emp.ManagerNodeName))
             {
                 empdb.EmpNode = empdb.ManagerNode = HierarchyId.GetRoot();
-            } else
+            } else //if is not top level, get the manager also from same EMployee table
             {
                 HierarchyId node = GetManagerNodeFromDB(emp);
                 empdb.ManagerNode = node;
@@ -110,6 +113,29 @@ namespace Services
                     await DBContext.SaveChangesAsync();
                 }
             }
+        }
+
+
+
+        //Helpers
+
+        private void GetFunctionNodeFromDB(EmpDTO emp)
+        {
+            HierarchyId node = null;
+            if (!string.IsNullOrEmpty(emp.EmpFunctionNodeText))
+                node = HierarchyId.Parse(emp.EmpFunctionNodeText);
+            else
+            {
+                //search the node via name
+                var obj = DBContext.Organisations.Where(e => String.Equals(e.Name.ToUpper(), emp.EmpFunctionNodeName.ToUpper())).FirstOrDefault();
+                if (obj != null)
+                {
+                    //node = obj.OrgNode
+                    emp.EmpFunctionNodeText = obj.OrgNode.ToString();
+                } else
+                    node = HierarchyId.GetRoot();
+            }
+            //return node;
         }
 
         private HierarchyId GetManagerNodeFromDB(EmpDTO emp)

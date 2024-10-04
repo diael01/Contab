@@ -43,21 +43,18 @@ namespace IntegrationTests
             optionsBuilder.UseSqlServer(conn, x => x.UseHierarchyId());
             DBContext = new ContabContext(optionsBuilder.Options);
             Assert.IsNotNull(DBContext);
-            IMapper mapper = null;
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new OrganisationProfile());
                 mc.AddProfile(new EmployeeProfile());
             });
-            mapper = mappingConfig.CreateMapper();
+            IMapper mapper = mappingConfig.CreateMapper();
 
             orgService = new OrgService(DBContext, mapper);
             Assert.IsNotNull(orgService);
             empService = new EmpService(DBContext, mapper);
             Assert.IsNotNull(empService);
-            //services.AddDbContext<ContabContext>
-            //     (opt => opt.UseSqlServer(conn, x => x.UseHierarchyId()));
         }
 
         public static IConfiguration GetTestDataConfiguration()
