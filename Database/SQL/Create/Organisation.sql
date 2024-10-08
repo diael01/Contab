@@ -3,6 +3,8 @@ GO
 /****** Object:  Table [dbo].[Organisation]    Script Date: 6/11/2024 3:33:48 PM ******/
 SET ANSI_NULLS ON
 GO
+--this table is a tree due to to SQL Srver feature HyerarchyId,
+--however HyerarchyId doesnt work on Mac Azure Data Studio, only on Windows
 
 SET QUOTED_IDENTIFIER ON
 GO
@@ -11,12 +13,12 @@ GO
  GO
 CREATE TABLE [dbo].[Organisation](
 	--Id int identity(1,1) primary key clustered not null,
-	[OrgNode] [hierarchyid] primary key clustered not null,
-	[OrgNodeText] [nvarchar](128),
+	[Node] [hierarchyid] primary key clustered not null, --node could ne the organisation, department, activity or function
+	[NodeAsText] [nvarchar](128),
 	[ParentNode] [hierarchyid],
-	[ParentNodeText] [nvarchar](128),
-	[ParentNodeName] [nvarchar](128),--this is to add a node based on the Parent Node name for easy Swagger
-	[OrgLevel]  AS ([OrgNode].[GetLevel]()),
+	[ParentNodeAsText] [nvarchar](128),
+	[ParentNodeAsName] [nvarchar](128),--this is to add a node based on the Parent Node name for easy Swagger
+	[NodeLevel]  AS ([Node].[GetLevel]()),
 	[Name] [nvarchar](128) NOT NULL,
 	[Surname] [varchar](128) NULL,
 	[CountyCode]  [char](2) NULL, --cod judet
@@ -27,6 +29,6 @@ CREATE TABLE [dbo].[Organisation](
 	[CreatedBy] [nvarchar](128) NULL,
 	[UpdatedAt] [smalldatetime] NOT NULL,
 	[UpdatedBy] [nvarchar](128) NOT NULL);
-CREATE INDEX Org_BreadthFirst ON Organisation(OrgLevel, OrgNode);
+CREATE INDEX Org_BreadthFirst ON Organisation(NodeLevel, Node);
 GO 
 

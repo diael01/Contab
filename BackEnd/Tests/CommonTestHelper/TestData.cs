@@ -22,7 +22,7 @@ namespace CommonTestHelper
                     org.Name = "Function";
                     break;
             }
-            org.ParentNodeText = parent;
+            org.ParentNodeAsText = parent;
             org.Location = "Location";
             return org;
         }
@@ -34,9 +34,9 @@ namespace CommonTestHelper
             EmpDTO emp = new EmpDTO();
             emp.Name = name == null ? "Eu" : name;
             emp.EmpLevel = level == null ? 0 : level;
-            emp.EmpFunctionNodeName = func == null ? "CEO" : func;
-            emp.EmpFunctionNodeText = funcText;
-            emp.ManagerNodeName = manager;
+            emp.EmpFunctionNodeAsName = func == null ? "CEO" : func;
+            emp.EmpFunctionNodeAsText = funcText;
+            emp.ManagerNodeAsName = manager;
             emp.Location = "Location_" + name;
             return emp;
         }

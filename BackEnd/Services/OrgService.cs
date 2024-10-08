@@ -22,7 +22,7 @@ namespace Services
 
         public async Task<IEnumerable<OrgDTO>> GetNodes(int level)
         {
-            var list = await DBContext.Organisations.Where(e => e.OrgNode.GetLevel() == level).ToListAsync();
+            var list = await DBContext.Organisations.Where(e => e.Node.GetLevel() == level).ToListAsync();
             //todo: retrieve the parent for easy query
             var dtoList = Mapper.Map<IEnumerable<OrgDTO>>(list);
             return dtoList;
@@ -31,7 +31,7 @@ namespace Services
         public async Task<OrgDTO> GetNodeById(string id)
         {
             var nodeId = HierarchyId.Parse(id);
-            var nodeOrg = await DBContext.Organisations.Where(e => e.OrgNode == nodeId).FirstOrDefaultAsync();
+            var nodeOrg = await DBContext.Organisations.Where(e => e.Node == nodeId).FirstOrDefaultAsync();
             var nodeDTO = Mapper.Map<OrgDTO>(nodeOrg);
             return nodeDTO;
         }
@@ -39,21 +39,21 @@ namespace Services
         public async Task<string> AddNode(OrgDTO org)
         {
             var orgdb = Mapper.Map<Organisation>(org);
-            if (string.IsNullOrEmpty(org.ParentNodeText) || string.IsNullOrWhiteSpace(org.ParentNodeText))
-                orgdb.OrgNode = HierarchyId.GetRoot();
+            if (string.IsNullOrEmpty(org.ParentNodeAsText) || string.IsNullOrWhiteSpace(org.ParentNodeAsText))
+                orgdb.Node = HierarchyId.GetRoot();
             else
             {
                 var node = await GetEmpFromDTO(org);
                 if (node != null)
                 {
-                    var lastChild = DBContext.Organisations.Where(e => e.OrgNode.GetAncestor(1) == node).Max(e => e.OrgNode);
+                    var lastChild = DBContext.Organisations.Where(e => e.Node.GetAncestor(1) == node).Max(e => e.Node);
                     if (lastChild != null)
-                        orgdb.OrgNode = node.GetDescendant(lastChild, null);
+                        orgdb.Node = node.GetDescendant(lastChild, null);
                     else
-                        orgdb.OrgNode = node.GetDescendant(null, null);
+                        orgdb.Node = node.GetDescendant(null, null);
                 } else return null;
             }
-            orgdb.OrgNodeText = orgdb.OrgNode.ToString();
+            orgdb.NodeAsText = orgdb.Node.ToString();
             orgdb.CreatedAt = DateTime.Now;
             orgdb.CreatedBy = "system";
             orgdb.UpdatedAt = DateTime.Now;
@@ -63,29 +63,29 @@ namespace Services
             await DBContext.AddAsync(orgdb);
             await DBContext.SaveChangesAsync();
 
-            return orgdb.OrgNodeText;
+            return orgdb.NodeAsText;
         }
 
         public async Task<string> UpdateNode(OrgDTO org)
         {
-            var id = HierarchyId.Parse(org.OrgNodeText);
-            Organisation node = await DBContext.Organisations.Where(e => e.OrgNode == id).FirstOrDefaultAsync();
+            var id = HierarchyId.Parse(org.NodeAsText);
+            Organisation node = await DBContext.Organisations.Where(e => e.Node == id).FirstOrDefaultAsync();
             new OrgValidator().ValidateAndThrow(node!);
             node!.Name = org.Name;
             node.Location = org.Location;
             node.Surname = org.Surname;
-            node.OrgLevel = org.OrgLevel;
+            node.NodeLevel = org.NodeLevel;
             node.UpdatedAt = DateTime.Now;
             node.UpdatedBy = "system";
             DBContext.Entry(node).State = EntityState.Modified;
             await DBContext.SaveChangesAsync();
-            return node.OrgNode.ToString();
+            return node.Node.ToString();
         }
 
         public async Task DeleteNode(string nodeId)
         {
             var id = HierarchyId.Parse(nodeId);
-            Organisation node = await DBContext.Organisations.Where(e => e.OrgNode == id).FirstOrDefaultAsync();
+            Organisation node = await DBContext.Organisations.Where(e => e.Node == id).FirstOrDefaultAsync();
             if (node != null)
             {
                 DBContext.Entry(node).State = EntityState.Deleted;
@@ -98,12 +98,12 @@ namespace Services
         {
             HierarchyId node;
             new NodeValidator().ValidateAndThrow(org);
-            if (!string.IsNullOrEmpty(org.ParentNodeText))
-                node = HierarchyId.Parse(org.ParentNodeText);
+            if (!string.IsNullOrEmpty(org.ParentNodeAsText))
+                node = HierarchyId.Parse(org.ParentNodeAsText);
             else
             {
                 //search the node via name
-                Organisation obj = await DBContext.Organisations.Where(e => e.Name == org.ParentNodeName).FirstOrDefaultAsync();
+                Organisation obj = await DBContext.Organisations.Where(e => e.Name == org.ParentNodeAsName).FirstOrDefaultAsync();
                 if (obj != null)
                     node = obj.ParentNode!;
                 else

@@ -63,7 +63,7 @@ namespace IntegrationTests
             // Arrange
             var dt = await CommonHelper.Setup(orgService, empService, DBContext);
 
-            var emp = await DBContext.Employees.Where(e => e.EmpNodeText == dt.empId).FirstOrDefaultAsync();
+            var emp = await DBContext.Employees.Where(e => e.EmpNodeAsText == dt.empId).FirstOrDefaultAsync();
             emp.Name = "TestDataNameUpdate";
             var empDto = mapper.Map<EmpDTO>(emp);
             var content = JsonContent.Create(empDto);
@@ -95,7 +95,7 @@ namespace IntegrationTests
         public async Task DeleteEmp_Integration_Should_Return_OK()
         {
             var dt = await CommonHelper.Setup(orgService, empService, DBContext);
-            var emp = await DBContext.Employees.Where(e => e.EmpNodeText == dt.empId).FirstOrDefaultAsync();
+            var emp = await DBContext.Employees.Where(e => e.EmpNodeAsText == dt.empId).FirstOrDefaultAsync();
 
             //Act
             await CommonHelper.DeleteEmployee(httpClient, new Dictionary<string, string>

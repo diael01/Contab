@@ -3,23 +3,23 @@
     public class EmpDTO
     {
 
-        public string? EmpNodeText { get; set; } //=>EmpDTO
+        public string? EmpNodeAsText { get; set; } 
 
-        public short? EmpLevel { get; set; } //=>EmpDTO
+        public short? EmpLevel { get; set; } 
 
-        public string? ManagerNodeText { get; set; } //=>EmpDTO
+        public string? ManagerNodeAsText { get; set; } 
 
-        public string? ManagerNodeName { get; set; } //for swagger
+        public string? ManagerNodeAsName { get; set; } //for swagger
 
-        public string? EmpFunctionNodeText { get; set; } //=>EmpDTO
+        public string? EmpFunctionNodeAsText { get; set; } 
 
-        public string? EmpFunctionNodeName { get; set; } //for swagger
+        public string? EmpFunctionNodeAsName { get; set; } //for swagger
 
-        public string Name { get; set; } = null!;//=>EmpDTO
+        public string Name { get; set; } = null!;
 
-        public string? Surname { get; set; } //=>EmpDTO
+        public string? Surname { get; set; } 
 
-        public string? Location { get; set; } //=>EmpDTO
+        public string? Location { get; set; } 
 
 
 

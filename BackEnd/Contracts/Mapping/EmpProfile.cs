@@ -14,13 +14,13 @@ namespace Contracts.Mapping
             // Mapping when property names are different
             CreateMap<Employee, EmpDTO>()
               .ForMember(dest =>
-               dest.EmpNodeText,
+               dest.EmpNodeAsText,
                opt => opt.MapFrom(src => src.EmpNode.ToString()))
               .ForMember(dest =>
-                dest.ManagerNodeText,
+                dest.ManagerNodeAsText,
                 opt => opt.MapFrom(src => src.ManagerNode.ToString()))
              .ForMember(dest =>
-                dest.EmpFunctionNodeText,
+                dest.EmpFunctionNodeAsText,
                 opt => opt.MapFrom(src => src.EmpFunctionNode.ToString()));
         }
 

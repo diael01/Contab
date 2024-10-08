@@ -9,10 +9,10 @@ namespace Contracts.Validation
         public EmpDTOValidator() : base()
         {
             RuleFor(emp => emp).NotNull();
-            //TBD: created custom rule for ManagerNodeText
+            //TBD: created custom rule for ManagerNodeAsText
             ////=>to check not null ONLY if NOT level 0 or CEO
-            //RuleFor(emp => emp.ManagerNodeText).NotNull();
-            RuleFor(emp => emp.EmpFunctionNodeText).NotNull();
+            //RuleFor(emp => emp.ManagerNodeAsText).NotNull();
+            RuleFor(emp => emp.EmpFunctionNodeAsText).NotNull();
             RuleFor(emp => emp.Name).NotNull();
             //TBD: to add more not nulls for other contracts after the UTs working
 

@@ -39,12 +39,12 @@ namespace UnitTests
 
             //Arrange add employee level 1
             d.dto1 = TestData.GetEmpDTO(1, "Vili", "Eu", "CTO", d.funcId2);
-            d.dto1.ManagerNodeText = empNode.EmpNode.ToString();
+            d.dto1.ManagerNodeAsText = empNode.EmpNode.ToString();
             d.empId1 = await empService.AddEmployee(d.dto1);
 
             //Arrange add employee level 2
             d.dto2 = TestData.GetEmpDTO(2, "mama", "Eu", "Manager", d.funcId3);
-            d.dto2.ManagerNodeText = empNode.EmpNode.ToString();
+            d.dto2.ManagerNodeAsText = empNode.EmpNode.ToString();
             d.empId2 = await empService.AddEmployee(d.dto2);
             return d;
         }
@@ -87,8 +87,8 @@ namespace UnitTests
             var empNode2 = await DBContext.Employees.Where(e => e.Name == "Vili").FirstOrDefaultAsync();
             var empNode3 = await DBContext.Employees.Where(e => e.Name == "mama").FirstOrDefaultAsync();
             empNode3.ManagerNode = empNode2.EmpNode;
-            empNode3.ManagerNodeText = empNode3.ManagerNode.ToString();
-            empNode3.ManagerNodeName = empNode2.Name;
+            empNode3.ManagerNodeAsText = empNode3.ManagerNode.ToString();
+            empNode3.ManagerNodeAsName = empNode2.Name;
             empNode3.Location = "aaaLoc";
             empNode3.Surname = "aaaSur";
 

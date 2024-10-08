@@ -12,14 +12,14 @@ GO
 CREATE TABLE [dbo].[Employee](
 	--Id int identity(1,1) primary key clustered not null,
 	[EmpNode] [hierarchyid] primary key clustered NOT NULL,
-	[EmpNodeText] [nvarchar](128) NULL,
+	[EmpNodeAsText] [nvarchar](128) NULL,
 	[EmpLevel]  AS ([EmpNode].[GetLevel]()),
 	[ManagerNode] [hierarchyid] NULL,
-	[ManagerNodeText] [nvarchar](128) NULL,
-	[ManagerNodeName] [nvarchar](128) NULL,
+	[ManagerNodeAsText] [nvarchar](128) NULL,
+	[ManagerNodeAsName] [nvarchar](128) NULL,
 	[EmpFunctionNode] [hierarchyid] NOT NULL,
-	[EmpFunctionNodeText] [nvarchar](128) NULL,
-	[EmpFunctionNodeName] [nvarchar](128) NULL,
+	[EmpFunctionNodeAsText] [nvarchar](128) NULL,
+	[EmpFunctionNodeAsName] [nvarchar](128) NULL,
 	[Name] [nvarchar](128) NOT NULL,
 	[Surname] [nvarchar](128) NULL,
 	[Gender] [char](1) NULL,
@@ -63,7 +63,7 @@ ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Employee]
 GO
 
 ALTER TABLE [dbo].[Employee]  WITH CHECK ADD  CONSTRAINT [FK_Employee_Organisation] FOREIGN KEY([EmpFunctionNode])
-REFERENCES [dbo].[Organisation] ([OrgNode])
+REFERENCES [dbo].[Organisation] ([Node])
 GO
 
 ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Organisation]

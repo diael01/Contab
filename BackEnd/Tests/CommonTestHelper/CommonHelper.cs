@@ -57,12 +57,12 @@ namespace CommonTestHelper
 
             ////Arrange add employee level 1
             //d.dto1 = TestData.GetEmpDTO(1, "Vili", "Eu", "CTO", d.funcId2);
-            //d.dto1.ManagerNodeText = empNode.EmpNode.ToString();
+            //d.dto1.ManagerNodeAsText = empNode.EmpNode.ToString();
             //d.empId1 = await empService.AddEmployee(d.dto1);
 
             ////Arrange add employee level 2
             //d.dto2 = TestData.GetEmpDTO(2, "mama", "Eu", "Manager", d.funcId3);
-            //d.dto2.ManagerNodeText = empNode.EmpNode.ToString();
+            //d.dto2.ManagerNodeAsText = empNode.EmpNode.ToString();
             //d.empId2 = await empService.AddEmployee(d.dto2);
             return d;
         }
@@ -105,8 +105,8 @@ namespace CommonTestHelper
             OrgDTO dto = new OrgDTO();
             dto.Name = name;
             if (!string.IsNullOrEmpty(nodeId))
-                dto.ParentNodeText = nodeId;
-            dto.ParentNodeName = parentName;
+                dto.ParentNodeAsText = nodeId;
+            dto.ParentNodeAsName = parentName;
 
             //Act add company
             return (await orgService.AddNode(dto)).ToString();

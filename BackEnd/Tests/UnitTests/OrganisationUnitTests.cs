@@ -29,18 +29,18 @@ namespace UnitTests
         {
             //Arrange
             var orgId = await CommonHelper.AddEntityNode("Con");
-            var orgNode = await DBContext.Organisations.Where(e => e.OrgNode.GetLevel() == 0).FirstOrDefaultAsync();
-            new OrgValidator().ValidateAndThrow(orgNode!);
-            orgNode!.Name = "ChangedName";
-            orgNode.Location = "Location";
-            orgNode.Surname = "Surname";
-            var orgDTO = mapper.Map<OrgDTO>(orgNode);
-            orgDTO.OrgNodeText = orgId;
+            var Node = await DBContext.Organisations.Where(e => e.Node.GetLevel() == 0).FirstOrDefaultAsync();
+            new OrgValidator().ValidateAndThrow(Node!);
+            Node!.Name = "ChangedName";
+            Node.Location = "Location";
+            Node.Surname = "Surname";
+            var orgDTO = mapper.Map<OrgDTO>(Node);
+            orgDTO.NodeAsText = orgId;
             //Act
             await orgService.UpdateNode(orgDTO);
-            var node = await DBContext.Organisations.Where(e => String.Equals(e.Name.ToUpper(), orgNode.Name.ToUpper())).FirstOrDefaultAsync();
+            var node = await DBContext.Organisations.Where(e => String.Equals(e.Name.ToUpper(), Node.Name.ToUpper())).FirstOrDefaultAsync();
             //Assert
-            Assert.Equal(node.Name, orgNode!.Name);
+            Assert.Equal(node.Name, Node!.Name);
             await orgService.DeleteNode(orgId);
         }
 
@@ -156,7 +156,7 @@ namespace UnitTests
         public async void DeleteOrganization_Unit_Should_Be_OK()
         {
             var orgId = await CommonHelper.AddEntityNode("Con");
-            var orgList = await DBContext.Organisations.Where(e => e.OrgNode.GetLevel() == 0).ToListAsync();
+            var orgList = await DBContext.Organisations.Where(e => e.Node.GetLevel() == 0).ToListAsync();
             //Arrange
             await DeleteActAssert(orgList);
         }
@@ -167,9 +167,9 @@ namespace UnitTests
         {
             foreach (var node in list)
             {
-                await orgService.DeleteNode(node.OrgNode.ToString());
+                await orgService.DeleteNode(node.Node.ToString());
                 //Assert
-                var func = await DBContext.Organisations.Where(e => e.OrgNode == node.OrgNode).FirstOrDefaultAsync();
+                var func = await DBContext.Organisations.Where(e => e.Node == node.Node).FirstOrDefaultAsync();
                 //
                 func.Should().BeNull();
             }
