@@ -6,14 +6,23 @@ using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 using Repository.Models;
 using System.Net;
+using AutoMapper;
+using static CommonTestHelper.CommonHelper;
+using Microsoft.EntityFrameworkCore;
+using Services;
 
 namespace CommonTestHelper
 {
     public static class CommonHelper
     {
-        static public IOrgService orgService;
-        static public IEmpService empService;
-        static public ContabContext DBContext;
+        public static class TestParams
+        {
+            public static IOrgService org;
+            public static IEmpService emp;
+            public static ContabContext DBContext;
+            public static IMapper mapper;
+        }
+
         public class EmpData
         {
             public string orgId, deptId, actId, funcId1, funcId2, funcId3, empId, empId1, empId2;
@@ -28,27 +37,22 @@ namespace CommonTestHelper
             remove.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        public static async Task<EmpData> Setup(IOrgService org,
-                                                  IEmpService emp,
-                                                  ContabContext con,
-                                                  bool addEmp = true)
+        public static async Task<EmpData> Setup(bool addEmp = true)
         {
-            orgService = org;
-            empService = emp;
-            DBContext = con;
+      
             EmpData d = new EmpData();
-            d.orgId = await CommonHelper.AddEntityNode("Con");
+            d.orgId = await AddEntityNode("Con", null, null);
 
-            d.deptId = await CommonHelper.AddEntityNode("Business", d.orgId, "Con");
-            d.actId = await CommonHelper.AddEntityNode("Mgmt", d.deptId, "Business");
-            d.funcId1 = await CommonHelper.AddEntityNode("CEO", d.actId, "Mgmt");
-            d.funcId2 = await CommonHelper.AddEntityNode("CTO", d.actId, "Mgmt");
-            d.funcId3 = await CommonHelper.AddEntityNode("Manager", d.actId, "Mgmt");
+            d.deptId = await AddEntityNode("Business", d.orgId, "Con");
+            d.actId = await AddEntityNode("Mgmt", d.deptId, "Business");
+            d.funcId1 = await AddEntityNode("CEO", d.actId, "Mgmt");
+            d.funcId2 = await AddEntityNode( "CTO", d.actId, "Mgmt");
+            d.funcId3 = await AddEntityNode("Manager", d.actId, "Mgmt");
 
             if (addEmp)
             {
                 d.dto = TestData.GetEmpDTO(0, "Eu", null, "CEO", d.funcId1);
-                d.empId = await empService.AddEmployee(d.dto);
+                d.empId = await TestParams.emp.AddEmployee(d.dto);
                 //var empNode = await DBContext.Employees.Where(e => e.EmpNode.GetLevel() == 0).FirstOrDefaultAsync();
             }
             //d.dto = TestData.GetEmpDTO(0, "Eu", null, "CEO", d.funcId1);
@@ -67,21 +71,24 @@ namespace CommonTestHelper
             return d;
         }
 
-        public static async Task TearDown(EmpData d, bool empAdded = true)
+        public static async Task TearDown(
+                                                        EmpData d, 
+                                                        bool empAdded = true
+                                                       )
         {
 
             //await empService.DeleteEmployee(d.empId2);
             //await empService.DeleteEmployee(d.empId1);
             if (empAdded)
-                await empService.DeleteEmployee(d.empId);
+                await TestParams.emp.DeleteEmployee(d.empId);
 
-            await orgService.DeleteNode(d.funcId3);
-            await orgService.DeleteNode(d.funcId1);
-            await orgService.DeleteNode(d.funcId2);
+            await TestParams.org.DeleteNode(d.funcId3);
+            await TestParams.org.DeleteNode(d.funcId1);
+            await TestParams.org.DeleteNode(d.funcId2);
 
-            await orgService.DeleteNode(d.actId);
-            await orgService.DeleteNode(d.deptId);
-            await orgService.DeleteNode(d.orgId);
+            await TestParams.org.DeleteNode(d.actId);
+            await TestParams.org.DeleteNode(d.deptId);
+            await TestParams.org.DeleteNode(d.orgId);
         }
 
         public static async Task CheckResponse(HttpResponseMessage response)
@@ -98,18 +105,18 @@ namespace CommonTestHelper
         }
 
 
-        public static async Task<string> AddEntityNode(string name, string nodeId = null,
-                                                        string parentName = null)
+        public static async Task<string> AddEntityNode( string name, string nodeId = null,
+                                                        string parentName = null
+                                                       )
         {
             //Arrange
             OrgDTO dto = new OrgDTO();
             dto.Name = name;
-            if (!string.IsNullOrEmpty(nodeId))
-                dto.ParentNodeAsText = nodeId;
+            dto.ParentNodeAsText = nodeId;
             dto.ParentNodeAsName = parentName;
 
             //Act add company
-            return (await orgService.AddNode(dto)).ToString();
+            return (await TestParams.org.AddNode(dto)).ToString();
         }
 
         public static async Task DeleteNode(HttpClient httpClient, Dictionary<string, string> query)
@@ -118,6 +125,15 @@ namespace CommonTestHelper
             var remove = await httpClient.DeleteAsync(uri);
             remove.Should().NotBeNull();
             remove.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        public static void SetTestParams(ContabContext ctx, IOrgService org, 
+                                    IEmpService emp, IMapper map)
+        {
+            CommonHelper.TestParams.DBContext = ctx;
+            CommonHelper.TestParams.org = org;
+            CommonHelper.TestParams.emp = emp;
+            CommonHelper.TestParams.mapper = map;
         }
     }
 }

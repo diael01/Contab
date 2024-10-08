@@ -6,6 +6,7 @@ using FluentAssertions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
+using static CommonTestHelper.CommonHelper;
 
 namespace UnitTests
 {
@@ -20,7 +21,7 @@ namespace UnitTests
         [Fact]
         public async Task AddOrganization_Unit_Should_Be_OK()
         {
-            var orgId = await CommonHelper.AddEntityNode("Con");
+            var orgId = await AddEntityNode("Con");
             await orgService.DeleteNode(orgId);
         }
 
@@ -28,7 +29,7 @@ namespace UnitTests
         public async Task UpdateOrganization_Unit_Should_Be_OK()
         {
             //Arrange
-            var orgId = await CommonHelper.AddEntityNode("Con");
+            var orgId = await AddEntityNode("Con");
             var Node = await DBContext.Organisations.Where(e => e.Node.GetLevel() == 0).FirstOrDefaultAsync();
             new OrgValidator().ValidateAndThrow(Node!);
             Node!.Name = "ChangedName";
@@ -83,8 +84,8 @@ namespace UnitTests
         [Fact]
         public async Task AddActivities_Should_Be_OK()
         {
-            var orgId = await CommonHelper.AddEntityNode("Con");
-            var deptId = await CommonHelper.AddEntityNode("Eng", orgId, "Con");
+            var orgId = await AddEntityNode("Con");
+            var deptId = await AddEntityNode("Eng", orgId, "Con");
 
             //Act add Activity
             OrgDTO dto = new OrgDTO();
@@ -95,11 +96,11 @@ namespace UnitTests
                 switch (i)
                 {
                     case 0:
-                        actId1 = await CommonHelper.AddEntityNode("R&D", deptId, "Eng");
+                        actId1 = await AddEntityNode("R&D", deptId, "Eng");
                         actId1.Should().NotBeNull();
                         break;
                     case 1:
-                        actId2 = await CommonHelper.AddEntityNode("IT", deptId, "Eng");
+                        actId2 = await AddEntityNode("IT", deptId, "Eng");
                         actId2.Should().NotBeNull();
                         break;
                 }
@@ -117,9 +118,9 @@ namespace UnitTests
         public async Task AddFunctions_Should_Be_OK()
         {
             //Arrange
-            var orgId = await CommonHelper.AddEntityNode("Con");
-            var deptId = await CommonHelper.AddEntityNode("Eng", orgId);
-            var actId = await CommonHelper.AddEntityNode("IT", deptId);
+            var orgId = await AddEntityNode("Con");
+            var deptId = await AddEntityNode("Eng", orgId);
+            var actId = await AddEntityNode("IT", deptId);
 
             //Act add Function
             string fnId1 = string.Empty;
@@ -130,15 +131,15 @@ namespace UnitTests
                 switch (i)
                 {
                     case 0:
-                        fnId1 = await CommonHelper.AddEntityNode("SoftwareDeveloper", actId, "IT");
+                        fnId1 = await AddEntityNode("SoftwareDeveloper", actId, "IT");
                         fnId1.Should().NotBeNull();
                         break;
                     case 1:
-                        fnId2 = await CommonHelper.AddEntityNode("QA", actId, "IT");
+                        fnId2 = await AddEntityNode("QA", actId, "IT");
                         fnId2.Should().NotBeNull();
                         break;
                     case 2:
-                        fnId3 = await CommonHelper.AddEntityNode("BuildEngineer", actId, "IT");
+                        fnId3 = await AddEntityNode("BuildEngineer", actId, "IT");
                         fnId3.Should().NotBeNull();
                         break;
                 }
@@ -155,7 +156,7 @@ namespace UnitTests
         [Fact]
         public async void DeleteOrganization_Unit_Should_Be_OK()
         {
-            var orgId = await CommonHelper.AddEntityNode("Con");
+            var orgId = await AddEntityNode("Con");
             var orgList = await DBContext.Organisations.Where(e => e.Node.GetLevel() == 0).ToListAsync();
             //Arrange
             await DeleteActAssert(orgList);

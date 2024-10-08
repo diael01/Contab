@@ -1,7 +1,6 @@
 ﻿using Contracts.Interfaces;
 using Contracts.Mapping;
 using Contracts.Settings;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Services;
 
 namespace WebApi.Extensions
@@ -13,8 +12,8 @@ namespace WebApi.Extensions
             var settings = cfg.GetSection("Settings").Get<AppSettings>();
             if (settings != null)
                 svc.AddSingleton(settings);
-            svc.TryAddScoped<IOrgService, OrgService>();
-            svc.TryAddScoped<IEmpService, EmpService>();
+            svc.AddScoped<IOrgService, OrgService>();
+            svc.AddScoped<IEmpService, EmpService>();
             svc.AddAutoMapper(typeof(OrganisationProfile), typeof(EmployeeProfile));//, typeof(DeviceProfile));
             return svc;
         }

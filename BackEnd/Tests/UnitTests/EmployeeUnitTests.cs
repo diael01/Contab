@@ -10,28 +10,19 @@ namespace UnitTests
 {
 
     [Collection("Sequential")]
-    public class EmployeeUnitTests : BaseUnitTest, IDisposable
+    public class EmployeeUnitTests : BaseUnitTest
     {
-
-
-        public EmployeeUnitTests() : base()
-        {
-        }
-
-        public async Task Dispose()
-        {
-        }
 
         private async Task<EmpData> Setup()
         {
             EmpData d = new EmpData();
-            d.orgId = await CommonHelper.AddEntityNode("Con");
+            d.orgId = await AddEntityNode("Con");
 
-            d.deptId = await CommonHelper.AddEntityNode("Business", d.orgId, "Con");
-            d.actId = await CommonHelper.AddEntityNode("Mgmt", d.deptId, "Business");
-            d.funcId1 = await CommonHelper.AddEntityNode("CEO", d.actId, "Mgmt");
-            d.funcId2 = await CommonHelper.AddEntityNode("CTO", d.actId, "Mgmt");
-            d.funcId3 = await CommonHelper.AddEntityNode("Manager", d.actId, "Mgmt");
+            d.deptId = await AddEntityNode("Business", d.orgId, "Con");
+            d.actId = await AddEntityNode("Mgmt", d.deptId, "Business");
+            d.funcId1 = await AddEntityNode("CEO", d.actId, "Mgmt");
+            d.funcId2 = await AddEntityNode("CTO", d.actId, "Mgmt");
+            d.funcId3 = await AddEntityNode("Manager", d.actId, "Mgmt");
 
             d.dto = TestData.GetEmpDTO(0, "Eu", null, "CEO", d.funcId1);
             d.empId = await empService.AddEmployee(d.dto);
@@ -64,8 +55,6 @@ namespace UnitTests
             await orgService.DeleteNode(d.orgId);
         }
 
-
-
         //root
         [Fact]
         public async Task AddEmployee_Unit_Should_Be_OK()
@@ -97,7 +86,6 @@ namespace UnitTests
 
             await TearDown(d);
         }
-
 
         [Fact]
         public async void DeleteEmployeeList_Unit_Should_Be_OK()

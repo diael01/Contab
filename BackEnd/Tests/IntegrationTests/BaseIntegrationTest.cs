@@ -1,66 +1,41 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
-using Contracts.Mapping;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Repository.Models;
-using Services;
+using Xunit;
+using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using static CommonTestHelper.CommonHelper;
 
 namespace IntegrationTests
 {
-    public abstract class BaseIntegrationTest : CustomWebApplicationFactory<Program>
+    public abstract class BaseIntegrationTest : IClassFixture<CustomWebApplicationFactory<Program>>
     {
         protected readonly CustomWebApplicationFactory<Program> factory;
         protected readonly HttpClient httpClient;
         protected HttpResponseMessage? health;
 
-        protected ContabContext DBContext;
-        protected IOrgService orgService;
-        protected IEmpService empService;
-        protected IMapper mapper;
+        IServiceScope scope;
+        IServiceProvider sp;
+      
 
         public BaseIntegrationTest()
         {
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
             factory = new CustomWebApplicationFactory<Program>();
             httpClient = factory.CreateClient();
+            scope = factory.Services.CreateScope();
+            sp = scope.ServiceProvider;
 
-            IConfiguration cfg = GetTestDataConfiguration();
-            var conn = Microsoft
-               .Extensions
-               .Configuration
-               .ConfigurationExtensions
-               .GetConnectionString(cfg, "ContabDB");
-            if (conn == null)
-                throw new Exception("Connection string not found");
-            var optionsBuilder = new DbContextOptionsBuilder<ContabContext>();
-            optionsBuilder.UseSqlServer(conn, x => x.UseHierarchyId());
-            DBContext = new ContabContext(optionsBuilder.Options);
+            var DBContext = sp.GetRequiredService<ContabContext>();
             Assert.IsNotNull(DBContext);
-
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new OrganisationProfile());
-                mc.AddProfile(new EmployeeProfile());
-            });
-            mapper = mappingConfig.CreateMapper();
-
-            orgService = new OrgService(DBContext, mapper);
+            var orgService = sp.GetRequiredService<IOrgService>();
             Assert.IsNotNull(orgService);
-            empService = new EmpService(DBContext, mapper);
+            var empService = sp.GetRequiredService<IEmpService>();
             Assert.IsNotNull(empService);
-        }
+            var mapper = sp.GetRequiredService<IMapper>();
+            Assert.IsNotNull(mapper);
 
-        public static IConfiguration GetTestDataConfiguration()
-        {
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var dir = Directory.GetCurrentDirectory();
-            return new ConfigurationBuilder()
-                .SetBasePath(dir)
-                .AddJsonFile(@"apsettings.json", true, false)
-                .AddJsonFile($"appsettings.{environment}.json", true, true)
-                .AddEnvironmentVariables()
-                .Build();
+            SetTestParams(DBContext, orgService, empService, mapper);
         }
     }
 }

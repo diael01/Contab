@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
+using static CommonTestHelper.CommonHelper;
 
 namespace IntegrationTests
 {
@@ -35,51 +36,38 @@ namespace IntegrationTests
             // Act      
             using (HttpResponseMessage response = await httpClient.GetAsync("/api/v1/Org/GetOrganisations"))
             {
-                await CommonHelper.CheckResponse(response);
+                await CheckResponse(response);
             }
             using (HttpResponseMessage response = await httpClient.GetAsync("/api/v1/Org/GetDepartments"))
             {
-                await CommonHelper.CheckResponse(response);
+                await CheckResponse(response);
             }
             using (HttpResponseMessage response = await httpClient.GetAsync("/api/v1/Org/GetActivities"))
             {
-                await CommonHelper.CheckResponse(response);
+                await CheckResponse(response);
             }
             using (HttpResponseMessage response = await httpClient.GetAsync("/api/v1/Org/GetFunctions"))
             {
-                await CommonHelper.CheckResponse(response);
+                CheckResponse(response);
             }
             //cleanup
-            await CommonHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            await DeleteNode(httpClient, new Dictionary<string, string>
             {
                 ["id"] = await fnc.Content.ReadAsStringAsync()
             });
-            await CommonHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            await DeleteNode(httpClient, new Dictionary<string, string>
             {
                 ["id"] = await act.Content.ReadAsStringAsync()
             });
-            await CommonHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            await DeleteNode(httpClient, new Dictionary<string, string>
             {
                 ["id"] = await dept.Content.ReadAsStringAsync()
             });
-            await CommonHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            await DeleteNode(httpClient, new Dictionary<string, string>
             {
                 ["id"] = await comp.Content.ReadAsStringAsync()
             });
         }
-
-        //private async Task CheckResponse(HttpResponseMessage response)
-        //{
-        //    //Assert
-        //    response.Should().NotBeNull();
-        //    response.StatusCode.Should().Be(HttpStatusCode.OK);
-        //    using (HttpContent content = response.Content)
-        //    {
-        //        string contentString = await content.ReadAsStringAsync();
-        //        var cli = JsonConvert.DeserializeObject<OrgDTO[]>(contentString);
-        //        cli.Should().NotBeNull();
-        //    }
-        //}
 
 
         [TestMethod]
@@ -137,7 +125,7 @@ namespace IntegrationTests
 
             // Remove the object to leave the DB in the same state  
             query = new Dictionary<string, string> { ["id"] = orgres.NodeAsText! };
-            await CommonHelper.DeleteNode(httpClient, query);
+            await DeleteNode(httpClient, query);
         }
 
     }
