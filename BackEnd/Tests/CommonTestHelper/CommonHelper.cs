@@ -30,7 +30,8 @@ namespace CommonTestHelper
 
         public static async Task<EmpData> Setup(IOrgService org,
                                                   IEmpService emp,
-                                                  ContabContext con)
+                                                  ContabContext con,
+                                                  bool addEmp = true)
         {
             orgService = org;
             empService = emp;
@@ -44,6 +45,12 @@ namespace CommonTestHelper
             d.funcId2 = await CommonHelper.AddEntityNode("CTO", d.actId, "Mgmt");
             d.funcId3 = await CommonHelper.AddEntityNode("Manager", d.actId, "Mgmt");
 
+            if (addEmp)
+            {
+                d.dto = TestData.GetEmpDTO(0, "Eu", null, "CEO", d.funcId1);
+                d.empId = await empService.AddEmployee(d.dto);
+                //var empNode = await DBContext.Employees.Where(e => e.EmpNode.GetLevel() == 0).FirstOrDefaultAsync();
+            }
             //d.dto = TestData.GetEmpDTO(0, "Eu", null, "CEO", d.funcId1);
             //d.empId = await empService.AddEmployee(d.dto);
             //var empNode = await DBContext.Employees.Where(e => e.EmpNode.GetLevel() == 0).FirstOrDefaultAsync();
@@ -60,11 +67,13 @@ namespace CommonTestHelper
             return d;
         }
 
-        public static async Task TearDown(EmpData d)
+        public static async Task TearDown(EmpData d, bool empAdded = true)
         {
+
             //await empService.DeleteEmployee(d.empId2);
             //await empService.DeleteEmployee(d.empId1);
-            //await empService.DeleteEmployee(d.empId);
+            if (empAdded)
+                await empService.DeleteEmployee(d.empId);
 
             await orgService.DeleteNode(d.funcId3);
             await orgService.DeleteNode(d.funcId1);
@@ -89,7 +98,8 @@ namespace CommonTestHelper
         }
 
 
-        public static async Task<string> AddEntityNode(string name, string nodeId = null, string parentName = null)
+        public static async Task<string> AddEntityNode(string name, string nodeId = null,
+                                                        string parentName = null)
         {
             //Arrange
             OrgDTO dto = new OrgDTO();

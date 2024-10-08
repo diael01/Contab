@@ -43,7 +43,7 @@ namespace Services
                 orgdb.OrgNode = HierarchyId.GetRoot();
             else
             {
-                HierarchyId node = GetEmpFromDTO(org);
+                var node = await GetEmpFromDTO(org);
                 if (node != null)
                 {
                     var lastChild = DBContext.Organisations.Where(e => e.OrgNode.GetAncestor(1) == node).Max(e => e.OrgNode);
@@ -69,7 +69,7 @@ namespace Services
         public async Task<string> UpdateNode(OrgDTO org)
         {
             var id = HierarchyId.Parse(org.OrgNodeText);
-            var node = DBContext.Organisations.Where(e => e.OrgNode == id).FirstOrDefault();
+            Organisation node = await DBContext.Organisations.Where(e => e.OrgNode == id).FirstOrDefaultAsync();
             new OrgValidator().ValidateAndThrow(node!);
             node!.Name = org.Name;
             node.Location = org.Location;
@@ -85,7 +85,7 @@ namespace Services
         public async Task DeleteNode(string nodeId)
         {
             var id = HierarchyId.Parse(nodeId);
-            var node = DBContext.Organisations.Where(e => e.OrgNode == id).FirstOrDefault();
+            Organisation node = await DBContext.Organisations.Where(e => e.OrgNode == id).FirstOrDefaultAsync();
             if (node != null)
             {
                 DBContext.Entry(node).State = EntityState.Deleted;
@@ -94,7 +94,7 @@ namespace Services
             }
         }
 
-        private HierarchyId GetEmpFromDTO(OrgDTO org)
+        private async Task<HierarchyId> GetEmpFromDTO(OrgDTO org)
         {
             HierarchyId node;
             new NodeValidator().ValidateAndThrow(org);
@@ -103,7 +103,7 @@ namespace Services
             else
             {
                 //search the node via name
-                var obj = DBContext.Organisations.Where(e => e.Name == org.ParentNodeName).FirstOrDefault();
+                Organisation obj = await DBContext.Organisations.Where(e => e.Name == org.ParentNodeName).FirstOrDefaultAsync();
                 if (obj != null)
                     node = obj.ParentNode!;
                 else

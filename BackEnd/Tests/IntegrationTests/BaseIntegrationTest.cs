@@ -17,19 +17,13 @@ namespace IntegrationTests
         protected ContabContext DBContext;
         protected IOrgService orgService;
         protected IEmpService empService;
+        protected IMapper mapper;
 
         public BaseIntegrationTest()
         {
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
             factory = new CustomWebApplicationFactory<Program>();
             httpClient = factory.CreateClient();
-            //orgService = org;
-            //DBContext = factory.Services.GetRequiredService<ContabContext>();
-            //Assert.IsNotNull(DBContext);
-            //orgService = factory.Services.GetRequiredService<IOrgService>();
-            //Assert.IsNotNull(orgService);
-            //empService = factory.Services.GetRequiredService<IEmpService>();
-            //Assert.IsNotNull(empService);
 
             IConfiguration cfg = GetTestDataConfiguration();
             var conn = Microsoft
@@ -49,7 +43,7 @@ namespace IntegrationTests
                 mc.AddProfile(new OrganisationProfile());
                 mc.AddProfile(new EmployeeProfile());
             });
-            IMapper mapper = mappingConfig.CreateMapper();
+            mapper = mappingConfig.CreateMapper();
 
             orgService = new OrgService(DBContext, mapper);
             Assert.IsNotNull(orgService);

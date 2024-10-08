@@ -123,7 +123,7 @@ namespace UnitTests
             {
                 await empService.DeleteEmployee(node.EmpNode.ToString());
                 //Assert
-                var func = DBContext.Employees.Where(e => e.EmpNode == node.EmpNode).FirstOrDefault();
+                var func = await DBContext.Employees.Where(e => e.EmpNode == node.EmpNode).FirstOrDefaultAsync();
                 func.Should().BeNull();
             }
         }

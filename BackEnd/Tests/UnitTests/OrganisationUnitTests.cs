@@ -169,7 +169,7 @@ namespace UnitTests
             {
                 await orgService.DeleteNode(node.OrgNode.ToString());
                 //Assert
-                var func = DBContext.Organisations.Where(e => e.OrgNode == node.OrgNode).FirstOrDefault();
+                var func = await DBContext.Organisations.Where(e => e.OrgNode == node.OrgNode).FirstOrDefaultAsync();
                 //
                 func.Should().BeNull();
             }

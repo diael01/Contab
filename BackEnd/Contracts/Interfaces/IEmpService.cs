@@ -4,7 +4,7 @@ namespace Contracts.Interfaces
 {
     public interface IEmpService
     {
-        Task<IEnumerable<EmpDTO>> GetEmployees(int level);
+        Task<IEnumerable<EmpDTO>> GetEmployeesByLevel(int level);
 
         Task<EmpDTO> GetEmployeeById(string id);
 

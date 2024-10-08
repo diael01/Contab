@@ -60,19 +60,21 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        [Route("GetEmployees")]
-        public async Task<IActionResult> GetEmployees()
-        {
-            var emps = await EmployeeService.GetEmployees(0);
-            return Ok(emps);
-        }
+        //[HttpGet]
+        //[Route("GetEmployees")]
+        //public async Task<IActionResult> GetEmployees()
+        //{
+        //    var emps = await EmployeeService.GetEmployees(0);
+        //                    //.Append<IEnumerable<EmpDTO>>(EmployeeService.GetEmployees(1))
+        //                    //.Append(EmployeeService.GetEmployees(2));
+        //    return Ok(emps);
+        //}
 
         [HttpGet]
         [Route("GetEmployeesByLevel")]
         public async Task<IActionResult> GetEmployeesByLevel(int level)
         {
-            var emps = await EmployeeService.GetEmployees(level);
+            var emps = await EmployeeService.GetEmployeesByLevel(level);
             return Ok(emps);
         }
 
