@@ -22,9 +22,9 @@ GO
     [MgmtSalaryIncrease]       Numeric(8,2), 
     [EndWorkCode] [char](2) NULL,
 	[EndWorkDate] [smalldatetime] NULL, 
-	EmpDeptNode [hierarchyid] NOT NULL,--sectia
-	EmpActivityNode [hierarchyid] NOT NULL,
-	EmpSubActivityNode [hierarchyid] NOT NULL,
+	[EmpDeptNode] [hierarchyid] NOT NULL,--sectia
+	[EmpActivityNode] [hierarchyid] NOT NULL,
+	[EmpSubActivityNode] [hierarchyid] NOT NULL,
 	[EmpFunctionNode] [hierarchyid] NOT NULL,
 	[EmpShift] char(1) NOT NULL default 'Z', --day or night
 	[HoursToWork] int  null, --8 hours, make it short

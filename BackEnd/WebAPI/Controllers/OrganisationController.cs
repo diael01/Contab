@@ -88,10 +88,18 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("GetSubActivities")]
+        public async Task<IActionResult> GetSubActivities()
+        {
+            var acts = await OrgService.GetNodes(3);
+            return Ok(acts);
+        }
+
+        [HttpGet]
         [Route("GetFunctions")]
         public async Task<IActionResult> GetFunctions()
         {
-            var fncs = await OrgService.GetNodes(3);
+            var fncs = await OrgService.GetNodes(4);
             return Ok(fncs);
         }
     }

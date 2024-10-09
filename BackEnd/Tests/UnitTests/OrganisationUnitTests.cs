@@ -112,6 +112,43 @@ namespace UnitTests
             await orgService.DeleteNode(orgId);
         }
 
+
+        //level 2
+        [Fact]// Ignore("work in progress")]
+        public async Task AddSubActivities_Should_Be_OK()
+        {
+            var orgId = await AddEntityNode("Con");
+            var deptId = await AddEntityNode("Eng", orgId, "Con");
+            var actId = await AddEntityNode("IT", deptId);
+
+
+            //Act add SUBActivity
+            OrgDTO dto = new OrgDTO();
+            string subActId1 = string.Empty;
+            string subActId2 = string.Empty;
+            for (int i = 0; i < 2; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        subActId1 = await AddEntityNode("PazaR&D", actId, "IT");
+                        subActId1.Should().NotBeNull();
+                        break;
+                    case 1:
+                        subActId2 = await AddEntityNode("PazaIT", actId, "IT");
+                        subActId2.Should().NotBeNull();
+                        break;
+                }
+
+
+            }
+             await orgService.DeleteNode(subActId1);
+            await orgService.DeleteNode(subActId2);
+            await orgService.DeleteNode(actId);
+            await orgService.DeleteNode(deptId);
+            await orgService.DeleteNode(orgId);
+        }
+
         //level 3
         [Fact]
         public async Task AddFunctions_Should_Be_OK()
@@ -120,6 +157,7 @@ namespace UnitTests
             var orgId = await AddEntityNode("Con");
             var deptId = await AddEntityNode("Eng", orgId);
             var actId = await AddEntityNode("IT", deptId);
+            var subActId = await AddEntityNode("PazaIT", actId);
 
             //Act add Function
             string fnId1 = string.Empty;
@@ -130,15 +168,15 @@ namespace UnitTests
                 switch (i)
                 {
                     case 0:
-                        fnId1 = await AddEntityNode("SoftwareDeveloper", actId, "IT");
+                        fnId1 = await AddEntityNode("SoftwareDeveloper", subActId, "PazaIT");
                         fnId1.Should().NotBeNull();
                         break;
                     case 1:
-                        fnId2 = await AddEntityNode("QA", actId, "IT");
+                        fnId2 = await AddEntityNode("QA", subActId, "PazaIT");
                         fnId2.Should().NotBeNull();
                         break;
                     case 2:
-                        fnId3 = await AddEntityNode("BuildEngineer", actId, "IT");
+                        fnId3 = await AddEntityNode("BuildEngineer", subActId, "PazaIT");
                         fnId3.Should().NotBeNull();
                         break;
                 }
