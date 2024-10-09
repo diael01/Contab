@@ -7,15 +7,15 @@
 
         public string? EmpNodeAsName { get; set; }
 
-        public short? EmpLevel { get; set; } 
+        public short? EmpLevel { get; set; }
 
-        public string? ManagerNodeAsText { get; set; } 
+        public string? ManagerNodeAsText { get; set; }
 
         public string Name { get; set; } = null!;
 
-        public string? Surname { get; set; } 
+        public string? Surname { get; set; }
 
-        public string? Location { get; set; } 
+        public string? Location { get; set; }
 
     }
 }

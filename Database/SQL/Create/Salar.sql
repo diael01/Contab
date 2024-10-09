@@ -13,32 +13,33 @@ GO
  GO
 
   CREATE TABLE [Salary] (
-  Id int identity(1,1)  primary key clustered,
-  [EmpNode] [hierarchyid] not null,
-	ModificationDayHistory  int NULL,
+    Id int identity(1,1)  primary key clustered,
+    [EmpNode] [hierarchyid] not null,
+	[RecordChangeDayHistory]  int NULL,
 	[Category] int NULL,
 	[EmpGradation] [char](2) NULL,
-	[Salary]					 Numeric(10,2), 
-    [MgmtSalaryAddition]       Numeric(8,2), 
-    --? [Percent]                          Numeric(6,2), 
+	[MainSalary]			   Numeric(10,2), 
+    [MgmtSalaryIncrease]       Numeric(8,2), 
     [EndWorkCode] [char](2) NULL,
-	EndWorkDate [smalldatetime] NULL, 
+	[EndWorkDate] [smalldatetime] NULL, 
 	EmpDeptNode [hierarchyid] NOT NULL,--sectia
 	EmpActivityNode [hierarchyid] NOT NULL,
 	EmpSubActivityNode [hierarchyid] NOT NULL,
 	[EmpFunctionNode] [hierarchyid] NOT NULL,
 	[EmpShift] char(1) NOT NULL default 'Z', --day or night
-	RegimeHours int  null, --8 hours, make it short
-	WorkGroup int  null, --1- mineri, 
-	--niv?
-	--sp_v not used
-	--?cont
-	OldSalary Numeric(10,2),
-	--retro110
+	[HoursToWork] int  null, --8 hours, make it short
+	[WorkGroup] int  null, --1- mineri, 
+	[WorkExperienceSalaryIncrease] Numeric(10,2),
     [CreatedAt] [smalldatetime] NULL,
 	[CreatedBy] [nvarchar](128) NULL,
 	[UpdatedAt] [smalldatetime] NOT NULL,
-	[UpdatedBy] [nvarchar](128) NOT NULL)
+	[UpdatedBy] [nvarchar](128) NOT NULL
+	 --? [Percent]                          Numeric(6,2), 
+	--niv?
+	--sp_v not used
+	--?cont
+	--retro110
+	)
 --[ZI_MOD]                           Integer, 
 --[COD_FUNC]                         Char(6), 
 --[CATEG]                            Integer, 

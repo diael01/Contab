@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using Repository.Models;
 using Services;
-using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static CommonTestHelper.CommonHelper;
+using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace UnitTests
 {

@@ -43,7 +43,7 @@ namespace Services
             //set the function node based on the Text which was retrieved from DB based on the name
             //empdb.EmpFunctionNode = HierarchyId.Parse(emp.EmpFunctionNodeAsText);
             //set the manager node: if is null then the manager is the utmost top leve ie CEO
-            if (string.IsNullOrEmpty(emp.ManagerNodeAsText)  ||
+            if (string.IsNullOrEmpty(emp.ManagerNodeAsText) ||
                 string.IsNullOrWhiteSpace(emp.ManagerNodeAsText))
             {
                 empdb.EmpNode = empdb.ManagerNode = HierarchyId.GetRoot();
@@ -81,7 +81,7 @@ namespace Services
 
             //node.ManagerNode = HierarchyId.Parse(emp.ManagerNodeAsText);
             //node.EmpFunctionNode = HierarchyId.Parse(emp.EmpFunctionNodeAsText);
-            
+
 
             node!.Name = emp.Name;
             node.Location = emp.Location;
@@ -123,7 +123,7 @@ namespace Services
                     return obj.ManagerNode;
                 else
                     node = HierarchyId.GetRoot();
-                
+
             }
             return node;
         }

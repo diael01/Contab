@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using Contracts.Interfaces;
 using Contracts.Models;
 using FluentAssertions;
@@ -6,10 +7,6 @@ using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 using Repository.Models;
 using System.Net;
-using AutoMapper;
-using static CommonTestHelper.CommonHelper;
-using Microsoft.EntityFrameworkCore;
-using Services;
 
 namespace CommonTestHelper
 {
@@ -39,14 +36,14 @@ namespace CommonTestHelper
 
         public static async Task<EmpData> Setup(bool addEmp = true)
         {
-      
+
             EmpData d = new EmpData();
             d.orgId = await AddEntityNode("Con", null, null);
 
             d.deptId = await AddEntityNode("Business", d.orgId, "Con");
             d.actId = await AddEntityNode("Mgmt", d.deptId, "Business");
             d.funcId1 = await AddEntityNode("CEO", d.actId, "Mgmt");
-            d.funcId2 = await AddEntityNode( "CTO", d.actId, "Mgmt");
+            d.funcId2 = await AddEntityNode("CTO", d.actId, "Mgmt");
             d.funcId3 = await AddEntityNode("Manager", d.actId, "Mgmt");
 
             if (addEmp)
@@ -72,7 +69,7 @@ namespace CommonTestHelper
         }
 
         public static async Task TearDown(
-                                                        EmpData d, 
+                                                        EmpData d,
                                                         bool empAdded = true
                                                        )
         {
@@ -105,7 +102,7 @@ namespace CommonTestHelper
         }
 
 
-        public static async Task<string> AddEntityNode( string name, string nodeId = null,
+        public static async Task<string> AddEntityNode(string name, string nodeId = null,
                                                         string parentName = null
                                                        )
         {
@@ -126,7 +123,7 @@ namespace CommonTestHelper
             remove.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        public static void SetTestParams(ContabContext ctx, IOrgService org, 
+        public static void SetTestParams(ContabContext ctx, IOrgService org,
                                     IEmpService emp, IMapper map)
         {
             CommonHelper.TestParams.DBContext = ctx;

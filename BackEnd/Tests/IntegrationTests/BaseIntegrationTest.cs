@@ -3,8 +3,8 @@ using Contracts.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Repository.Models;
 using Xunit;
-using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static CommonTestHelper.CommonHelper;
+using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace IntegrationTests
 {
@@ -16,7 +16,7 @@ namespace IntegrationTests
 
         IServiceScope scope;
         IServiceProvider sp;
-      
+
 
         public BaseIntegrationTest()
         {

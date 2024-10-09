@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Models;
 
@@ -10,15 +8,15 @@ public partial class Salary
 
     public HierarchyId EmpNode { get; set; } = null!;
 
-    public int? ModificationDayHistory { get; set; }
+    public int? RecordChangeDayHistory { get; set; }
 
     public int? Category { get; set; }
 
     public string? EmpGradation { get; set; }
 
-    public decimal? Salary1 { get; set; }
+    public decimal? MainSalary { get; set; }
 
-    public decimal? MgmtSalaryAddition { get; set; }
+    public decimal? MgmtSalaryIncrease { get; set; }
 
     public string? EndWorkCode { get; set; }
 
@@ -34,11 +32,11 @@ public partial class Salary
 
     public string EmpShift { get; set; } = null!;
 
-    public int? ToWorkHours { get; set; }
+    public int? HoursToWork { get; set; }
 
     public int? WorkGroup { get; set; }
 
-    public decimal? OldSalary { get; set; }
+    public decimal? WorkExperienceSalaryIncrease { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 

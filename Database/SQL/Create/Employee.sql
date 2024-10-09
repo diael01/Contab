@@ -16,12 +16,6 @@ CREATE TABLE [dbo].[Employee](
 	[EmpNodeAsName] [nvarchar](128) NULL,
 	[EmpLevel]  AS ([EmpNode].[GetLevel]()),
 	[ManagerNode] [hierarchyid] NULL,
-	
-	--[EmpDeptNode] [hierarchyid] NOT NULL,
-	--[EmpActivityNode]  [hierarchyid] NOT NULL,
-	--[EmpSubActivityNode]  [hierarchyid] NOT NULL,--=loc de muncs?
-	--[EmpFunctionNode] [hierarchyid] NOT NULL,
-	
 	[EmpShift] char(1) NOT NULL default 'Z', --day or night
 	[Name] [nvarchar](128) NOT NULL,
 	[Surname] [nvarchar](128) NULL,
@@ -63,9 +57,6 @@ REFERENCES [dbo].[Employee] ([EmpNode])
 GO
 
 ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Employee]
-GO
-
-ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Organisation]
 GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Employee', @level2type=N'CONSTRAINT',@level2name=N'FK_Employee_Employee'

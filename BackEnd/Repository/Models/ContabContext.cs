@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Models;
 
@@ -25,7 +23,7 @@ public partial class ContabContext : DbContext
     {
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.EmpNode).HasName("PK__Employee__11EA28CC87248FCD");
+            entity.HasKey(e => e.EmpNode).HasName("PK__Employee__11EA28CCFAC420F8");
 
             entity.ToTable("Employee");
 
@@ -120,7 +118,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Salary>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Salary__3214EC0713E3E911");
+            entity.HasKey(e => e.Id).HasName("PK__Salary__3214EC07BA6D1762");
 
             entity.ToTable("Salary");
 
@@ -140,13 +138,11 @@ public partial class ContabContext : DbContext
                 .IsUnicode(false)
                 .IsFixedLength();
             entity.Property(e => e.EndWorkDate).HasColumnType("smalldatetime");
-            entity.Property(e => e.MgmtSalaryAddition).HasColumnType("numeric(8, 2)");
-            entity.Property(e => e.OldSalary).HasColumnType("numeric(10, 2)");
-            entity.Property(e => e.Salary1)
-                .HasColumnType("numeric(10, 2)")
-                .HasColumnName("Salary");
+            entity.Property(e => e.MainSalary).HasColumnType("numeric(10, 2)");
+            entity.Property(e => e.MgmtSalaryIncrease).HasColumnType("numeric(8, 2)");
             entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
+            entity.Property(e => e.WorkExperienceSalaryIncrease).HasColumnType("numeric(10, 2)");
         });
 
         OnModelCreatingPartial(modelBuilder);
