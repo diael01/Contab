@@ -18,10 +18,10 @@ namespace Contracts.Mapping
                opt => opt.MapFrom(src => src.EmpNode.ToString()))
               .ForMember(dest =>
                 dest.ManagerNodeAsText,
-                opt => opt.MapFrom(src => src.ManagerNode.ToString()))
-             .ForMember(dest =>
-                dest.EmpFunctionNodeAsText,
-                opt => opt.MapFrom(src => src.EmpFunctionNode.ToString()));
+                opt => opt.MapFrom(src => src.ManagerNode.ToString()));
+             //.ForMember(dest =>
+             //   dest.EmpFunctionNodeAsText,
+             //   opt => opt.MapFrom(src => src.EmpFunctionNode.ToString()));
         }
 
     }

@@ -10,17 +10,13 @@ public partial class Organisation
 
     public string? NodeAsText { get; set; }
 
+    public string? NodeAsName { get; set; }
+
     public HierarchyId? ParentNode { get; set; }
-
-    public string? ParentNodeAsText { get; set; }
-
-    public string? ParentNodeAsName { get; set; }
 
     public short? NodeLevel { get; set; }
 
     public string Name { get; set; } = null!;
-
-    public string? Surname { get; set; }
 
     public string? CountyCode { get; set; }
 
@@ -37,6 +33,4 @@ public partial class Organisation
     public DateTime UpdatedAt { get; set; }
 
     public string UpdatedBy { get; set; } = null!;
-
-    public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 }

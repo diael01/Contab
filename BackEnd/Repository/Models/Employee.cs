@@ -10,19 +10,13 @@ public partial class Employee
 
     public string? EmpNodeAsText { get; set; }
 
+    public string? EmpNodeAsName { get; set; }
+
     public short? EmpLevel { get; set; }
 
     public HierarchyId? ManagerNode { get; set; }
 
-    public string? ManagerNodeAsText { get; set; }
-
-    public string? ManagerNodeAsName { get; set; }
-
-    public HierarchyId EmpFunctionNode { get; set; } = null!;
-
-    public string? EmpFunctionNodeAsText { get; set; }
-
-    public string? EmpFunctionNodeAsName { get; set; }
+    public string EmpShift { get; set; } = null!;
 
     public string Name { get; set; } = null!;
 
@@ -87,8 +81,6 @@ public partial class Employee
     public DateTime UpdatedAt { get; set; }
 
     public string UpdatedBy { get; set; } = null!;
-
-    public virtual Organisation EmpFunctionNodeNavigation { get; set; } = null!;
 
     public virtual ICollection<Employee> InverseManagerNodeNavigation { get; set; } = new List<Employee>();
 

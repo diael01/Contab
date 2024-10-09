@@ -4,9 +4,9 @@
     {
         public string? NodeAsText { get; set; } = null!; //hierarchyId as string as is
 
-        public string? ParentNodeAsText { get; set; } = null!; //ParentNode hierarchyId as string
+        public string? NodeAsName { get; set; } //for user easy swagger
 
-        public string? ParentNodeAsName { get; set; } //for user easy swagger
+        public string? ParentNodeAsText { get; set; } = null!; //ParentNode hierarchyId as string
 
         public string Name { get; set; } = null!;
 

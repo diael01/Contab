@@ -34,7 +34,6 @@ namespace UnitTests
             new OrgValidator().ValidateAndThrow(Node!);
             Node!.Name = "ChangedName";
             Node.Location = "Location";
-            Node.Surname = "Surname";
             var orgDTO = mapper.Map<OrgDTO>(Node);
             orgDTO.NodeAsText = orgId;
             //Act

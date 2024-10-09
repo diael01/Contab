@@ -34,9 +34,6 @@ namespace CommonTestHelper
             EmpDTO emp = new EmpDTO();
             emp.Name = name == null ? "Eu" : name;
             emp.EmpLevel = level == null ? 0 : level;
-            emp.EmpFunctionNodeAsName = func == null ? "CEO" : func;
-            emp.EmpFunctionNodeAsText = funcText;
-            emp.ManagerNodeAsName = manager;
             emp.Location = "Location_" + name;
             return emp;
         }

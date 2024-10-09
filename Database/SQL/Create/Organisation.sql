@@ -15,12 +15,12 @@ CREATE TABLE [dbo].[Organisation](
 	--Id int identity(1,1) primary key clustered not null,
 	[Node] [hierarchyid] primary key clustered not null, --node could ne the organisation, department, activity or function
 	[NodeAsText] [nvarchar](128),
+	[NodeAsName] [nvarchar](128),
 	[ParentNode] [hierarchyid],
-	[ParentNodeAsText] [nvarchar](128),
-	[ParentNodeAsName] [nvarchar](128),--this is to add a node based on the Parent Node name for easy Swagger
+	--[ParentNodeAsText] [nvarchar](128),
+	--[ParentNodeAsName] [nvarchar](128),--this is to add a node based on the Parent Node name for easy Swagger
 	[NodeLevel]  AS ([Node].[GetLevel]()),
 	[Name] [nvarchar](128) NOT NULL,
-	[Surname] [varchar](128) NULL,
 	[CountyCode]  [char](2) NULL, --cod judet
 	[Location] [varchar](128) NULL, --adresa
 	[CodCor] int NULL,
@@ -32,3 +32,8 @@ CREATE TABLE [dbo].[Organisation](
 CREATE INDEX Org_BreadthFirst ON Organisation(NodeLevel, Node);
 GO 
 
+--department => sectia ex "personal technco. prod
+--activitate => "contructii-montaj
+--subactivitate=> "loc de munca" ex. "TASediu"
+--schimb zi noapte 
+--functie => 1 mercolog, 3 ingineri

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Models;
 
@@ -17,11 +19,13 @@ public partial class ContabContext : DbContext
 
     public virtual DbSet<Organisation> Organisations { get; set; }
 
+    public virtual DbSet<Salary> Salaries { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.EmpNode).HasName("PK__Employee__11EA28CC7938548F");
+            entity.HasKey(e => e.EmpNode).HasName("PK__Employee__11EA28CC87248FCD");
 
             entity.ToTable("Employee");
 
@@ -48,10 +52,14 @@ public partial class ContabContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.CreatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.CreatedBy).HasMaxLength(128);
-            entity.Property(e => e.EmpFunctionNodeAsName).HasMaxLength(128);
-            entity.Property(e => e.EmpFunctionNodeAsText).HasMaxLength(128);
             entity.Property(e => e.EmpLevel).HasComputedColumnSql("([EmpNode].[GetLevel]())", false);
+            entity.Property(e => e.EmpNodeAsName).HasMaxLength(128);
             entity.Property(e => e.EmpNodeAsText).HasMaxLength(128);
+            entity.Property(e => e.EmpShift)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasDefaultValue("Z")
+                .IsFixedLength();
             entity.Property(e => e.FirstHiringDate).HasColumnType("smalldatetime");
             entity.Property(e => e.Gender)
                 .HasMaxLength(1)
@@ -65,8 +73,6 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.Location)
                 .HasMaxLength(128)
                 .IsUnicode(false);
-            entity.Property(e => e.ManagerNodeAsName).HasMaxLength(128);
-            entity.Property(e => e.ManagerNodeAsText).HasMaxLength(128);
             entity.Property(e => e.Name).HasMaxLength(128);
             entity.Property(e => e.Phone).HasMaxLength(32);
             entity.Property(e => e.RetirementSeniority)
@@ -78,11 +84,6 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
 
-            entity.HasOne(d => d.EmpFunctionNodeNavigation).WithMany(p => p.Employees)
-                .HasForeignKey(d => d.EmpFunctionNode)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Employee_Organisation");
-
             entity.HasOne(d => d.ManagerNodeNavigation).WithMany(p => p.InverseManagerNodeNavigation)
                 .HasForeignKey(d => d.ManagerNode)
                 .HasConstraintName("FK_Employee_Employee");
@@ -90,7 +91,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Organisation>(entity =>
         {
-            entity.HasKey(e => e.Node).HasName("PK__Organisa__7D8CACC0D3F74839");
+            entity.HasKey(e => e.Node).HasName("PK__Organisa__7D8CACC0E29C5F96");
 
             entity.ToTable("Organisation");
 
@@ -110,13 +111,40 @@ public partial class ContabContext : DbContext
                 .HasMaxLength(128)
                 .IsUnicode(false);
             entity.Property(e => e.Name).HasMaxLength(128);
+            entity.Property(e => e.NodeAsName).HasMaxLength(128);
             entity.Property(e => e.NodeAsText).HasMaxLength(128);
             entity.Property(e => e.NodeLevel).HasComputedColumnSql("([Node].[GetLevel]())", false);
-            entity.Property(e => e.ParentNodeAsName).HasMaxLength(128);
-            entity.Property(e => e.ParentNodeAsText).HasMaxLength(128);
-            entity.Property(e => e.Surname)
-                .HasMaxLength(128)
-                .IsUnicode(false);
+            entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
+            entity.Property(e => e.UpdatedBy).HasMaxLength(128);
+        });
+
+        modelBuilder.Entity<Salary>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Salary__3214EC0713E3E911");
+
+            entity.ToTable("Salary");
+
+            entity.Property(e => e.CreatedAt).HasColumnType("smalldatetime");
+            entity.Property(e => e.CreatedBy).HasMaxLength(128);
+            entity.Property(e => e.EmpGradation)
+                .HasMaxLength(2)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.EmpShift)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasDefaultValue("Z")
+                .IsFixedLength();
+            entity.Property(e => e.EndWorkCode)
+                .HasMaxLength(2)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.EndWorkDate).HasColumnType("smalldatetime");
+            entity.Property(e => e.MgmtSalaryAddition).HasColumnType("numeric(8, 2)");
+            entity.Property(e => e.OldSalary).HasColumnType("numeric(10, 2)");
+            entity.Property(e => e.Salary1)
+                .HasColumnType("numeric(10, 2)")
+                .HasColumnName("Salary");
             entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
         });

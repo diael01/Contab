@@ -38,24 +38,19 @@ namespace Services
         public async Task<string> AddEmployee(EmpDTO emp)
         {
             var empdb = Mapper.Map<Employee>(emp);
-            if (string.IsNullOrEmpty(emp.EmpFunctionNodeAsText) && !string.IsNullOrEmpty(emp.EmpFunctionNodeAsName)) //coming from swagger or from UT
-                empdb.EmpFunctionNode = await GetFunctionNodeFromDB(emp);
-            else
-                empdb.EmpFunctionNode = HierarchyId.Parse(emp.EmpFunctionNodeAsText);
             new EmpDTOValidator().ValidateAndThrow(emp);
 
             //set the function node based on the Text which was retrieved from DB based on the name
             //empdb.EmpFunctionNode = HierarchyId.Parse(emp.EmpFunctionNodeAsText);
             //set the manager node: if is null then the manager is the utmost top leve ie CEO
-            if (string.IsNullOrEmpty(emp.ManagerNodeAsText) && string.IsNullOrEmpty(emp.ManagerNodeAsName) ||
-                string.IsNullOrWhiteSpace(emp.ManagerNodeAsText) && string.IsNullOrWhiteSpace(emp.ManagerNodeAsName))
+            if (string.IsNullOrEmpty(emp.ManagerNodeAsText)  ||
+                string.IsNullOrWhiteSpace(emp.ManagerNodeAsText))
             {
                 empdb.EmpNode = empdb.ManagerNode = HierarchyId.GetRoot();
             } else //if is not top level, get the manager also from same EMployee table
             {
                 HierarchyId node = await GetManagerNodeFromDB(emp);
                 empdb.ManagerNode = node;
-                empdb.ManagerNodeAsText = node.ToString();
                 if (node != null)
                 {
                     var lastChild = DBContext.Employees.Where(e => e.EmpNode.GetAncestor(1) == node).Max(e => e.EmpNode);
@@ -84,13 +79,9 @@ namespace Services
             var node = await GetNodeFromDB(empdto);
             var emp = Mapper.Map<Employee>(empdto);
 
-            node.ManagerNode = HierarchyId.Parse(emp.ManagerNodeAsText);
-            node.ManagerNodeAsText = emp.ManagerNodeAsText;
-            node.ManagerNodeAsName = emp.ManagerNodeAsName;
-
-            node.EmpFunctionNode = HierarchyId.Parse(emp.EmpFunctionNodeAsText);
-            node.EmpFunctionNodeAsText = emp.EmpFunctionNodeAsText;
-            node.EmpFunctionNodeAsName = emp.EmpFunctionNodeAsName;
+            //node.ManagerNode = HierarchyId.Parse(emp.ManagerNodeAsText);
+            //node.EmpFunctionNode = HierarchyId.Parse(emp.EmpFunctionNodeAsText);
+            
 
             node!.Name = emp.Name;
             node.Location = emp.Location;
@@ -119,30 +110,6 @@ namespace Services
         }
 
 
-
-        //Helpers
-        private async Task<HierarchyId> GetFunctionNodeFromDB(EmpDTO emp)
-        {
-            HierarchyId node = null;
-            if (!string.IsNullOrEmpty(emp.EmpFunctionNodeAsText))
-                node = HierarchyId.Parse(emp.EmpFunctionNodeAsText);
-            else
-            {
-                //search the node via name
-                Organisation obj = await DBContext.Organisations.Where(e => String.Equals(e.Name.ToUpper(), emp.EmpFunctionNodeAsName.ToUpper())).FirstOrDefaultAsync();
-                if (obj != null)
-                {
-                    node = obj.Node;
-                    //emp.EmpFunctionNodeAsText = obj.OrgNode.ToString();
-                } else
-                {
-                    node = HierarchyId.GetRoot();
-                }
-                emp.EmpFunctionNodeAsText = node.ToString();
-            }
-            return node;
-        }
-
         private async Task<HierarchyId> GetManagerNodeFromDB(EmpDTO emp)
         {
             HierarchyId node = null;
@@ -151,18 +118,19 @@ namespace Services
             else
             {
                 //search the node via name
-                Employee obj = await DBContext.Employees.Where(e => String.Equals(e.Name.ToUpper(), emp.ManagerNodeAsName.ToUpper())).FirstOrDefaultAsync();
+                Employee obj = await DBContext.Employees.Where(e => e.EmpNodeAsName == emp.Name).FirstOrDefaultAsync();
                 if (obj != null)
-                    node = obj.ManagerNode;
+                    return obj.ManagerNode;
                 else
                     node = HierarchyId.GetRoot();
+                
             }
             return node;
         }
 
         private async Task<Employee> GetNodeFromDB(EmpDTO emp)
         {
-            var obj = await DBContext.Employees.Where(e => e.EmpNode.ToString() == emp.EmpNodeAsText).FirstOrDefaultAsync();
+            var obj = await DBContext.Employees.Where(e => e.EmpNode == HierarchyId.Parse(emp.EmpNodeAsText)).FirstOrDefaultAsync();
             if (obj == null)
                 obj = await DBContext.Employees.Where(e => String.Equals(e.Name.ToUpper(), emp.Name.ToUpper())).FirstOrDefaultAsync();
             return obj;

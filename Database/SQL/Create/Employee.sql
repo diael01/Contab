@@ -13,13 +13,16 @@ CREATE TABLE [dbo].[Employee](
 	--Id int identity(1,1) primary key clustered not null,
 	[EmpNode] [hierarchyid] primary key clustered NOT NULL,
 	[EmpNodeAsText] [nvarchar](128) NULL,
+	[EmpNodeAsName] [nvarchar](128) NULL,
 	[EmpLevel]  AS ([EmpNode].[GetLevel]()),
 	[ManagerNode] [hierarchyid] NULL,
-	[ManagerNodeAsText] [nvarchar](128) NULL,
-	[ManagerNodeAsName] [nvarchar](128) NULL,
-	[EmpFunctionNode] [hierarchyid] NOT NULL,
-	[EmpFunctionNodeAsText] [nvarchar](128) NULL,
-	[EmpFunctionNodeAsName] [nvarchar](128) NULL,
+	
+	--[EmpDeptNode] [hierarchyid] NOT NULL,
+	--[EmpActivityNode]  [hierarchyid] NOT NULL,
+	--[EmpSubActivityNode]  [hierarchyid] NOT NULL,--=loc de muncs?
+	--[EmpFunctionNode] [hierarchyid] NOT NULL,
+	
+	[EmpShift] char(1) NOT NULL default 'Z', --day or night
 	[Name] [nvarchar](128) NOT NULL,
 	[Surname] [nvarchar](128) NULL,
 	[Gender] [char](1) NULL,
@@ -60,10 +63,6 @@ REFERENCES [dbo].[Employee] ([EmpNode])
 GO
 
 ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Employee]
-GO
-
-ALTER TABLE [dbo].[Employee]  WITH CHECK ADD  CONSTRAINT [FK_Employee_Organisation] FOREIGN KEY([EmpFunctionNode])
-REFERENCES [dbo].[Organisation] ([Node])
 GO
 
 ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Organisation]

@@ -12,7 +12,6 @@ namespace Contracts.Validation
             //TBD: created custom rule for ManagerNodeAsText
             ////=>to check not null ONLY if NOT level 0 or CEO
             //RuleFor(emp => emp.ManagerNodeAsText).NotNull();
-            RuleFor(emp => emp.EmpFunctionNodeAsText).NotNull();
             RuleFor(emp => emp.Name).NotNull();
             //TBD: to add more not nulls for other contracts after the UTs working
 
@@ -27,7 +26,6 @@ namespace Contracts.Validation
         {
             RuleFor(emp => emp).NotNull();
             RuleFor(emp => emp.ManagerNode).NotNull();
-            RuleFor(emp => emp.EmpFunctionNode).NotNull();
             RuleFor(emp => emp.Name).NotNull();
             RuleFor(emp => emp.UpdatedAt).NotNull();
             RuleFor(emp => emp.UpdatedBy).NotNull();

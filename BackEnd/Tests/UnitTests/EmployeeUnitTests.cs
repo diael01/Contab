@@ -76,8 +76,8 @@ namespace UnitTests
             var empNode2 = await DBContext.Employees.Where(e => e.Name == "Vili").FirstOrDefaultAsync();
             var empNode3 = await DBContext.Employees.Where(e => e.Name == "mama").FirstOrDefaultAsync();
             empNode3.ManagerNode = empNode2.EmpNode;
-            empNode3.ManagerNodeAsText = empNode3.ManagerNode.ToString();
-            empNode3.ManagerNodeAsName = empNode2.Name;
+            //empNode3.ManagerNodeAsText = empNode3.ManagerNode.ToString();
+            //empNode3.ManagerNodeAsName = empNode2.Name;
             empNode3.Location = "aaaLoc";
             empNode3.Surname = "aaaSur";
 

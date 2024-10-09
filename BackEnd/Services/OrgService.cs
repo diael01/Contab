@@ -39,11 +39,12 @@ namespace Services
         public async Task<string> AddNode(OrgDTO org)
         {
             var orgdb = Mapper.Map<Organisation>(org);
-            if (string.IsNullOrEmpty(org.ParentNodeAsText) || string.IsNullOrWhiteSpace(org.ParentNodeAsText))
+            if (string.IsNullOrEmpty(org.ParentNodeAsText) || 
+                string.IsNullOrWhiteSpace(org.ParentNodeAsText))
                 orgdb.Node = HierarchyId.GetRoot();
             else
             {
-                var node = await GetEmpFromDTO(org);
+                var node = await GetParentNodeFromDTO(org);
                 if (node != null)
                 {
                     var lastChild = DBContext.Organisations.Where(e => e.Node.GetAncestor(1) == node).Max(e => e.Node);
@@ -73,7 +74,6 @@ namespace Services
             new OrgValidator().ValidateAndThrow(node!);
             node!.Name = org.Name;
             node.Location = org.Location;
-            node.Surname = org.Surname;
             node.NodeLevel = org.NodeLevel;
             node.UpdatedAt = DateTime.Now;
             node.UpdatedBy = "system";
@@ -94,7 +94,7 @@ namespace Services
             }
         }
 
-        private async Task<HierarchyId> GetEmpFromDTO(OrgDTO org)
+        private async Task<HierarchyId> GetParentNodeFromDTO(OrgDTO org)
         {
             HierarchyId node;
             new NodeValidator().ValidateAndThrow(org);
@@ -103,11 +103,17 @@ namespace Services
             else
             {
                 //search the node via name
-                Organisation obj = await DBContext.Organisations.Where(e => e.Name == org.ParentNodeAsName).FirstOrDefaultAsync();
+                Organisation obj = await DBContext.Organisations.Where(e => e.Node == HierarchyId.Parse(org.NodeAsText)).FirstOrDefaultAsync();
                 if (obj != null)
                     node = obj.ParentNode!;
                 else
-                    return null;
+                {
+                    obj = await DBContext.Organisations.Where(e => e.Name == org.NodeAsName).FirstOrDefaultAsync();
+                    if (obj != null)
+                        return obj.ParentNode;
+                    else
+                        return null;
+                }
             }
             return node;
         }
