@@ -28,7 +28,7 @@ GO
 	[EmpFunctionNode] [hierarchyid] NOT NULL,
 	[EmpShift] char(1) NOT NULL default 'Z', --day or night
 	[HoursToWork] int  null, --8 hours, make it short
-	[WorkGroup] int  null, --1- mineri, 
+	[WorkGroup] int  null, --6- mineri, 3-IT
 	[WorkExperienceSalaryIncrease] Numeric(10,2),
     [CreatedAt] [smalldatetime] NULL,
 	[CreatedBy] [nvarchar](128) NULL,
@@ -85,8 +85,10 @@ GO
 --[COD_ACT]                          Integer, 
 --[COD_LM]                           Integer, 
 --[SCH]                              Char(1), 
+
 --[REGIM_LZ]                         Integer, 
 --[GRMUNCA]                          Integer, 
+
 --[NIV]                              Char(1), 
 --[SP_V]                             Integer, 
 --[CONT]                             Char(10), 

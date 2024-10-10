@@ -21,27 +21,39 @@ namespace UnitTests
         [Fact]
         public async Task AddOrganization_Unit_Should_Be_OK()
         {
-            var orgId = await AddEntityNode("Con");
-            await orgService.DeleteNode(orgId);
+            string? orgId = null;
+            try
+            {
+                orgId = await AddEntityNode("Con");
+            } finally
+            {
+                await orgService.DeleteNode(orgId);
+            }
         }
 
         [Fact]
         public async Task UpdateOrganization_Unit_Should_Be_OK()
         {
-            //Arrange
-            var orgId = await AddEntityNode("Con");
-            var Node = await DBContext.Organisations.Where(e => e.Node.GetLevel() == 0).FirstOrDefaultAsync();
-            new OrgValidator().ValidateAndThrow(Node!);
-            Node!.Name = "ChangedName";
-            Node.Location = "Location";
-            var orgDTO = mapper.Map<OrgDTO>(Node);
-            orgDTO.NodeAsText = orgId;
-            //Act
-            await orgService.UpdateNode(orgDTO);
-            var node = await DBContext.Organisations.Where(e => String.Equals(e.Name.ToUpper(), Node.Name.ToUpper())).FirstOrDefaultAsync();
-            //Assert
-            Assert.Equal(node.Name, Node!.Name);
-            await orgService.DeleteNode(orgId);
+            string? orgId = null;
+            try
+            {
+                //Arrange
+                orgId = await AddEntityNode("Con");
+                var Node = await DBContext.Organisations.Where(e => e.Node.GetLevel() == 0).FirstOrDefaultAsync();
+                new OrgValidator().ValidateAndThrow(Node!);
+                Node!.Name = "ChangedName";
+                Node.Location = "Location";
+                var orgDTO = mapper.Map<OrgDTO>(Node);
+                orgDTO.NodeAsText = orgId;
+                //Act
+                await orgService.UpdateNode(orgDTO);
+                var node = await DBContext.Organisations.Where(e => String.Equals(e.Name.ToUpper(), Node.Name.ToUpper())).FirstOrDefaultAsync();
+                //Assert
+                Assert.Equal(node.Name, Node!.Name);
+            } finally
+            {
+                await orgService.DeleteNode(orgId);
+            }
         }
 
         //level 1
@@ -83,39 +95,44 @@ namespace UnitTests
         [Fact]
         public async Task AddActivities_Should_Be_OK()
         {
-            var orgId = await AddEntityNode("Con");
-            var deptId = await AddEntityNode("Eng", orgId, "Con");
-
-            //Act add Activity
-            OrgDTO dto = new OrgDTO();
-            string actId1 = string.Empty;
-            string actId2 = string.Empty;
-            for (int i = 0; i < 2; i++)
+            string orgId, deptId, actId1, actId2;
+            orgId = string.Empty;
+            deptId = string.Empty;
+            actId1 = string.Empty;
+            actId2 = string.Empty;
+            try
             {
-                switch (i)
+                orgId = await AddEntityNode("Con");
+                deptId = await AddEntityNode("Eng", orgId, "Con");
+
+                //Act add Activity
+                OrgDTO dto = new OrgDTO();
+
+                for (int i = 0; i < 2; i++)
                 {
-                    case 0:
-                        actId1 = await AddEntityNode("R&D", deptId, "Eng");
-                        actId1.Should().NotBeNull();
-                        break;
-                    case 1:
-                        actId2 = await AddEntityNode("IT", deptId, "Eng");
-                        actId2.Should().NotBeNull();
-                        break;
+                    switch (i)
+                    {
+                        case 0:
+                            actId1 = await AddEntityNode("R&D", deptId, "Eng");
+                            actId1.Should().NotBeNull();
+                            break;
+                        case 1:
+                            actId2 = await AddEntityNode("IT", deptId, "Eng");
+                            actId2.Should().NotBeNull();
+                            break;
+                    }
                 }
-
-
+            } finally
+            {
+                await orgService.DeleteNode(actId1);
+                await DeleteActDeptOrg(actId2, deptId, orgId);
             }
-            await orgService.DeleteNode(actId1);
-            await orgService.DeleteNode(actId2);
-            await orgService.DeleteNode(deptId);
-            await orgService.DeleteNode(orgId);
         }
 
 
         //level 2
         [Fact]// Ignore("work in progress")]
-        public async Task AddSubActivities_Should_Be_OK()
+        public async Task AddWorkTypes_Should_Be_OK()
         {
             var orgId = await AddEntityNode("Con");
             var deptId = await AddEntityNode("Eng", orgId, "Con");
@@ -124,29 +141,25 @@ namespace UnitTests
 
             //Act add SUBActivity
             OrgDTO dto = new OrgDTO();
-            string subActId1 = string.Empty;
-            string subActId2 = string.Empty;
+            string workTypeId1 = string.Empty;
+            string workTypeId2 = string.Empty;
             for (int i = 0; i < 2; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        subActId1 = await AddEntityNode("PazaR&D", actId, "IT");
-                        subActId1.Should().NotBeNull();
+                        workTypeId1 = await AddEntityNode("PazaR&D", actId, "IT");
+                        workTypeId1.Should().NotBeNull();
                         break;
                     case 1:
-                        subActId2 = await AddEntityNode("PazaIT", actId, "IT");
-                        subActId2.Should().NotBeNull();
+                        workTypeId2 = await AddEntityNode("PazaIT", actId, "IT");
+                        workTypeId2.Should().NotBeNull();
                         break;
                 }
-
-
             }
-             await orgService.DeleteNode(subActId1);
-            await orgService.DeleteNode(subActId2);
-            await orgService.DeleteNode(actId);
-            await orgService.DeleteNode(deptId);
-            await orgService.DeleteNode(orgId);
+            await orgService.DeleteNode(workTypeId1);
+            await orgService.DeleteNode(workTypeId2);
+            await DeleteActDeptOrg(actId, deptId, orgId);
         }
 
         //level 3
@@ -157,7 +170,7 @@ namespace UnitTests
             var orgId = await AddEntityNode("Con");
             var deptId = await AddEntityNode("Eng", orgId);
             var actId = await AddEntityNode("IT", deptId);
-            var subActId = await AddEntityNode("PazaIT", actId);
+            var workTypeId = await AddEntityNode("PazaIT", actId);
 
             //Act add Function
             string fnId1 = string.Empty;
@@ -168,15 +181,15 @@ namespace UnitTests
                 switch (i)
                 {
                     case 0:
-                        fnId1 = await AddEntityNode("SoftwareDeveloper", subActId, "PazaIT");
+                        fnId1 = await AddEntityNode("SoftwareDeveloper", workTypeId, "PazaIT");
                         fnId1.Should().NotBeNull();
                         break;
                     case 1:
-                        fnId2 = await AddEntityNode("QA", subActId, "PazaIT");
+                        fnId2 = await AddEntityNode("QA", workTypeId, "PazaIT");
                         fnId2.Should().NotBeNull();
                         break;
                     case 2:
-                        fnId3 = await AddEntityNode("BuildEngineer", subActId, "PazaIT");
+                        fnId3 = await AddEntityNode("BuildEngineer", workTypeId, "PazaIT");
                         fnId3.Should().NotBeNull();
                         break;
                 }
@@ -184,10 +197,8 @@ namespace UnitTests
             }
             await orgService.DeleteNode(fnId1);
             await orgService.DeleteNode(fnId2);
-            await orgService.DeleteNode(fnId3);
-            await orgService.DeleteNode(actId);
-            await orgService.DeleteNode(deptId);
-            await orgService.DeleteNode(orgId);
+            await DeleteFuncWorkType(fnId3, workTypeId);
+            await DeleteActDeptOrg(actId, deptId, orgId);
         }
 
         [Fact]
@@ -199,8 +210,6 @@ namespace UnitTests
             await DeleteActAssert(orgList);
         }
 
-
-
         private async Task DeleteActAssert(List<Organisation> list)
         {
             foreach (var node in list)
@@ -211,6 +220,21 @@ namespace UnitTests
                 //
                 func.Should().BeNull();
             }
+        }
+
+        private async Task DeleteFuncWorkType(string funcId,
+                                                string workTypeId)
+        {
+            await orgService.DeleteNode(funcId);
+            await orgService.DeleteNode(workTypeId);
+            //await orgService.DeleteNode(actId);
+        }
+
+        private async Task DeleteActDeptOrg(string actId, string deptId, string orgId)
+        {
+            await orgService.DeleteNode(actId);
+            await orgService.DeleteNode(deptId);
+            await orgService.DeleteNode(orgId);
         }
 
 

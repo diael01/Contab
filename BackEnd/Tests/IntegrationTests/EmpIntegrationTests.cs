@@ -1,5 +1,6 @@
 ﻿using CommonTestHelper;
 using Contracts.Models;
+using Contracts.Validation;
 using FluentAssertions;
 using FluentValidation;
 using Microsoft.AspNetCore.WebUtilities;
@@ -19,93 +20,116 @@ namespace IntegrationTests
         [TestMethod]
         public async Task GetEmployees_Integration_Should_Return_OK()
         {
-            // Arrange - in base test
-            var data = await Setup();
-
-            var uri = QueryHelpers.AddQueryString("/api/v1/Emp/GetEmployeesByLevel", "level", 0.ToString());
-            using (HttpResponseMessage response = await httpClient.GetAsync(uri!))
+            EmpData data = null;
+            try
             {
-                await CheckResponse(response);
-            }
-            await TearDown(data);
-        }
+                // Arrange - in base test
+                data = await SetupEmp();
 
+                var uri = QueryHelpers.AddQueryString("/api/v1/Emp/GetEmployeesByLevel", "level", 0.ToString());
+                using (HttpResponseMessage response = await httpClient.GetAsync(uri!))
+                {
+                    await CheckResponse(response);
+                }
+            } finally
+            {
+                await TearDownEmp(data);
+            }
+        }
 
         [TestMethod]
         public async Task AddEmp_Integration_Should_Return_OK()
         {
-            var dt = await Setup(false);
-
-            // Arrange
-            var empdt = TestData.GetEmpDTO(0, "Eu", null, "CEO");
-            var content = JsonContent.Create(empdt);
-
-            // Act          
-            var add = await httpClient.PostAsync("/api/v1/Emp/AddEmployee", content);
-
-            //Assert
-            add.Should().NotBeNull();
-            add.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            // Remove the object to leave the DB in the same state  
-            await DeleteEmployee(httpClient, new Dictionary<string, string>
+            EmpData data = null;
+            try
             {
-                ["id"] = await add.Content.ReadAsStringAsync()
-            });
-            await TearDown(dt);
-        }
+                data = await SetupOrg();
 
+                // Arrange
+                var empdt = TestData.GetEmpDTO(data, 0, "Eu");
+                new EmpDTOValidator().ValidateAndThrow(empdt);
+                var content = JsonContent.Create(empdt);
+
+                // Act          
+                var add = await httpClient.PostAsync("/api/v1/Emp/AddEmployee", content);
+
+                //Assert
+                add.Should().NotBeNull();
+                add.StatusCode.Should().Be(HttpStatusCode.OK);
+
+                // Remove the object to leave the DB in the same state  
+                await DeleteEmployee(httpClient, new Dictionary<string, string>
+                {
+                    ["id"] = await add.Content.ReadAsStringAsync()
+                });
+            } finally
+            {
+                await TearDownOrg(data);
+            }
+        }
 
         [TestMethod]
         public async Task UpdateEmp_Integration_Should_Return_OK()
         {
-            // Arrange
-            var dt = await Setup();
-
-            var emp = await TestParams.DBContext.Employees.Where(e => e.EmpNodeAsText == dt.empId).FirstOrDefaultAsync();
-            emp.Name = "TestDataNameUpdate";
-            var empDto = TestParams.mapper.Map<EmpDTO>(emp);
-            var content = JsonContent.Create(empDto);
-
-            // Act
-            var update = await httpClient.PutAsync("/api/v1/Emp/UpdateEmployee", content);
-            //Assert
-            update.Should().NotBeNull();
-            update.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            //get again the Emp from DB
-            var query = new Dictionary<string, string>
+            EmpData data = null;
+            try
             {
-                ["id"] = await update.Content.ReadAsStringAsync()
-            };
+                data = await SetupEmp();
 
-            // Act
-            var node = await httpClient.GetAsync(QueryHelpers.AddQueryString("/api/v1/Emp/GetEmployeeById", query!));
-            string contentString = await node.Content.ReadAsStringAsync();
-            var empres = JsonConvert.DeserializeObject<EmpDTO>(contentString);
-            empres.Should().NotBeNull();
-            empres!.Name.Should().Be(emp.Name);
+                var emp = await TestParams.DBContext.Employees.Where(e => e.EmpNodeAsText == data.empId).FirstOrDefaultAsync();
+                emp.Name = "TestDataNameUpdate";
+                var empDto = TestParams.mapper.Map<EmpDTO>(emp);
+                var content = JsonContent.Create(empDto);
 
-            // Remove the objects to leave the DB in the same state  
-            await TearDown(dt);
+                // Act
+                var update = await httpClient.PutAsync("/api/v1/Emp/UpdateEmployee", content);
+                //Assert
+                update.Should().NotBeNull();
+                update.StatusCode.Should().Be(HttpStatusCode.OK);
+
+                //get again the Emp from DB
+                var query = new Dictionary<string, string>
+                {
+                    ["id"] = await update.Content.ReadAsStringAsync()
+                };
+
+                // Act
+                var node = await httpClient.GetAsync(QueryHelpers.AddQueryString("/api/v1/Emp/GetEmployeeById", query!));
+                string contentString = await node.Content.ReadAsStringAsync();
+                var empres = JsonConvert.DeserializeObject<EmpDTO>(contentString);
+                empres.Should().NotBeNull();
+                empres!.Name.Should().Be(emp.Name);
+
+                // Remove the objects to leave the DB in the same state  
+            } finally
+            {
+                await TearDownEmp(data);
+            }
         }
 
         [TestMethod, Ignore("Still a concurrency issue")]
         public async Task DeleteEmp_Integration_Should_Return_OK()
         {
-            var dt = await Setup();
-            var emp = await TestParams.DBContext.Employees.Where(e => e.EmpNodeAsText == dt.empId).FirstOrDefaultAsync();
-
-            //Act
-            await DeleteEmployee(httpClient, new Dictionary<string, string>
+            EmpData data = null;
+            try
             {
-                ["id"] = dt.empId
-            });
-            //Assert
-            var dele = await TestParams.DBContext.Employees.Where(e => e.EmpNode.ToString() == dt.empId).FirstOrDefaultAsync();
-            dele.Should().BeNull();
+                data = await SetupEmp();
 
-            await TearDown(dt, false);
+                var emp = await TestParams.DBContext.Employees.Where(e => e.EmpNodeAsText == data.empId).FirstOrDefaultAsync();
+
+                //Act
+                await DeleteEmployee(httpClient, new Dictionary<string, string>
+                {
+                    ["id"] = data.empId
+                });
+                //Assert
+                var dele = await TestParams.DBContext.Employees.Where(e => e.EmpNode.ToString() == data.empId).FirstOrDefaultAsync();
+                dele.Should().BeNull();
+
+            } finally
+            {
+                await TearDownEmp(data);
+            };
         }
     }
 }

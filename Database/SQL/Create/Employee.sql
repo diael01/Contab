@@ -10,41 +10,57 @@ GO
  if exists ( select * from sys.tables where name = N'Employee')
  DROP TABLE [Employee];
 CREATE TABLE [dbo].[Employee](
-	--Id int identity(1,1) primary key clustered not null,
-	[EmpNode] [hierarchyid] primary key clustered NOT NULL,
+	[Id] int identity(1,1) primary key clustered not null ,
+	[EmpNode] [hierarchyid]  NOT NULL,
+	[Name] [nvarchar](128)		NOT NULL,-- default 'Jannie Doe',
+	[IdCardSerieNo] [nvarchar](128) not NULL,
+	[IdCardCnp] [nvarchar](128) not NULL,
+	[LastIdCardCreationDate] [smalldatetime] not NULL,
+	[MainSalary]			  Money not null, --numeric(10,2) not null,-- default 1500.05,
+	[HiringDate] [smalldatetime] not NULL default sysdatetime(),
+	[ManagerNode] [hierarchyid] Not NULL,
+	[EmpShift] char(1)			NOT NULL default 'Z', --day or night
+	[CountyCode] [char](2) not NULL,-- default 'NY',
+	[WorkGroup] smallint not null default 3 , --6- mineri, 3-IT
+	[HoursToWork] smallint not null default 8, --8 hours, make it short
+	[TypeWorkContract] smallint not null default 0, --1 inseamna normal, 8 ore, 0, 3censori, 4 pensionri,--12,13,14,17,--42,23,-48
+	[Email] [nvarchar](128) not NULL, --default 'contab@gmail.com',
+	[Gender] [char](1) not NULL default 'F',
+	[Birthday] [smalldatetime] not NULL,-- default sysdatetime(),
+	[EmpDeptNode] [hierarchyid] NOT NULL,--sectia
+	[EmpActivityNode] [hierarchyid] NOT NULL,--activitate
+	[EmpWorkTypeNode] [hierarchyid] NOT NULL,--loc munca
+	[EmpFunctionNode] [hierarchyid] NOT NULL,--functie
+	[EmpRecordChangeNo]  int not NULL default 0, -- only 5 changes allowed per month
+	[Retired] [bit] not NULL default 0,--0 nepensionar, 1 pensionar
 	[EmpNodeAsText] [nvarchar](128) NULL,
 	[EmpNodeAsName] [nvarchar](128) NULL,
 	[EmpLevel]  AS ([EmpNode].[GetLevel]()),
-	[ManagerNode] [hierarchyid] NULL,
-	[EmpShift] char(1) NOT NULL default 'Z', --day or night
-	[Name] [nvarchar](128) NOT NULL,
+	[Phone] [nvarchar](128) NULL,
 	[Surname] [nvarchar](128) NULL,
-	[Gender] [char](1) NULL,
-	[Birthday] [smalldatetime] NULL,
+	[Category] smallint NULL,
+	[EmpGradation] [char](2) NULL,
 	[CivilStatus] [char](1) NULL,
-	[HiringDate] [smalldatetime] NULL,
-	[FirstHiringDate] [smalldatetime] NULL,
-	[CountyCode] [char](2) NULL,
-	[Phone] [nvarchar](32) NULL,
+    [MgmtSalaryIncrease]       Numeric(8,2), 
+    [EndWorkCode] [char](2) NULL,
+	[EndWorkDate] [smalldatetime] NULL, 
+	[WorkExperienceSalaryIncrease] Numeric(10,2),																	
+	[FirstJobHiringDate] [smalldatetime] NULL,
 	[Location] [varchar](128) NULL,
-	[IdCardSerieNo] [nvarchar](128) NULL,
-	[IdCardCnp] [nvarchar](128) NULL,
 	[Bank1Code] [char](3) NULL,
 	[Bank1Iban] [nvarchar](128) NULL,
-	[LunchTickets] [int] NULL,
+	[LunchTickets] [smallint] NULL,
 	[AvansOrLiquidaton] [bit] NULL,
-	[YearSeniority] [int] NULL,
-	[MonthSeniority] [int] NULL,
+	[YearSeniority] [smallint] NULL,
+	[MonthSeniority] [smallint] NULL,
 	[Insured] [bit] NULL,
 	[Insurance] [nvarchar](128) NULL,
-	[LastIdCardCreationDate] [smalldatetime] NULL,
 	[Studies] [nvarchar](128) NULL,
 	[Bank2Code] [char](3) NULL,
 	[Bank2Iban] [nvarchar](128) NULL,
-	[Retired] [bit] NULL,
 	[RetirementSeniority] [char](2) NULL,
-	[RetirementSupplement] [int] NULL,
-	[RetirementExclusionReason] [int] NULL,
+	[RetirementSupplement] [smallint] NULL,
+	[RetirementExclusionReason] [smallint] NULL,
 	[CreatedAt] [smalldatetime] NULL,
 	[CreatedBy] [nvarchar](128) NULL,
 	[UpdatedAt] [smalldatetime] NOT NULL,
@@ -52,15 +68,15 @@ CREATE TABLE [dbo].[Employee](
 GO
 
 
-ALTER TABLE [dbo].[Employee]  WITH CHECK ADD  CONSTRAINT [FK_Employee_Employee] FOREIGN KEY([ManagerNode])
-REFERENCES [dbo].[Employee] ([EmpNode])
-GO
+--ALTER TABLE [dbo].[Employee]  WITH CHECK ADD  CONSTRAINT [FK_Employee_Employee] FOREIGN KEY([ManagerNode])
+--REFERENCES [dbo].[Employee] ([EmpNode])
+--GO
 
-ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Employee]
-GO
+--ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Employee]
+--GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Employee', @level2type=N'CONSTRAINT',@level2name=N'FK_Employee_Employee'
-GO
+--EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Employee', @level2type=N'CONSTRAINT',@level2name=N'FK_Employee_Employee'
+--GO
 
 CREATE INDEX Emp_BreadthFirst ON Employee(EmpLevel, EmpNode);
 
@@ -72,22 +88,24 @@ CREATE INDEX Emp_BreadthFirst ON Employee(EmpLevel, EmpNode);
 --[ZI_N]                             Integer, 
 --[S_CIVIL]                          Char(1), 
 --[COD_JUD]                          Integer, 
---[PEN_FC]                           Integer, 
 --[AN_A]                             Integer, 
 --[LN_A]                             Integer, 
 --[ZI_A]                             Integer, 
 --[AN_VT]                            Integer, 
 --[LN_VT]                            Integer, 
 --[ZI_VT]                            Integer, 
+
 --[AN_VN]                            Integer, 
 --[LN_VN]                            Integer, 
 --[ZI_VN]                            Integer, 
 --[AN_SV]                            Integer, 
 --[LN_SV]                            Integer, 
---[P_SV]                             Char(2), 
---[PEN_SUP]                          Integer, 
+
+
 --[AN_SV]                            Integer, -- ??? ang+x ani => an spor vechime inceput
 --[LN_SV]                            Integer, 
+
+--[PEN_FC]                           Integer,
 --[P_SV]                             Char(2), --? pensie spor vechime
 --[PEN_SUP]                          Integer, -- ?pensie suplimentra
 --[ASIGS5]                           Integer, ---asigurat sa neasigurat

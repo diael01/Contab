@@ -1,4 +1,5 @@
 ﻿using Contracts.Models;
+using static CommonTestHelper.CommonHelper;
 
 namespace CommonTestHelper
 {
@@ -27,14 +28,33 @@ namespace CommonTestHelper
             return org;
         }
 
-        public static EmpDTO GetEmpDTO(short? level = null, string name = null, string manager = null,
-                                                     string func = null,
-                                                     string funcText = null)
+        public static EmpDTO GetEmpDTO(EmpData d, short? level, string name,
+                                                        string managerAsText = null)
         {
             EmpDTO emp = new EmpDTO();
-            emp.Name = name == null ? "Eu" : name;
-            emp.EmpLevel = level == null ? 0 : level;
+            emp.Name = name ?? "Eu";
+            emp.EmpLevel = level ?? 0;
             emp.Location = "Location_" + name;
+            emp.IdCardSerieNo = "RX12345";
+            emp.IdCardCnp = "123456123456";
+            emp.MainSalary = new decimal(100.5);
+            emp.LastIdCardCreationDate = DateTime.Now; //just bogus data
+
+            emp.CountyCode = "NY";//judetul
+            emp.Email = "contab@gmail.com";
+            emp.Birthday = DateTime.Now; //just bogus data
+
+            //emp.ManagerNodeAsName = manager ?? "Eu";
+            emp.ManagerNodeAsText = managerAsText;
+            //emp.EmpDeptNodeAsName = dept ?? "IT";
+            emp.EmpDeptNodeAsText = d.deptId;
+            //emp.EmpActivityNodeAsName = act ?? "Research";
+            emp.EmpActivityNodeAsText = d.actId;
+            //emp.EmpWorkTypeNodeAsName = wtyp ?? "Paza";
+            emp.EmpWorkTypeNodeAsText = d.workTypeId;
+            //emp.EmpFunctionNodeAsName = func ?? "SDev";
+            emp.EmpFunctionNodeAsText = d.funcId1;
+
             return emp;
         }
     }

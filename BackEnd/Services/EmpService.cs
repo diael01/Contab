@@ -118,12 +118,18 @@ namespace Services
             else
             {
                 //search the node via name
-                Employee obj = await DBContext.Employees.Where(e => e.EmpNodeAsName == emp.Name).FirstOrDefaultAsync();
+                Employee obj = await DBContext.Employees.Where(e => (e.EmpNode == HierarchyId.Parse(emp.EmpNodeAsText))
+                                                                    || (e.Name == emp.EmpNodeAsName)).FirstOrDefaultAsync();
                 if (obj != null)
                     return obj.ManagerNode;
                 else
-                    node = HierarchyId.GetRoot();
-
+                {
+                    obj = await DBContext.Employees.Where(e => (e.Name == emp.EmpNodeAsName)).FirstOrDefaultAsync();
+                    if (obj != null)
+                        return obj.ManagerNode;
+                    else
+                        node = HierarchyId.GetRoot();
+                }
             }
             return node;
         }
