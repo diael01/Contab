@@ -107,7 +107,7 @@ namespace IntegrationTests
             }
         }
 
-        [TestMethod, Ignore("Still a concurrency issue")]
+        [TestMethod]
         public async Task DeleteEmp_Integration_Should_Return_OK()
         {
             EmpData data = null;
