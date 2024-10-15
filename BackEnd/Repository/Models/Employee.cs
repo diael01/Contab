@@ -10,11 +10,15 @@ public partial class Employee
 
     public HierarchyId EmpNode { get; set; } = null!;
 
+    public int EmpRecordChangeDay { get; set; }
+
     public string Name { get; set; } = null!;
 
     public string IdCardSerieNo { get; set; } = null!;
 
     public string IdCardCnp { get; set; } = null!;
+
+    public DateTime LastIdCardCreationDate { get; set; }
 
     public decimal MainSalary { get; set; }
 
@@ -45,8 +49,6 @@ public partial class Employee
     public HierarchyId EmpWorkTypeNode { get; set; } = null!;
 
     public HierarchyId EmpFunctionNode { get; set; } = null!;
-
-    public int EmpRecordChangeNo { get; set; }
 
     public bool Retired { get; set; }
 
@@ -93,8 +95,6 @@ public partial class Employee
     public bool? Insured { get; set; }
 
     public string? Insurance { get; set; }
-
-    public DateTime LastIdCardCreationDate { get; set; }
 
     public string? Studies { get; set; }
 

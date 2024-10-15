@@ -19,12 +19,11 @@ public partial class ContabContext : DbContext
 
     public virtual DbSet<Organisation> Organisations { get; set; }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Employee__3214EC072BB8E1D7");
+            entity.HasKey(e => e.Id).HasName("PK__Employee__3214EC072AAAE874");
 
             entity.ToTable("Employee");
 

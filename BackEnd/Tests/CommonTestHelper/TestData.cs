@@ -43,6 +43,8 @@ namespace CommonTestHelper
             emp.CountyCode = "NY";//judetul
             emp.Email = "contab@gmail.com";
             emp.Birthday = DateTime.Now; //just bogus data
+            emp.Gender = "F";
+            emp.EmpShift = "Z";
 
             //emp.ManagerNodeAsName = manager ?? "Eu";
             emp.ManagerNodeAsText = managerAsText;

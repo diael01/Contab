@@ -12,6 +12,7 @@ GO
 CREATE TABLE [dbo].[Employee](
 	[Id] int identity(1,1) primary key clustered not null ,
 	[EmpNode] [hierarchyid]  NOT NULL,
+	[EmpRecordChangeDay]  int not NULL default 0, -- only 5 changes allowed per month
 	[Name] [nvarchar](128)		NOT NULL,-- default 'Jannie Doe',
 	[IdCardSerieNo] [nvarchar](128) not NULL,
 	[IdCardCnp] [nvarchar](128) not NULL,
@@ -31,7 +32,7 @@ CREATE TABLE [dbo].[Employee](
 	[EmpActivityNode] [hierarchyid] NOT NULL,--activitate
 	[EmpWorkTypeNode] [hierarchyid] NOT NULL,--loc munca
 	[EmpFunctionNode] [hierarchyid] NOT NULL,--functie
-	[EmpRecordChangeNo]  int not NULL default 0, -- only 5 changes allowed per month
+
 	[Retired] [bit] not NULL default 0,--0 nepensionar, 1 pensionar
 	[EmpNodeAsText] [nvarchar](128) NULL,
 	[EmpNodeAsName] [nvarchar](128) NULL,

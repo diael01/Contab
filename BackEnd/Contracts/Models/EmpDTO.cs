@@ -6,6 +6,8 @@
 
         public string? EmpNodeAsText { get; set; }
 
+        public int EmpRecordChangeDay { get; set; }
+
         public string? EmpNodeAsName { get; set; }
 
         public short? EmpLevel { get; set; }
