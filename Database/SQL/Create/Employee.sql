@@ -12,75 +12,111 @@ GO
 CREATE TABLE [dbo].[Employee](
 	[Id] int identity(1,1) primary key clustered not null ,
 	[EmpNode] [hierarchyid]  NOT NULL,
-	[EmpRecordChangeDay]  int not NULL default 0, -- only 5 changes allowed per month
+	[EmpRecordChangeDay]  int not NULL default 0, --[ZIM]= only 5 changes allowed per month = ZIM = zi modificare 0-30
 	[Name] [nvarchar](128)		NOT NULL,-- default 'Jannie Doe',
 	[IdCardSerieNo] [nvarchar](128) not NULL,
 	[IdCardCnp] [nvarchar](128) not NULL,
-	[LastIdCardCreationDate] [smalldatetime] not NULL,
-	[MainSalary]			  Money not null, --numeric(10,2) not null,-- default 1500.05,
+	[LastIdCardCreationDate] [smalldatetime] not NULL,--CALIF?
+	[MainSalary]			  Money not null, --numeric(10,2) not null,-- default 1500.05,= RETRIB
 	[HiringDate] [smalldatetime] not NULL default sysdatetime(),
 	[ManagerNode] [hierarchyid] Not NULL,
 	[EmpShift] char(1)			NOT NULL default 'Z', --day or night
 	[CountyCode] [char](2) not NULL,-- default 'NY',
 	[WorkGroup] smallint not null default 3 , --6- mineri, 3-IT
 	[HoursToWork] smallint not null default 8, --8 hours, make it short
-	[TypeWorkContract] smallint not null default 0, --1 inseamna normal, 8 ore, 0, 3censori, 4 pensionri,--12,13,14,17,--42,23,-48
-	[Email] [nvarchar](128) not NULL, --default 'contab@gmail.com',
+	[WorkTypeContract] smallint not null default 0,--=[SP]? --0 sau 1=tesa, --1 inseamna normal, 8 ore, 0, 3censori, 4 pensionri,--12,13,14,17,--42,23,-48
+	--ContractType
+	[Email] [nvarchar](128) not NULL, 
+	[WorkEmail] [nvarchar](128) not null default 'org@org.com', 
 	[Gender] [char](1) not NULL default 'F',
 	[Birthday] [smalldatetime] not NULL,-- default sysdatetime(),
 	[EmpDeptNode] [hierarchyid] NOT NULL,--sectia
 	[EmpActivityNode] [hierarchyid] NOT NULL,--activitate
 	[EmpWorkTypeNode] [hierarchyid] NOT NULL,--loc munca
 	[EmpFunctionNode] [hierarchyid] NOT NULL,--functie
-
-	[Retired] [bit] not NULL default 0,--0 nepensionar, 1 pensionar
-	[EmpNodeAsText] [nvarchar](128) NULL,
-	[EmpNodeAsName] [nvarchar](128) NULL,
-	[EmpLevel]  AS ([EmpNode].[GetLevel]()),
+	----from Salar
+	[Retired] [bit] not NULL default 0,--0 nepensionar, 1 pensionar --PEN_FC?
 	[Phone] [nvarchar](128) NULL,
 	[Surname] [nvarchar](128) NULL,
 	[Category] smallint NULL,
-	[EmpGradation] [char](2) NULL,
+	[EmpGradation] [char](2) NULL,--STUDII
 	[CivilStatus] [char](1) NULL,
-    [MgmtSalaryIncrease]       Numeric(8,2), 
+    [MgmtSalaryIncrease]       Money, --IND_COND
     [EndWorkCode] [char](2) NULL,
 	[EndWorkDate] [smalldatetime] NULL, 
-	[WorkExperienceSalaryIncrease] Numeric(10,2),																	
-	[FirstJobHiringDate] [smalldatetime] NULL,
-	[Location] [varchar](128) NULL,
+	[WorkExperienceSalaryIncrease] Money,																	
+	[FirstJobHiringDate] [smalldatetime] NULL,--
+	[Location] [varchar](128) NULL,--adresa
+	[MealTickets] bit NULL,--T_Cl
+	[AvansOrLiquidaton] [bit] NULL,--AV_LI2
+	[YearSeniority] [smallint] NULL,--AN_SV
+	[MonthSeniority] [smallint] NULL,--LN_SV
+	[Insured] [bit] NULL,--ASIGS5
+	[Insurance] [nvarchar](128) NULL,--ASCASA
+	[Studies] [nvarchar](128) NULL,
 	[Bank1Code] [char](3) NULL,
 	[Bank1Iban] [nvarchar](128) NULL,
-	[LunchTickets] [smallint] NULL,
-	[AvansOrLiquidaton] [bit] NULL,
-	[YearSeniority] [smallint] NULL,
-	[MonthSeniority] [smallint] NULL,
-	[Insured] [bit] NULL,
-	[Insurance] [nvarchar](128) NULL,
-	[Studies] [nvarchar](128) NULL,
 	[Bank2Code] [char](3) NULL,
 	[Bank2Iban] [nvarchar](128) NULL,
-	[RetirementSeniority] [char](2) NULL,
-	[RetirementSupplement] [smallint] NULL,
-	[RetirementExclusionReason] [smallint] NULL,
+	[RetirementSeniority] [char](2) NULL,--P_SV
+	[RetirementSupplement] [smallint] NULL,--PEN_SUB
+	[RetirementExclusionReason] [smallint] NULL,--MOTIVEXC
+	RetirementPilonGovt smallint, --PILON?
+	-------------din pontaj1,2
+	MoneyAdvance Money null, --AVC, --[ZILAN]   Char(2), --?DateCalculationPontaj1 smalldatetime,--redundant, TBD check if it can be in param
+	HoursRegie smallint,--OLR
+	HoursOOOGiven smallint, --OINV ore invoire
+	HoursNotmotivatedAbsence smallint,--OAN
+	HoursInterruption smallint,--OINTR
+	HoursInterruptionNotmotivated smallint,--OINTRN
+	HoursExcludedFromSeniorityAddition smallint,--ONSPV, ce este ONPRRS?
+	DaysLeave smallint,--ZICO, --ZIC?
+	DaysLeaveWithoutPay smallint,--ZICOFR
+	DaysSick smallint,--ZIBT
+	DaysUnmotivatedAbsence smallint,--ZIAN, [ABNZI]?
+	DaysOOOGiven smallint,--[INVVZI]
+	LeaveGross Money,--COBR
+	MoneyLeaveLiquidation Money null,--AVCOL
+	MoneyFinancialAid Money,--AAJM
+	MoneyPartialSalary Money,--ARET
+	MoneyBonus Money,--PRBR
+	MoneyPartialBonus Money,--AVPR
+	PercentDiminishQuantitative numeric,--DCANT
+	PercentDimishFinal numeric,--DDEF
+	MoneyGrossForOtherTimes Money,--SBRAP
+	ContractNoIndivAccord nvarchar(128),--NRCAG
+	IndividualAcord smallint,--SPAG
+	HoursIndivAccord smallint, --OLA
+	PercentIncreaseIndivAccord numeric,--MAG
+	PercentDecreasecreaseIndivAccord numeric,--DAG
+    HoursWorkedInTL smallint,--OLATL
+	PercentIncreaseTL numeric,--MAJTL
+	PercentDecreaseTL numeric,--DIMTL
+	BaseCalculationTL numeric,--BAZATL
+	TaxCumulated money,--[IMPZC]
+	BonusGrossSpecial money,--[PRBR_S]
+	BonusManagement money,--[INDCA]
+	BonusManagementPartial Money,--[AVINDCA]
+	UntaxedMoney Money,--[SNEIM]
+	HoursLeave smallint,--OZICO
+	HoursLeaveWithoutPay smallint,--OCOFR
+	MoneyMealTickets Money,--VALTIC
+	MoneyGiftTicket Money,--VTIC_CAD
+	NumberOfTickets smallint,--NTIC_CAD
+	----------------------------------
+	[EmpNodeAsText] [nvarchar](128) NULL,
+	[EmpNodeAsName] [nvarchar](128) NULL,
+	[EmpLevel]  AS ([EmpNode].[GetLevel]()),
 	[CreatedAt] [smalldatetime] NULL,
 	[CreatedBy] [nvarchar](128) NULL,
 	[UpdatedAt] [smalldatetime] NOT NULL,
-	[UpdatedBy] [nvarchar](128) NOT NULL)
+	[UpdatedBy] [nvarchar](128) NOT NULL
+	)
 GO
-
-
---ALTER TABLE [dbo].[Employee]  WITH CHECK ADD  CONSTRAINT [FK_Employee_Employee] FOREIGN KEY([ManagerNode])
---REFERENCES [dbo].[Employee] ([EmpNode])
---GO
-
---ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Employee]
---GO
-
---EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Employee', @level2type=N'CONSTRAINT',@level2name=N'FK_Employee_Employee'
---GO
-
 CREATE INDEX Emp_BreadthFirst ON Employee(EmpLevel, EmpNode);
 
+------------------------------------------------
+--Personal
 --[MARCA]                            Integer, 
 --[NP]                               Char(31), 
 --[SEX]                              Char(1), 
@@ -95,17 +131,13 @@ CREATE INDEX Emp_BreadthFirst ON Employee(EmpLevel, EmpNode);
 --[AN_VT]                            Integer, 
 --[LN_VT]                            Integer, 
 --[ZI_VT]                            Integer, 
-
 --[AN_VN]                            Integer, 
 --[LN_VN]                            Integer, 
 --[ZI_VN]                            Integer, 
 --[AN_SV]                            Integer, 
 --[LN_SV]                            Integer, 
-
-
 --[AN_SV]                            Integer, -- ??? ang+x ani => an spor vechime inceput
 --[LN_SV]                            Integer, 
-
 --[PEN_FC]                           Integer,
 --[P_SV]                             Char(2), --? pensie spor vechime
 --[PEN_SUP]                          Integer, -- ?pensie suplimentra
@@ -138,3 +170,27 @@ CREATE INDEX Emp_BreadthFirst ON Employee(EmpLevel, EmpNode);
 --[PILON]                            Integer, -- daca vrea sa tina bani pt alta pensie privata, nr 0=null, 2
 ----////[ASIGEXC]                          Integer, -- asigurat excepetat de la?
 --[MOTIVEXC]                         Integer); -- motivul exceptarii? 1=pensionar, 2=eelev, 3 
+
+/* Tabela Salar
+[ZI_MOD]                           Integer, 
+[COD_FUNC]                         Char(6), 
+[CATEG]                            Integer, 
+[GRAD]                             Char(2), 
+[RETRIB]                           Numeric(10,2), 
+[IND_COND]                         Numeric(8,2), 
+[PROCENT]                          Numeric(6,2), 
+[COD_DCM]                          Char(1), 
+[AN_DCM]                           Integer, 
+[LN_DCM]                           Integer, 
+[ZI_DCM]                           Integer, 
+[COD_SEC]                          Integer, 
+[COD_ACT]                          Integer, 
+[COD_LM]                           Integer, 
+[SCH]                              Char(1), 
+[REGIM_LZ]                         Integer, 
+[GRMUNCA]                          Integer, 
+[NIV]                              Char(1), 
+[SP_V]                             Integer, 
+[CONT]                             Char(10), 
+[RETRIBV]                          Numeric(10,0), 
+[RETR0110]                         Integer);*/

@@ -18,7 +18,7 @@
 
         public string IdCardCnp { get; set; } = null!;
 
-        public DateTime LastIdCardCreationDate { get; set; } 
+        public DateTime LastIdCardCreationDate { get; set; }
 
         public decimal MainSalary { get; set; }
 

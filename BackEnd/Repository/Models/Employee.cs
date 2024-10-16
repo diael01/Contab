@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Models;
 
@@ -34,9 +32,11 @@ public partial class Employee
 
     public short HoursToWork { get; set; }
 
-    public short TypeWorkContract { get; set; }
+    public short WorkTypeContract { get; set; }
 
     public string Email { get; set; } = null!;
+
+    public string WorkEmail { get; set; } = null!;
 
     public string Gender { get; set; } = null!;
 
@@ -51,12 +51,6 @@ public partial class Employee
     public HierarchyId EmpFunctionNode { get; set; } = null!;
 
     public bool Retired { get; set; }
-
-    public string? EmpNodeAsText { get; set; }
-
-    public string? EmpNodeAsName { get; set; }
-
-    public short? EmpLevel { get; set; }
 
     public string? Phone { get; set; }
 
@@ -80,11 +74,7 @@ public partial class Employee
 
     public string? Location { get; set; }
 
-    public string? Bank1Code { get; set; }
-
-    public string? Bank1Iban { get; set; }
-
-    public short? LunchTickets { get; set; }
+    public bool? MealTickets { get; set; }
 
     public bool? AvansOrLiquidaton { get; set; }
 
@@ -98,6 +88,10 @@ public partial class Employee
 
     public string? Studies { get; set; }
 
+    public string? Bank1Code { get; set; }
+
+    public string? Bank1Iban { get; set; }
+
     public string? Bank2Code { get; set; }
 
     public string? Bank2Iban { get; set; }
@@ -107,6 +101,94 @@ public partial class Employee
     public short? RetirementSupplement { get; set; }
 
     public short? RetirementExclusionReason { get; set; }
+
+    public short? RetirementPilonGovt { get; set; }
+
+    public decimal? MoneyAdvance { get; set; }
+
+    public short? HoursRegie { get; set; }
+
+    public short? HoursOoogiven { get; set; }
+
+    public short? HoursNotmotivatedAbsence { get; set; }
+
+    public short? HoursInterruption { get; set; }
+
+    public short? HoursInterruptionNotmotivated { get; set; }
+
+    public short? HoursExcludedFromSeniorityAddition { get; set; }
+
+    public short? DaysLeave { get; set; }
+
+    public short? DaysLeaveWithoutPay { get; set; }
+
+    public short? DaysSick { get; set; }
+
+    public short? DaysUnmotivatedAbsence { get; set; }
+
+    public short? DaysOoogiven { get; set; }
+
+    public decimal? LeaveGross { get; set; }
+
+    public decimal? MoneyLeaveLiquidation { get; set; }
+
+    public decimal? MoneyFinancialAid { get; set; }
+
+    public decimal? MoneyPartialSalary { get; set; }
+
+    public decimal? MoneyBonus { get; set; }
+
+    public decimal? MoneyPartialBonus { get; set; }
+
+    public decimal? PercentDiminishQuantitative { get; set; }
+
+    public decimal? PercentDimishFinal { get; set; }
+
+    public decimal? MoneyGrossForOtherTimes { get; set; }
+
+    public string? ContractNoIndivAccord { get; set; }
+
+    public short? IndividualAcord { get; set; }
+
+    public short? HoursIndivAccord { get; set; }
+
+    public decimal? PercentIncreaseIndivAccord { get; set; }
+
+    public decimal? PercentDecreasecreaseIndivAccord { get; set; }
+
+    public short? HoursWorkedInTl { get; set; }
+
+    public decimal? PercentIncreaseTl { get; set; }
+
+    public decimal? PercentDecreaseTl { get; set; }
+
+    public decimal? BaseCalculationTl { get; set; }
+
+    public decimal? TaxCumulated { get; set; }
+
+    public decimal? BonusGrossSpecial { get; set; }
+
+    public decimal? BonusManagement { get; set; }
+
+    public decimal? BonusManagementPartial { get; set; }
+
+    public decimal? UntaxedMoney { get; set; }
+
+    public short? HoursLeave { get; set; }
+
+    public short? HoursLeaveWithoutPay { get; set; }
+
+    public decimal? MoneyMealTickets { get; set; }
+
+    public decimal? MoneyGiftTicket { get; set; }
+
+    public short? NumberOfTickets { get; set; }
+
+    public string? EmpNodeAsText { get; set; }
+
+    public string? EmpNodeAsName { get; set; }
+
+    public short? EmpLevel { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
