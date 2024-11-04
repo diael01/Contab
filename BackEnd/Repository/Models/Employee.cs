@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Models;
 
@@ -8,13 +10,13 @@ public partial class Employee
 
     public HierarchyId EmpNode { get; set; } = null!;
 
-    public int EmpRecordChangeDay { get; set; }
+    public DateTime? EmpRecordChangeDate { get; set; }
 
     public string Name { get; set; } = null!;
 
     public string IdCardSerieNo { get; set; } = null!;
 
-    public string IdCardCnp { get; set; } = null!;
+    public decimal IdCardCnp { get; set; }
 
     public DateTime LastIdCardCreationDate { get; set; }
 
@@ -76,7 +78,7 @@ public partial class Employee
 
     public bool? MealTickets { get; set; }
 
-    public bool? AvansOrLiquidaton { get; set; }
+    public bool? AdvanceOrLiquidaton { get; set; }
 
     public short? YearSeniority { get; set; }
 
@@ -90,11 +92,7 @@ public partial class Employee
 
     public string? Bank1Code { get; set; }
 
-    public string? Bank1Iban { get; set; }
-
     public string? Bank2Code { get; set; }
-
-    public string? Bank2Iban { get; set; }
 
     public string? RetirementSeniority { get; set; }
 
@@ -183,6 +181,120 @@ public partial class Employee
     public decimal? MoneyGiftTicket { get; set; }
 
     public short? NumberOfTickets { get; set; }
+
+    public short? CodRetentionAdvance { get; set; }
+
+    public string? AdvanceDocumentNo { get; set; }
+
+    public decimal? RateRetentionAdvance { get; set; }
+
+    public DateTime? FundEnterDate { get; set; }
+
+    public decimal? FundTax { get; set; }
+
+    public decimal? FundTotal { get; set; }
+
+    public decimal? MonthlyContributionToFound { get; set; }
+
+    public DateTime? BorrowingDate { get; set; }
+
+    public decimal? BorrowedHowMuch { get; set; }
+
+    public decimal? ReturnedHowMuch { get; set; }
+
+    public decimal? InterestOnBorrowed { get; set; }
+
+    public decimal? InterestRestant { get; set; }
+
+    public decimal? InterestNotCalculated { get; set; }
+
+    public decimal? RateRetentionLiquidation { get; set; }
+
+    public short? CodRetentionLiquidation { get; set; }
+
+    public short? CodRetentionBeneficiary { get; set; }
+
+    public short? LiquidationDocumentNo { get; set; }
+
+    public DateTime? LiquidationDocumentDate { get; set; }
+
+    public decimal? MonthlyRetentionRate { get; set; }
+
+    public decimal? Penalty { get; set; }
+
+    public decimal? LastRate { get; set; }
+
+    public decimal? OtherRate { get; set; }
+
+    public decimal? PriorityRate { get; set; }
+
+    public string? IncreaseCode { get; set; }
+
+    public decimal? Base { get; set; }
+
+    public decimal? WorkQuantity { get; set; }
+
+    public decimal? IncreaseValue { get; set; }
+
+    public decimal? TotalIncreaseValue { get; set; }
+
+    public string? IncreaseCode2 { get; set; }
+
+    public decimal? Base2 { get; set; }
+
+    public decimal? WorkQuantity2 { get; set; }
+
+    public decimal? IncreaseValue2 { get; set; }
+
+    public decimal? TotalIncreaseValue2 { get; set; }
+
+    public string? IncreaseCode3 { get; set; }
+
+    public decimal? Base3 { get; set; }
+
+    public decimal? WorkQuantity3 { get; set; }
+
+    public decimal? IncreaseValue3 { get; set; }
+
+    public decimal? TotalIncreaseValue3 { get; set; }
+
+    public string? IncreaseCode4 { get; set; }
+
+    public decimal? Base4 { get; set; }
+
+    public decimal? WorkQuantity4 { get; set; }
+
+    public decimal? IncreaseValue4 { get; set; }
+
+    public decimal? TotalIncreaseValue4 { get; set; }
+
+    public decimal? SalinlocReplacementSalaryForWhichInCalculateTheIncrease { get; set; }
+
+    public decimal? Ro1HourlyRegimeForIncreaseCalculations { get; set; }
+
+    public decimal? Ro2HourlyRegimeForIncreaseCalculations { get; set; }
+
+    public decimal? Ro3HourlyRegimeForIncreaseCalculations { get; set; }
+
+    public decimal? Ro4HourlyRegimeForIncreaseCalculations { get; set; }
+
+    public decimal? GrossBonus { get; set; }
+
+    public decimal? NetBonus { get; set; }
+
+    public DateTime? BonusPayDate { get; set; }
+
+    public string? BonusType { get; set; }
+
+    public decimal? ContributionToHealth { get; set; }
+
+    public decimal? ContributinToRetirement { get; set; }
+
+    public decimal? ContributionToUnemployment { get; set; }
+
+    public decimal? TotalTaxOnAdvance { get; set; }
+
+    public string? AllOrOnlyWomenOrOnlyMen { get; set; }
 
     public string? EmpNodeAsText { get; set; }
 

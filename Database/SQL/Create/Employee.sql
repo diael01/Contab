@@ -10,57 +10,55 @@ GO
  if exists ( select * from sys.tables where name = N'Employee')
  DROP TABLE [Employee];
 CREATE TABLE [dbo].[Employee](
-	[Id] int identity(1,1) primary key clustered not null ,
-	[EmpNode] [hierarchyid]  NOT NULL,
-	[EmpRecordChangeDay]  int not NULL default 0, --[ZIM]= only 5 changes allowed per month = ZIM = zi modificare 0-30
-	[Name] [nvarchar](128)		NOT NULL,-- default 'Jannie Doe',
-	[IdCardSerieNo] [nvarchar](128) not NULL,
-	[IdCardCnp] [nvarchar](128) not NULL,
-	[LastIdCardCreationDate] [smalldatetime] not NULL,--CALIF?
+	[Id] int identity(1,1) primary key clustered not null,
+	[EmpNode] hierarchyid  NOT NULL, 
+	EmpRecordChangeDate smalldatetime,--[ZIM]= only 5 changes allowed per month = ZIM = zi modificare 0-30
+	[Name] nvarchar(128)		NOT NULL,-- default 'Jannie Doe',
+	[IdCardSerieNo] nvarchar(128) not NULL,
+	[IdCardCnp] numeric(13,0) not NULL,
+	[LastIdCardCreationDate] smalldatetime not NULL,--CALIF?
 	[MainSalary]			  Money not null, --numeric(10,2) not null,-- default 1500.05,= RETRIB
-	[HiringDate] [smalldatetime] not NULL default sysdatetime(),
-	[ManagerNode] [hierarchyid] Not NULL,
+	[HiringDate] smalldatetime not NULL default sysdatetime(),
+	[ManagerNode] hierarchyid Not NULL,
 	[EmpShift] char(1)			NOT NULL default 'Z', --day or night
-	[CountyCode] [char](2) not NULL,-- default 'NY',
+	[CountyCode] char(2) not NULL,-- default 'NY',
 	[WorkGroup] smallint not null default 3 , --6- mineri, 3-IT
 	[HoursToWork] smallint not null default 8, --8 hours, make it short
 	[WorkTypeContract] smallint not null default 0,--=[SP]? --0 sau 1=tesa, --1 inseamna normal, 8 ore, 0, 3censori, 4 pensionri,--12,13,14,17,--42,23,-48
 	--ContractType
-	[Email] [nvarchar](128) not NULL, 
-	[WorkEmail] [nvarchar](128) not null default 'org@org.com', 
-	[Gender] [char](1) not NULL default 'F',
-	[Birthday] [smalldatetime] not NULL,-- default sysdatetime(),
-	[EmpDeptNode] [hierarchyid] NOT NULL,--sectia
-	[EmpActivityNode] [hierarchyid] NOT NULL,--activitate
-	[EmpWorkTypeNode] [hierarchyid] NOT NULL,--loc munca
-	[EmpFunctionNode] [hierarchyid] NOT NULL,--functie
+	[Email] nvarchar(128) not NULL, 
+	[WorkEmail] nvarchar(128) not null default 'org@org.com', 
+	[Gender] char(1) not NULL default 'F',
+	[Birthday] smalldatetime not NULL,-- default sysdatetime(),
+	[EmpDeptNode] hierarchyid NOT NULL,--sectia
+	[EmpActivityNode] hierarchyid NOT NULL,--activitate
+	[EmpWorkTypeNode] hierarchyid NOT NULL,--loc munca care e impropriu, spus tipul de munca
+	[EmpFunctionNode] hierarchyid NOT NULL,--functie
 	----from Salar
-	[Retired] [bit] not NULL default 0,--0 nepensionar, 1 pensionar --PEN_FC?
-	[Phone] [nvarchar](128) NULL,
-	[Surname] [nvarchar](128) NULL,
-	[Category] smallint NULL,
-	[EmpGradation] [char](2) NULL,--STUDII
-	[CivilStatus] [char](1) NULL,
+	[Retired] bit not NULL default 0,--0 nepensionar, 1 pensionar --PEN_FC?
+	[Phone] nvarchar(128),
+	[Surname] nvarchar(128),
+	[Category] smallint,
+	[EmpGradation] char(2),--STUDII
+	[CivilStatus] char(1),
     [MgmtSalaryIncrease]       Money, --IND_COND
-    [EndWorkCode] [char](2) NULL,
-	[EndWorkDate] [smalldatetime] NULL, 
+    [EndWorkCode] char(2),
+	[EndWorkDate] smalldatetime, 
 	[WorkExperienceSalaryIncrease] Money,																	
-	[FirstJobHiringDate] [smalldatetime] NULL,--
+	[FirstJobHiringDate] smalldatetime,--
 	[Location] [varchar](128) NULL,--adresa
-	[MealTickets] bit NULL,--T_Cl
-	[AvansOrLiquidaton] [bit] NULL,--AV_LI2
-	[YearSeniority] [smallint] NULL,--AN_SV
-	[MonthSeniority] [smallint] NULL,--LN_SV
-	[Insured] [bit] NULL,--ASIGS5
-	[Insurance] [nvarchar](128) NULL,--ASCASA
-	[Studies] [nvarchar](128) NULL,
-	[Bank1Code] [char](3) NULL,
-	[Bank1Iban] [nvarchar](128) NULL,
-	[Bank2Code] [char](3) NULL,
-	[Bank2Iban] [nvarchar](128) NULL,
-	[RetirementSeniority] [char](2) NULL,--P_SV
-	[RetirementSupplement] [smallint] NULL,--PEN_SUB
-	[RetirementExclusionReason] [smallint] NULL,--MOTIVEXC
+	[MealTickets] bit,--T_Cl
+	[AdvanceOrLiquidaton] bit,--AV_LI2
+	[YearSeniority] smallint,--AN_SV
+	[MonthSeniority] smallint,--LN_SV
+	[Insured] bit,--ASIGS5
+	[Insurance] nvarchar(128) ,--ASCASA
+	[Studies] nvarchar(128),
+	[Bank1Code] char(3),
+	[Bank2Code] char(3),
+	[RetirementSeniority] char(2),--P_SV
+	[RetirementSupplement] smallint,--PEN_SUB
+	[RetirementExclusionReason] smallint,--MOTIVEXC
 	RetirementPilonGovt smallint, --PILON?
 	-------------din pontaj1,2
 	MoneyAdvance Money null, --AVC, --[ZILAN]   Char(2), --?DateCalculationPontaj1 smalldatetime,--redundant, TBD check if it can be in param
@@ -104,6 +102,77 @@ CREATE TABLE [dbo].[Employee](
 	MoneyGiftTicket Money,--VTIC_CAD
 	NumberOfTickets smallint,--NTIC_CAD
 	----------------------------------
+	--RetinerAvans
+	CodRetentionAdvance smallint,--COD_RET
+	AdvanceDocumentNo nvarchar(128),--NR_DOC, nr documentlui de imrpumut dex la casa
+	RateRetentionAdvance  Money,--RATA_CHZ1
+	FundEnterDate smalldatetime, --LN_I_CAR,AN_I_CAR, CAR=Casa de ajutor reciproc, old commie value
+	FundTax Money,--TAX_CAR
+	FundTotal Money,--FOND_CAR
+	MonthlyContributionToFound Money,--CORIZ_LN,
+	BorrowingDate smalldatetime, --LN_IMPR,AN_IMPR
+	BorrowedHowMuch Money, --IMPR_ACORD, cat s-a imprumutat
+	ReturnedHowMuch Money, --IMPR_RET
+	InterestOnBorrowed numeric, --DOB_CAR
+	InterestRestant Money, --DOB_RES
+	InterestNotCalculated Money, --NECAL_DOB
+	RateRetentionLiquidation Money, --RATA_CHZ2, --CHZ_PR?, RATA_RCHZ1?, ARR numeric(8,2)?
+	-------------------------------------
+	--RetineriLichidare
+	CodRetentionLiquidation smallint,--RETZ
+	CodRetentionBeneficiary smallint, --BEN
+	LiquidationDocumentNo smallint, --NRDOC
+	LiquidationDocumentDate smalldatetime,--ANDOC,LNDOC,ZIDOC
+	MonthlyRetentionRate Money,--DRL, RLR?,RRL?,DDL?,DL?, RDL?, 
+	Penalty Money, --DPEN, ROL?, --SV
+	LastRate Money, --UR, TP60,PROC60?, RLR_LIC?, RLR_AV?
+	OtherRate Money,--RATE, 
+	PriorityRate Money,
+	-------------------------------------------------------------
+	--Increases=Sporuri ----
+	[IncreaseCode] char(1) NULL,--CDSP codul sporului, poate fi percent sau ore, PR sau PO, tot in tabela de coduri
+	[Base] money,--BAZSP o baza sporului? poate fi egala cu salariul
+	[WorkQuantity]  numeric,--CANTSP nr de ore sau procent lucrat in plus
+	[IncreaseValue] money,--VALSP
+	[TotalIncreaseValue] money,--VALT
+	[IncreaseCode2] char(1) NULL,--codul sporului, poate fi percent sau ore, PR sau PO, tot in tabela de coduri
+	[Base2] money,--o baza sporului? 
+	[WorkQuantity2]  numeric,--nr de ore sau procent lucrat in plus
+	[IncreaseValue2] money,
+	[TotalIncreaseValue2] money,
+	[IncreaseCode3] char(1) NULL,--CDSP codul sporului, poate fi percent sau ore, PR sau PO, tot in tabela de coduri
+	[Base3] money,--BAZSP o baza sporului? poate fi egala cu salariul
+	[WorkQuantity3]  numeric,--CANTSP nr de ore sau procent lucrat in plus
+	[IncreaseValue3] money,--VALSP
+	[TotalIncreaseValue3] money,--VALT
+	[IncreaseCode4] char(1),--CDSP codul sporului, poate fi percent sau ore, PR sau PO, tot in tabela de coduri
+	[Base4] money,--BAZSP o baza sporului? poate fi egala cu salariul
+	[WorkQuantity4]  numeric, --CANTSP nr de ore sau procent lucrat in plus
+	[IncreaseValue4] money,--VALSP
+	[TotalIncreaseValue4] money,--VALT
+	--adauga opt sporuri
+	[SALINLOC_ReplacementSalaryForWhichInCalculateTheIncrease] numeric(18,1) NULL,
+	RO1_HourlyRegimeForIncreaseCalculations numeric, -- calculated filed care reprzinta retributia/nr de orelucrate fara sporuri
+    RO2_HourlyRegimeForIncreaseCalculations numeric,
+	RO3_HourlyRegimeForIncreaseCalculations numeric,
+	RO4_HourlyRegimeForIncreaseCalculations numeric,
+	--adauga pana la RO8
+	-------------------------------------------------------------
+	--Plati in avans PLAV.sql table - sau premii sau bonuses
+	--[LN]                               Integer, --luna curenta e aceea din Par
+	GrossBonus		money, --SUMA
+	NetBonus		money,--[NET]                              Integer, --[CHEIE]                            Char(6), 
+	BonusPayDate	smalldatetime,
+	BonusType		char(1), -- 'I' se impoziteaza, 'N' nu se impoziteaza, 'S' special - sumele introuse se imp limitat(se imp numai suma care dep limita din Params - afiseza limita dex 300)									--[TS]                               Char(1), ???
+	ContributionToHealth		money,--[SAN]                              Numeric(7,2), 
+	ContributinToRetirement		money,--[CAS]                              Numeric(7,2), 
+	ContributionToUnemployment	money,--[SOM]                              Numeric(7,2), 
+	TotalTaxOnAdvance			money,--[IMP]                              Integer, 
+	AllOrOnlyWomenOrOnlyMen		char(1), --T=total, F=femei, B = barbati
+	--[CARDL]                            Numeric(10,2), ? to find ce fel de suma este; n-au legatura cu banca
+	--[TIPCARD]                          Char(1), ? to find; n-au legatura cu banca
+	--[RET]                              Integer, --codRetinere? de ce am evoie de el cn am ret avand si lichidare????
+	---------------------------------------------------------------------
 	[EmpNodeAsText] [nvarchar](128) NULL,
 	[EmpNodeAsName] [nvarchar](128) NULL,
 	[EmpLevel]  AS ([EmpNode].[GetLevel]()),
@@ -115,82 +184,4 @@ CREATE TABLE [dbo].[Employee](
 GO
 CREATE INDEX Emp_BreadthFirst ON Employee(EmpLevel, EmpNode);
 
-------------------------------------------------
---Personal
---[MARCA]                            Integer, 
---[NP]                               Char(31), 
---[SEX]                              Char(1), 
---[AN_N]                             Integer, 
---[LN_N]                             Integer, 
---[ZI_N]                             Integer, 
---[S_CIVIL]                          Char(1), 
---[COD_JUD]                          Integer, 
---[AN_A]                             Integer, 
---[LN_A]                             Integer, 
---[ZI_A]                             Integer, 
---[AN_VT]                            Integer, 
---[LN_VT]                            Integer, 
---[ZI_VT]                            Integer, 
---[AN_VN]                            Integer, 
---[LN_VN]                            Integer, 
---[ZI_VN]                            Integer, 
---[AN_SV]                            Integer, 
---[LN_SV]                            Integer, 
---[AN_SV]                            Integer, -- ??? ang+x ani => an spor vechime inceput
---[LN_SV]                            Integer, 
---[PEN_FC]                           Integer,
---[P_SV]                             Char(2), --? pensie spor vechime
---[PEN_SUP]                          Integer, -- ?pensie suplimentra
---[ASIGS5]                           Integer, ---asigurat sa neasigurat
---[CALIF]                            Char(10), --- calificare = data eloberarii ultima cartii identitate
---[SB]                               Char(2), -- serie buletin, si nr buletin
---[CNP]                              Char(13), 
---/////[NRBU]                             Integer, -- nr buletin=> tb sa fie cu seria
---[BANCA]                            Char(3), -- cod banca
---[CODC]                             Char(26), -- cod card = IBAN
---[LOC]                              Char(35), -- adresa 
---[JUD]                              Char(10), 
---[STRADA]                           Char(30), 
---[NUMAR]                            Char(6), 
---[BLOC]                             Char(5), 
---[SCARA]                            Char(5), 
---[ETAJ]                             Char(6), 
---[APART]                            Char(5), 
---[COD_POS]                          Numeric(10,0), 
---[ASCASA]                           Integer, -- la ce casa are asigurare de sanatate, obligatorie
---[STUDII]                           Char(4), -- sup, med, profesionale
---[ADRESA1]                          Char(10), --?
---[ADRESA2]                          Char(10), 
---[ADRESA3]                          Char(20), 
---[TEL]                              Char(10), 
---[T_C]                              Integer, --tickete masa 0,1,2
---[BANCA2]                           Char(3), -- a 2-a bnca
---[CODC2]                            Char(26), 
---[AV_LI2]                           Char(1),  -- avans sau lichidare
---[PILON]                            Integer, -- daca vrea sa tina bani pt alta pensie privata, nr 0=null, 2
-----////[ASIGEXC]                          Integer, -- asigurat excepetat de la?
---[MOTIVEXC]                         Integer); -- motivul exceptarii? 1=pensionar, 2=eelev, 3 
 
-/* Tabela Salar
-[ZI_MOD]                           Integer, 
-[COD_FUNC]                         Char(6), 
-[CATEG]                            Integer, 
-[GRAD]                             Char(2), 
-[RETRIB]                           Numeric(10,2), 
-[IND_COND]                         Numeric(8,2), 
-[PROCENT]                          Numeric(6,2), 
-[COD_DCM]                          Char(1), 
-[AN_DCM]                           Integer, 
-[LN_DCM]                           Integer, 
-[ZI_DCM]                           Integer, 
-[COD_SEC]                          Integer, 
-[COD_ACT]                          Integer, 
-[COD_LM]                           Integer, 
-[SCH]                              Char(1), 
-[REGIM_LZ]                         Integer, 
-[GRMUNCA]                          Integer, 
-[NIV]                              Char(1), 
-[SP_V]                             Integer, 
-[CONT]                             Char(10), 
-[RETRIBV]                          Numeric(10,0), 
-[RETR0110]                         Integer);*/
