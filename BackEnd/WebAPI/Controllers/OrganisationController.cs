@@ -1,4 +1,4 @@
-﻿using Contracts.Interfaces;
+﻿using Contracts.Interfaces.Services;
 using Contracts.Models;
 using Contracts.Validation;
 using FluentValidation;

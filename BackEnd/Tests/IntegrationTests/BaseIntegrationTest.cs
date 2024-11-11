@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Contracts.Interfaces;
+using Contracts.Interfaces.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Repository.Models;
 using Xunit;

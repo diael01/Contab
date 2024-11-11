@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CommonTestHelper;
-using Contracts.Interfaces;
+using Contracts.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Repository.Models;

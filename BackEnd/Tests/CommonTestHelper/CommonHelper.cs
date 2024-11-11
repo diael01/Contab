@@ -1,6 +1,6 @@
 ﻿
 using AutoMapper;
-using Contracts.Interfaces;
+using Contracts.Interfaces.Services;
 using Contracts.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.WebUtilities;

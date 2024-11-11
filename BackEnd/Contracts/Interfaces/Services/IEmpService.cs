@@ -1,6 +1,6 @@
 ﻿using Contracts.Models;
 
-namespace Contracts.Interfaces
+namespace Contracts.Interfaces.Services
 {
     public interface IEmpService
     {

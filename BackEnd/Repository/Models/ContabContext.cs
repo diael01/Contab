@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Models;
 
@@ -26,8 +24,6 @@ public partial class ContabContext : DbContext
     public virtual DbSet<Holiday> Holidays { get; set; }
 
     public virtual DbSet<IncreaseCode> IncreaseCodes { get; set; }
-
-    public virtual DbSet<IncreaseCode1> IncreaseCodes1 { get; set; }
 
     public virtual DbSet<Organisation> Organisations { get; set; }
 
@@ -344,24 +340,14 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<IncreaseCode>(entity =>
         {
-            entity.ToTable("IncreaseCode");
-
-            entity.Property(e => e.IncreaseCode1)
-                .HasMaxLength(8)
-                .HasColumnName("IncreaseCode");
-            entity.Property(e => e.IncreaseDescription).HasMaxLength(128);
-        });
-
-        modelBuilder.Entity<IncreaseCode1>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("IncreaseCodes");
+            entity.HasNoKey();
 
             entity.Property(e => e.CreatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.CreatedBy).HasMaxLength(128);
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
-            entity.Property(e => e.IncreaseCode).HasMaxLength(8);
+            entity.Property(e => e.IncreaseCode1)
+                .HasMaxLength(8)
+                .HasColumnName("IncreaseCode");
             entity.Property(e => e.IncreaseDescription).HasMaxLength(128);
             entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
