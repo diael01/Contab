@@ -7,7 +7,7 @@ namespace IntegrationTests
 {
     public class DiseasesControllerTests : BaseIntegrationTest
     {
-     
+
         [Fact]
         public async Task GetDiseases_ReturnsSuccessStatusCode()
         {

@@ -8,11 +8,11 @@ namespace UnitTests
     {
         private readonly BankService _service;
         private readonly Mock<IBankRepository> _mockRepository;
-        public BankUnitTests()
-        {
-            _mockRepository = new Mock<IBankRepository>();
-            _service = new BankService(_mockRepository.Object);
-        }
+        //public BankUnitTests()
+        //{
+        //    _mockRepository = new Mock<IBankRepository>();
+        //    _service = new BankService(_mockRepository.Object);
+        //}
 
         [Fact]
         public async Task GetBanks_ReturnsBanks()

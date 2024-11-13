@@ -95,7 +95,7 @@ namespace CommonTestHelper
             await TearDownOrg(d);
         }
 
-      
+
         public static async Task CheckResponse(HttpResponseMessage response)
         {
             //Assert

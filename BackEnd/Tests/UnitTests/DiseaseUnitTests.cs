@@ -6,15 +6,15 @@ using Services;
 namespace UnitTests
 {
 
-    public class DiseaseServiceTests
+    public class DiseaseServiceTests : BaseUnitTest
     {
         private readonly DiseaseService _service;
         private readonly Mock<IDiseaseRepository> _mockRepository;
-        public DiseaseServiceTests()
-        {
-            _mockRepository = new Mock<IDiseaseRepository>();
-            _service = new DiseaseService(_mockRepository.Object);
-        }
+        //public DiseaseServiceTests()
+        //{
+        //    _mockRepository = new Mock<IDiseaseRepository>();
+        //    _service = new DiseaseService(_mockRepository.Object);
+        //}
         [Fact]
         public async Task GetDiseases_ReturnsDiseases()
         {

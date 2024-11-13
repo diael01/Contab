@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces.Services;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Repository.Models;
 using Xunit;
