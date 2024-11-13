@@ -95,60 +95,7 @@ namespace CommonTestHelper
             await TearDownOrg(d);
         }
 
-        //public static async Task<EmpData> Setup(bool addEmp = true)
-        //{
-
-        //    EmpData d = new EmpData();
-        //    d.orgId = await AddEntityNode("Con", null, null);
-
-        //    d.deptId = await AddEntityNode("Business", d.orgId, "Con");
-        //    d.actId = await AddEntityNode("Mgmt", d.deptId, "Business");
-        //    d.funcId1 = await AddEntityNode("CEO", d.actId, "Mgmt");
-        //    d.funcId2 = await AddEntityNode("CTO", d.actId, "Mgmt");
-        //    d.funcId3 = await AddEntityNode("Manager", d.actId, "Mgmt");
-
-        //    if (addEmp)
-        //    {
-        //        d.dto = TestData.GetEmpDTO(d, 0, "Eu", "Eu");
-        //        d.empId = await TestParams.emp.AddEmployee(d.dto);
-        //        //var empNode = await DBContext.Employees.Where(e => e.EmpNode.GetLevel() == 0).FirstOrDefaultAsync();
-        //    }
-        //    //d.dto = TestData.GetEmpDTO(0, "Eu", null, "CEO", d.funcId1);
-        //    //d.empId = await empService.AddEmployee(d.dto);
-        //    //var empNode = await DBContext.Employees.Where(e => e.EmpNode.GetLevel() == 0).FirstOrDefaultAsync();
-
-        //    ////Arrange add employee level 1
-        //    //d.dto1 = TestData.GetEmpDTO(1, "Vili", "Eu", "CTO", d.funcId2);
-        //    //d.dto1.ManagerNodeAsText = empNode.EmpNode.ToString();
-        //    //d.empId1 = await empService.AddEmployee(d.dto1);
-
-        //    ////Arrange add employee level 2
-        //    //d.dto2 = TestData.GetEmpDTO(2, "mama", "Eu", "Manager", d.funcId3);
-        //    //d.dto2.ManagerNodeAsText = empNode.EmpNode.ToString();
-        //    //d.empId2 = await empService.AddEmployee(d.dto2);
-        //    return d;
-        //}
-
-        //public static async Task TearDown(
-        //                                                EmpData d,
-        //                                                bool empAdded = true
-        //                                               )
-        //{
-
-        //    //await empService.DeleteEmployee(d.empId2);
-        //    //await empService.DeleteEmployee(d.empId1);
-        //    if (empAdded)
-        //        await TestParams.emp.DeleteEmployee(d.empId);
-
-        //    await TestParams.org.DeleteNode(d.funcId3);
-        //    await TestParams.org.DeleteNode(d.funcId1);
-        //    await TestParams.org.DeleteNode(d.funcId2);
-
-        //    await TestParams.org.DeleteNode(d.actId);
-        //    await TestParams.org.DeleteNode(d.deptId);
-        //    await TestParams.org.DeleteNode(d.orgId);
-        //}
-
+      
         public static async Task CheckResponse(HttpResponseMessage response)
         {
             //Assert

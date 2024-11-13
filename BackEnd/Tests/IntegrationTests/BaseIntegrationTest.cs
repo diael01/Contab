@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Repository.Models;
 using Xunit;
@@ -23,6 +24,19 @@ namespace IntegrationTests
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
             factory = new CustomWebApplicationFactory<Program>();
             httpClient = factory.CreateClient();
+
+            //httpClient = factory.WithWebHostBuilder(builder =>
+            //{
+            //    builder.ConfigureServices(services =>
+            //    {
+            //        //services.RemoveAll(typeof(DbContextOptions<ContabContext>));
+            //        services.AddDbContext<ContabContext>(options =>
+            //        {
+            //            options.UseInMemoryDatabase("TestDatabase");
+            //        });
+            //    });
+            //}).CreateClient();
+
             scope = factory.Services.CreateScope();
             sp = scope.ServiceProvider;
 
