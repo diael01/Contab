@@ -62,6 +62,8 @@ CREATE TABLE [dbo].[Employee](
 	RetirementPilonGovt smallint, --PILON?
 	-------------din pontaj1,2
 	MoneyAdvance Money null, --AVC, --[ZILAN]   Char(2), --?DateCalculationPontaj1 smalldatetime,--redundant, TBD check if it can be in param
+	ExceptedRetributionDay smallint, --ZIRE
+	--in pontaj2
 	HoursRegie smallint,--OLR
 	HoursOOOGiven smallint, --OINV ore invoire
 	HoursNotmotivatedAbsence smallint,--OAN

@@ -6,7 +6,7 @@ using Repository.Models;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/bank")]
     public class BanksController : ControllerBase
     {
         private readonly IBankService _service;

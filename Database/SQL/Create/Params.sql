@@ -25,6 +25,7 @@ CREATE TABLE [dbo].[Params](
 	[CommerceRegister] [nvarchar](64) NULL,--REGC
 	[NormalWorkHoursSchedule] smallint,--RNO8 regim normal de ore  ca la TESA, ca muncesc atat platesc
 	[MinimSalaryGovt] money,--SALM
+	[NoDaysForWhichAdvanceisPaid] smallint, --ZAP8
 	------------------------------------------------------
 	--TODO: addonly nodes and join with Employee tBLES
 	EcnDirector hierarchyid,

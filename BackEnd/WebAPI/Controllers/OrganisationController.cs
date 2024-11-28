@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
-    // [Route("api/v1/[controller]")]
     [Route("/api/v1/Org")]
     [ApiController]
     public class OrgController : ControllerBase

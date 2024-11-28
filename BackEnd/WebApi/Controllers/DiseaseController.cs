@@ -6,7 +6,7 @@ namespace WebApi.Controllers
 {
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/disease")]
     public class DiseasesController : ControllerBase
     {
         private readonly IDiseaseService _service;
