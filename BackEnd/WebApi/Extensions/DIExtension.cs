@@ -18,7 +18,8 @@ namespace WebApi.Extensions
             svc.AddScoped<IEmpService, EmpService>();
             svc.AddScoped<IBankRepository, BankRepository>();
             svc.AddScoped<IBankService, BankService>();
-            svc.AddScoped<IDiseaseRepository, DiseaseRepository>();
+            svc.AddScoped<IDiseaseCodeRepository, DiseaseCodeRepository>();
+            svc.AddScoped<IIncreaseCodeRepository, IncreaseCodeRepository>();
             svc.AddScoped<IDiseaseService, DiseaseService>();
             svc.AddScoped<IHolidayRepository, HolidayRepository>();
             svc.AddScoped<IHolidayService, HolidayService>();

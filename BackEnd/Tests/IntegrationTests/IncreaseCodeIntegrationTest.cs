@@ -1,6 +1,6 @@
 ﻿namespace IntegrationTests
 {
-    internal class IncreaseIntegrationTests
+    internal class IncreaseCodeIntegrationTest
     {
     }
 }

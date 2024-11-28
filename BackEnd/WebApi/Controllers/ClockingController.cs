@@ -1,10 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 
-using Contracts.Interfaces.Services;
-using Microsoft.AspNetCore.Mvc;
-using Repository.Models;
-
 namespace WebApi.Controllers
 {
     [ApiController]

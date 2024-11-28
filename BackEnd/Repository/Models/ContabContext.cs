@@ -106,7 +106,7 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.DiseaseCode1)
                 .HasMaxLength(8)
                 .HasColumnName("DiseaseCode");
-            entity.Property(e => e.DiseseDescription).HasMaxLength(128);
+            entity.Property(e => e.DiseaseDescription).HasMaxLength(128);
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);

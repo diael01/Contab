@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 using Repository.Models;
 
@@ -46,3 +48,4 @@ namespace Repository.Impl
         }
     }
 }
+

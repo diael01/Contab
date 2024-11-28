@@ -4,7 +4,7 @@ namespace WebApi.Controllers
 {
     [Route("/api/v1/discode")]
     [ApiController]
-    public class IncreaseController : ControllerBase
+    public class DiseaseCodeController : ControllerBase
     {
     }
 }

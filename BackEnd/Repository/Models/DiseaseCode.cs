@@ -6,7 +6,7 @@ public partial class DiseaseCode
 
     public string? DiseaseCode1 { get; set; }
 
-    public string? DiseseDescription { get; set; }
+    public string? DiseaseDescription { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
