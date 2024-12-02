@@ -1,6 +1,5 @@
 ﻿using Contracts.Models;
 using FluentValidation;
-using Repository.Models;
 
 namespace Contracts.Validation
 {

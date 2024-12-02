@@ -1,42 +1,43 @@
 ﻿
 
+using Contracts.Interfaces;
+using Contracts.Models;
 using Microsoft.EntityFrameworkCore;
-using Repository.Interfaces;
-using Repository.Models;
 
 namespace Repository.Impl
 {
     public class DiseaseRepository : IDiseaseRepository
     {
         private readonly ContabContext _context;
+
         public DiseaseRepository(ContabContext context)
         {
             _context = context;
         }
-        public async Task<IEnumerable<Disease>> GetDiseases()
+
+        public async Task<IEnumerable<Disease>> GetAllAsync()
         {
             return await _context.Diseases.ToListAsync();
         }
-        public async Task<Disease> GetDisease(int id)
+
+        public async Task<Disease> GetByIdAsync(int id)
         {
             return await _context.Diseases.FindAsync(id);
         }
 
-        public async Task<Disease> AddDisease(Disease disease)
+        public async Task AddAsync(Disease disease)
         {
-            _context.Diseases.Add(disease);
+            await _context.Diseases.AddAsync(disease);
             await _context.SaveChangesAsync();
-            return disease;
         }
 
-        public async Task<Disease> UpdateDisease(Disease disease)
+        public async Task UpdateAsync(Disease disease)
         {
-            _context.Entry(disease).State = EntityState.Modified;
+            _context.Diseases.Update(disease);
             await _context.SaveChangesAsync();
-            return disease;
         }
 
-        public async Task<Disease> DeleteDisease(int id)
+        public async Task DeleteAsync(int id)
         {
             var disease = await _context.Diseases.FindAsync(id);
             if (disease != null)
@@ -44,8 +45,8 @@ namespace Repository.Impl
                 _context.Diseases.Remove(disease);
                 await _context.SaveChangesAsync();
             }
-            return disease;
         }
     }
+
 }
 

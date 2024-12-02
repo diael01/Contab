@@ -2,7 +2,6 @@
 using FluentAssertions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Repository.Models;
 using static CommonTestHelper.CommonHelper;
 
 namespace UnitTests

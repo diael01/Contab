@@ -1,37 +1,41 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Repository.Interfaces;
-using Repository.Models;
+﻿using Contracts.Interfaces;
+using Contracts.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Impl
 {
     public class ParamRepository : IParamRepository
     {
         private readonly ContabContext _context;
+
         public ParamRepository(ContabContext context)
         {
             _context = context;
         }
-        public async Task<IEnumerable<Param>> GetParams()
+
+        public async Task<IEnumerable<Param>> GetAllAsync()
         {
             return await _context.Params.ToListAsync();
         }
-        public async Task<Param> GetParam(short id)
+
+        public async Task<Param> GetByIdAsync(short id)
         {
             return await _context.Params.FindAsync(id);
         }
-        public async Task<Param> AddParam(Param param)
+
+        public async Task AddAsync(Param param)
         {
-            _context.Params.Add(param);
+            await _context.Params.AddAsync(param);
             await _context.SaveChangesAsync();
-            return param;
         }
-        public async Task<Param> UpdateParam(Param param)
+
+        public async Task UpdateAsync(Param param)
         {
-            _context.Entry(param).State = EntityState.Modified;
+            _context.Params.Update(param);
             await _context.SaveChangesAsync();
-            return param;
         }
-        public async Task<Param> DeleteParam(short id)
+
+        public async Task DeleteAsync(short id)
         {
             var param = await _context.Params.FindAsync(id);
             if (param != null)
@@ -39,8 +43,7 @@ namespace Repository.Impl
                 _context.Params.Remove(param);
                 await _context.SaveChangesAsync();
             }
-            return param;
         }
-
     }
+
 }

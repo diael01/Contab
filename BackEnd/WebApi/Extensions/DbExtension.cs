@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Repository.Models;
+﻿using Contracts.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Extensions
 {

@@ -1,8 +1,8 @@
 ﻿using Contracts.Models;
 
-namespace Contracts.Interfaces.Services
+namespace Contracts.Interfaces
 {
-    public interface IEmpService
+    public interface IEmp
     {
         Task<IEnumerable<EmpDTO>> GetEmployeesByLevel(int level);
 
@@ -13,5 +13,13 @@ namespace Contracts.Interfaces.Services
         Task<string> UpdateEmployee(EmpDTO pers);
 
         Task DeleteEmployee(string orgId);
+    }
+
+    public interface IEmpRepository : IEmp
+    {
+    }
+
+    public interface IEmpService : IEmp
+    {
     }
 }

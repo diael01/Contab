@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Contracts.Models;
 using Microsoft.EntityFrameworkCore;
-using Repository.Models;
 
 namespace Contracts.Mapping
 {

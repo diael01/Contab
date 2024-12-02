@@ -1,35 +1,41 @@
-﻿using Contracts.Interfaces.Services;
-using Repository.Interfaces;
-using Repository.Models;
+﻿using Contracts.Interfaces;
+using Contracts.Models;
 
 namespace Services
 {
     public class IncreaseCodeService : IIncreaseCodeService
     {
         private readonly IIncreaseCodeRepository _repository;
+
         public IncreaseCodeService(IIncreaseCodeRepository repository)
         {
             _repository = repository;
         }
-        public async Task<IEnumerable<IncreaseCode>> GetAll()
+
+        public async Task<IEnumerable<IncreaseCode>> GetAllAsync()
         {
-            return await _repository.GetAll();
+            return await _repository.GetAllAsync();
         }
-        public async Task<IncreaseCode> GetById(int id)
+
+        public async Task<IncreaseCode> GetByIdAsync(int id)
         {
-            return await _repository.GetById(id);
+            return await _repository.GetByIdAsync(id);
         }
-        public async Task<IncreaseCode> Create(IncreaseCode increaseCode)
+
+        public async Task AddAsync(IncreaseCode increaseCode)
         {
-            return await _repository.Create(increaseCode);
+            await _repository.AddAsync(increaseCode);
         }
-        public async Task Update(IncreaseCode increaseCode)
+
+        public async Task UpdateAsync(IncreaseCode increaseCode)
         {
-            await _repository.Update(increaseCode);
+            await _repository.UpdateAsync(increaseCode);
         }
-        public async Task Delete(int id)
+
+        public async Task DeleteAsync(int id)
         {
-            await _repository.Delete(id);
+            await _repository.DeleteAsync(id);
         }
     }
+
 }

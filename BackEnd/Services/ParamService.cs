@@ -1,36 +1,41 @@
-﻿using Contracts.Interfaces.Services;
-using Repository.Interfaces;
-using Repository.Models;
+﻿using Contracts.Interfaces;
+using Contracts.Models;
 
 namespace Services
 {
-
     public class ParamService : IParamService
     {
         private readonly IParamRepository _repository;
+
         public ParamService(IParamRepository repository)
         {
             _repository = repository;
         }
-        public async Task<IEnumerable<Param>> GetParams()
+
+        public async Task<IEnumerable<Param>> GetAllAsync()
         {
-            return await _repository.GetParams();
+            return await _repository.GetAllAsync();
         }
-        public async Task<Param> GetParam(short id)
+
+        public async Task<Param> GetByIdAsync(short id)
         {
-            return await _repository.GetParam(id);
+            return await _repository.GetByIdAsync(id);
         }
-        public async Task<Param> AddParam(Param param)
+
+        public async Task AddAsync(Param param)
         {
-            return await _repository.AddParam(param);
+            await _repository.AddAsync(param);
         }
-        public async Task<Param> UpdateParam(Param param)
+
+        public async Task UpdateAsync(Param param)
         {
-            return await _repository.UpdateParam(param);
+            await _repository.UpdateAsync(param);
         }
-        public async Task<Param> DeleteParam(short id)
+
+        public async Task DeleteAsync(short id)
         {
-            return await _repository.DeleteParam(id);
+            await _repository.DeleteAsync(id);
         }
     }
+
 }

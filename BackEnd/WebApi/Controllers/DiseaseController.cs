@@ -1,67 +1,64 @@
-﻿using Contracts.Interfaces.Services;
+﻿using Contracts.Interfaces;
+using Contracts.Models;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Models;
 
 namespace WebApi.Controllers
 {
 
-    [ApiController]
     [Route("api/v1/disease")]
-    public class DiseasesController : ControllerBase
+    public class DiseaseController : ControllerBase
     {
         private readonly IDiseaseService _service;
-        public DiseasesController(IDiseaseService service)
+
+        public DiseaseController(IDiseaseService service)
         {
             _service = service;
         }
 
-        // GET: api/Diseases
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Disease>>> GetDiseases()
+        public async Task<ActionResult<IEnumerable<Disease>>> Get()
         {
-            return Ok(await _service.GetDiseases());
+            var result = await _service.GetAllAsync();
+            return Ok(result);
         }
 
-        // GET: api/Diseases/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Disease>> GetDisease(int id)
+        public async Task<ActionResult<Disease>> Get(int id)
         {
-            var disease = await _service.GetDisease(id);
-            if (disease == null)
+            var result = await _service.GetByIdAsync(id);
+            if (result == null)
             {
                 return NotFound();
             }
-            return Ok(disease);
+            return Ok(result);
         }
 
-        // POST: api/Diseases
         [HttpPost]
-        public async Task<ActionResult<Disease>> AddDisease(Disease disease)
+        public async Task<ActionResult> Post([FromBody] Disease disease)
         {
-            var newDisease = await _service.AddDisease(disease);
-            return CreatedAtAction(nameof(GetDisease), new { id = newDisease.Id }, newDisease);
+            await _service.AddAsync(disease);
+            return CreatedAtAction(nameof(Get), new { id = disease.Id }, disease);
         }
 
-        // PUT: api/Diseases/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDisease(int id, Disease disease)
+        public async Task<ActionResult> Put(int id, [FromBody] Disease disease)
         {
-
-            //https://copilot.microsoft.com/chats/ttjMFevbDYitD9vWxbr4J 1/2
             if (id != disease.Id)
             {
                 return BadRequest();
             }
-            await _service.UpdateDisease(disease);
+            await _service.UpdateAsync(disease);
             return NoContent();
         }
 
-        // DELETE: api/Diseases/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDisease(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            await _service.DeleteDisease(id);
+            await _service.DeleteAsync(id);
             return NoContent();
         }
     }
+
+
+
 }

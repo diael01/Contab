@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Repository.Interfaces;
-using Repository.Models;
+﻿using Contracts.Interfaces;
+using Contracts.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Impl
 {
@@ -8,30 +8,35 @@ namespace Repository.Impl
     public class IncreaseCodeRepository : IIncreaseCodeRepository
     {
         private readonly ContabContext _context;
+
         public IncreaseCodeRepository(ContabContext context)
         {
             _context = context;
         }
-        public async Task<IEnumerable<IncreaseCode>> GetAll()
+
+        public async Task<IEnumerable<IncreaseCode>> GetAllAsync()
         {
             return await _context.IncreaseCodes.ToListAsync();
         }
-        public async Task<IncreaseCode> GetById(int id)
+
+        public async Task<IncreaseCode> GetByIdAsync(int id)
         {
             return await _context.IncreaseCodes.FindAsync(id);
         }
-        public async Task<IncreaseCode> Create(IncreaseCode increaseCode)
+
+        public async Task AddAsync(IncreaseCode increaseCode)
         {
-            _context.IncreaseCodes.Add(increaseCode);
-            await _context.SaveChangesAsync();
-            return increaseCode;
-        }
-        public async Task Update(IncreaseCode increaseCode)
-        {
-            _context.Entry(increaseCode).State = EntityState.Modified;
+            await _context.IncreaseCodes.AddAsync(increaseCode);
             await _context.SaveChangesAsync();
         }
-        public async Task Delete(int id)
+
+        public async Task UpdateAsync(IncreaseCode increaseCode)
+        {
+            _context.IncreaseCodes.Update(increaseCode);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
         {
             var increaseCode = await _context.IncreaseCodes.FindAsync(id);
             if (increaseCode != null)
@@ -41,4 +46,5 @@ namespace Repository.Impl
             }
         }
     }
+
 }

@@ -1,6 +1,5 @@
-﻿using Contracts.Interfaces.Services;
-using Repository.Interfaces;
-using Repository.Models;
+﻿using Contracts.Interfaces;
+using Contracts.Models;
 
 namespace Services
 {
@@ -8,29 +7,35 @@ namespace Services
     public class HolidayService : IHolidayService
     {
         private readonly IHolidayRepository _repository;
+
         public HolidayService(IHolidayRepository repository)
         {
             _repository = repository;
         }
-        public async Task<IEnumerable<Holiday>> GetHolidays()
+
+        public async Task<IEnumerable<Holiday>> GetAllAsync()
         {
-            return await _repository.GetHolidays();
+            return await _repository.GetAllAsync();
         }
-        public async Task<Holiday> GetHoliday(int id)
+
+        public async Task<Holiday> GetByIdAsync(int id)
         {
-            return await _repository.GetHoliday(id);
+            return await _repository.GetByIdAsync(id);
         }
-        public async Task<Holiday> AddHoliday(Holiday holiday)
+
+        public async Task AddAsync(Holiday holiday)
         {
-            return await _repository.AddHoliday(holiday);
+            await _repository.AddAsync(holiday);
         }
-        public async Task<Holiday> UpdateHoliday(Holiday holiday)
+
+        public async Task UpdateAsync(Holiday holiday)
         {
-            return await _repository.UpdateHoliday(holiday);
+            await _repository.UpdateAsync(holiday);
         }
-        public async Task<Holiday> DeleteHoliday(int id)
+
+        public async Task DeleteAsync(int id)
         {
-            return await _repository.DeleteHoliday(id);
+            await _repository.DeleteAsync(id);
         }
     }
 

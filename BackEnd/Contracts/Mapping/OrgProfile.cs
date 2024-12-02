@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Contracts.Models;
-using Repository.Models;
-
 
 namespace Contracts.Mapping
 {

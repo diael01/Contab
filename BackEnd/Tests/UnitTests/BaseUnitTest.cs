@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using CommonTestHelper;
-using Contracts.Interfaces.Services;
+using Contracts.Interfaces;
+using Contracts.Models;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using Repository.Models;
 using Services;
 using static CommonTestHelper.CommonHelper;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
@@ -16,8 +16,8 @@ namespace UnitTests
         protected Mock<IServiceProvider> mockService = new Mock<IServiceProvider>();
 
         protected ContabContext DBContext;
-        protected IOrgService orgService;
-        protected IEmpService empService;
+        protected IOrg orgService;
+        protected IEmp empService;
         protected IMapper mapper;
 
         public BaseUnitTest() : base()

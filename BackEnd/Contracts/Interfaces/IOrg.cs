@@ -1,8 +1,8 @@
 ﻿using Contracts.Models;
 
-namespace Contracts.Interfaces.Services
+namespace Contracts.Interfaces
 {
-    public interface IOrgService
+    public interface IOrg
     {
         Task<IEnumerable<OrgDTO>> GetNodes(int level);
 
@@ -13,5 +13,13 @@ namespace Contracts.Interfaces.Services
         Task<string> UpdateNode(OrgDTO org);
 
         Task DeleteNode(string orgId);
+    }
+
+    public interface IOrgRepository : IOrg
+    {
+    }
+
+    public interface IOrgService : IOrg
+    {
     }
 }

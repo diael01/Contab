@@ -1,4 +1,4 @@
-﻿namespace Repository.Models;
+﻿namespace Contracts.Models;
 
 public partial class Bank
 {

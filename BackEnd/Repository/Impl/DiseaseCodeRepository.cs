@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Repository.Interfaces;
-using Repository.Models;
+﻿using Contracts.Interfaces;
+using Contracts.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Repository.Impl
 {
@@ -12,38 +13,38 @@ namespace Repository.Impl
         {
             _context = context;
         }
-        public async Task<IEnumerable<DiseaseCode>> GetDiseaseCodes()
+
+        public async Task<IEnumerable<DiseaseCode>> GetAllAsync()
         {
             return await _context.DiseaseCodes.ToListAsync();
         }
-        public async Task<DiseaseCode> GetDiseaseCode(int id)
+
+        public async Task<DiseaseCode> GetByIdAsync(int id)
         {
             return await _context.DiseaseCodes.FindAsync(id);
         }
 
-        public async Task<DiseaseCode> AddDiseaseCode(DiseaseCode DiseaseCode)
+        public async Task AddAsync(DiseaseCode diseaseCode)
         {
-            _context.DiseaseCodes.Add(DiseaseCode);
+            await _context.DiseaseCodes.AddAsync(diseaseCode);
             await _context.SaveChangesAsync();
-            return DiseaseCode;
         }
 
-        public async Task<DiseaseCode> UpdateDiseaseCode(DiseaseCode DiseaseCode)
+        public async Task UpdateAsync(DiseaseCode diseaseCode)
         {
-            _context.Entry(DiseaseCode).State = EntityState.Modified;
+            _context.DiseaseCodes.Update(diseaseCode);
             await _context.SaveChangesAsync();
-            return DiseaseCode;
         }
 
-        public async Task<DiseaseCode> DeleteDiseaseCode(int id)
+        public async Task DeleteAsync(int id)
         {
-            var DiseaseCode = await _context.DiseaseCodes.FindAsync(id);
-            if (DiseaseCode != null)
+            var diseaseCode = await _context.DiseaseCodes.FindAsync(id);
+            if (diseaseCode != null)
             {
-                _context.DiseaseCodes.Remove(DiseaseCode);
+                _context.DiseaseCodes.Remove(diseaseCode);
                 await _context.SaveChangesAsync();
             }
-            return DiseaseCode;
         }
     }
+
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Contracts.Interfaces.Services;
+using Contracts.Interfaces;
+using Contracts.Models;
 using Microsoft.Extensions.DependencyInjection;
-using Repository.Models;
 using Xunit;
 using static CommonTestHelper.CommonHelper;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
@@ -41,9 +41,9 @@ namespace IntegrationTests
 
             var DBContext = sp.GetRequiredService<ContabContext>();
             Assert.IsNotNull(DBContext);
-            var orgService = sp.GetRequiredService<IOrgService>();
+            var orgService = sp.GetRequiredService<IOrg>();
             Assert.IsNotNull(orgService);
-            var empService = sp.GetRequiredService<IEmpService>();
+            var empService = sp.GetRequiredService<IEmp>();
             Assert.IsNotNull(empService);
             var mapper = sp.GetRequiredService<IMapper>();
             Assert.IsNotNull(mapper);

@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using Contracts.Interfaces.Services;
+using Contracts.Interfaces;
 using Contracts.Models;
 using Contracts.Validation;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Repository.Models;
 
 namespace Services
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Repository.Models;
+namespace Contracts.Models;
 
 public partial class Employee
 {
@@ -101,6 +101,8 @@ public partial class Employee
     public short? RetirementPilonGovt { get; set; }
 
     public decimal? MoneyAdvance { get; set; }
+
+    public short? ExceptedRetributionDay { get; set; }
 
     public short? HoursRegie { get; set; }
 

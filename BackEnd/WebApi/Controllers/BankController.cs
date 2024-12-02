@@ -1,60 +1,63 @@
 ﻿
-using Contracts.Interfaces.Services;
+using Contracts.Interfaces;
+using Contracts.Models;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Models;
 
 namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/v1/bank")]
-    public class BanksController : ControllerBase
+    public class BankController : ControllerBase
     {
         private readonly IBankService _service;
-        public BanksController(IBankService service)
+
+        public BankController(IBankService service)
         {
             _service = service;
         }
 
-        // GET: api/Banks [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bank>>> GetBanks()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Bank>>> Get()
         {
-            return Ok(await _service.GetBanks());
+            var result = await _service.GetAllAsync();
+            return Ok(result);
         }
 
-        // GET: api/Banks/5 [HttpGet("{id}")]
-        public async Task<ActionResult<Bank>> GetBank(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Bank>> Get(int id)
         {
-            var bank = await _service.GetBank(id);
-            if (bank == null)
+            var result = await _service.GetByIdAsync(id);
+            if (result == null)
             {
                 return NotFound();
             }
-            return Ok(bank);
+            return Ok(result);
         }
 
-        // POST: api/Banks [HttpPost]
-        public async Task<ActionResult<Bank>> AddBank(Bank bank)
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody] Bank bank)
         {
-            var newBank = await _service.AddBank(bank);
-            return CreatedAtAction(nameof(GetBank), new { id = newBank.Id }, newBank);
+            await _service.AddAsync(bank);
+            return CreatedAtAction(nameof(Get), new { id = bank.Id }, bank);
         }
 
-        // PUT: api/Banks/5 [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBank(int id, Bank bank)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(int id, [FromBody] Bank bank)
         {
             if (id != bank.Id)
             {
                 return BadRequest();
             }
-            await _service.UpdateBank(bank);
+            await _service.UpdateAsync(bank);
             return NoContent();
         }
 
-        // DELETE: api/Banks/5 [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBank(int id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
-            await _service.DeleteBank(id);
+            await _service.DeleteAsync(id);
             return NoContent();
         }
     }
+
 }

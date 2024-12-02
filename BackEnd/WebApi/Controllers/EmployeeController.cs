@@ -1,4 +1,4 @@
-﻿using Contracts.Interfaces.Services;
+﻿using Contracts.Interfaces;
 using Contracts.Models;
 using Contracts.Validation;
 using FluentValidation;
@@ -12,8 +12,8 @@ namespace WebApi.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        IEmpService EmployeeService;
-        public EmployeeController(IEmpService os)
+        IEmp EmployeeService;
+        public EmployeeController(IEmp os)
         {
             EmployeeService = os;
         }

@@ -1,12 +1,12 @@
-﻿namespace Repository.Models;
+﻿namespace Contracts.Models;
 
-public partial class DiseaseCode
+public partial class IncreaseCode
 {
     public int Id { get; set; }
 
-    public string? DiseaseCode1 { get; set; }
+    public string? IncreaseCode1 { get; set; }
 
-    public string? DiseaseDescription { get; set; }
+    public string? IncreaseDescription { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 

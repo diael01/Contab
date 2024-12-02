@@ -1,68 +1,64 @@
-﻿using Contracts.Interfaces.Services;
+﻿using Contracts.Interfaces;
+using Contracts.Models;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Models;
 
 namespace WebApi.Controllers
 {
 
     [ApiController]
     [Route("api/v1/holiday")]
-    public class HolidaysController : ControllerBase
+    public class HolidayController : ControllerBase
     {
         private readonly IHolidayService _service;
-        public HolidaysController(IHolidayService service)
+
+        public HolidayController(IHolidayService service)
         {
             _service = service;
         }
 
-        // GET: api/Holidays
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Holiday>>> GetHolidays()
+        public async Task<ActionResult<IEnumerable<Holiday>>> Get()
         {
-            return Ok(await _service.GetHolidays());
+            var result = await _service.GetAllAsync();
+            return Ok(result);
         }
 
-        // GET: api/Holidays/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Holiday>> GetHoliday(int id)
+        public async Task<ActionResult<Holiday>> Get(int id)
         {
-            var holiday = await _service.GetHoliday(id);
-            if (holiday == null)
+            var result = await _service.GetByIdAsync(id);
+            if (result == null)
             {
                 return NotFound();
             }
-            return Ok(holiday);
+            return Ok(result);
         }
 
-        // POST: api/Holidays
         [HttpPost]
-        public async Task<ActionResult<Holiday>> AddHoliday(Holiday holiday)
+        public async Task<ActionResult> Post([FromBody] Holiday holiday)
         {
-            var newHoliday = await _service.AddHoliday(holiday);
-            return CreatedAtAction(nameof(GetHoliday), new { id = newHoliday.Id }, newHoliday);
+            await _service.AddAsync(holiday);
+            return CreatedAtAction(nameof(Get), new { id = holiday.Id }, holiday);
         }
 
-        // PUT: api/Holidays/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateHoliday(int id, Holiday holiday)
+        public async Task<ActionResult> Put(int id, [FromBody] Holiday holiday)
         {
-            //11 / 13 / 24, 12:38 PM Microsoft Copilot: Your AI companion
-            //https://copilot.microsoft.com/chats/ttjMFevbDYitD9vWxbr4J 1/2
             if (id != holiday.Id)
             {
                 return BadRequest();
             }
-            await _service.UpdateHoliday(holiday);
+            await _service.UpdateAsync(holiday);
             return NoContent();
         }
 
-        // DELETE: api/Holidays/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHoliday(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            await _service.DeleteHoliday(id);
+            await _service.DeleteAsync(id);
             return NoContent();
         }
     }
+
 }
 

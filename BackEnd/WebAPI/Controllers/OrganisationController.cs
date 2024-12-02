@@ -1,4 +1,4 @@
-﻿using Contracts.Interfaces.Services;
+﻿using Contracts.Interfaces;
 using Contracts.Models;
 using Contracts.Validation;
 using FluentValidation;
@@ -12,8 +12,8 @@ namespace WebApi.Controllers
     [ApiController]
     public class OrgController : ControllerBase
     {
-        IOrgService OrgService;
-        public OrgController(IOrgService os)
+        IOrg OrgService;
+        public OrgController(IOrg os)
         {
             OrgService = os;
         }

@@ -1,38 +1,41 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Repository.Interfaces;
-using Repository.Models;
+﻿using Contracts.Interfaces;
+using Contracts.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Impl
 {
-
     public class HolidayRepository : IHolidayRepository
     {
         private readonly ContabContext _context;
+
         public HolidayRepository(ContabContext context)
         {
             _context = context;
         }
-        public async Task<IEnumerable<Holiday>> GetHolidays()
+
+        public async Task<IEnumerable<Holiday>> GetAllAsync()
         {
             return await _context.Holidays.ToListAsync();
         }
-        public async Task<Holiday> GetHoliday(int id)
+
+        public async Task<Holiday> GetByIdAsync(int id)
         {
             return await _context.Holidays.FindAsync(id);
         }
-        public async Task<Holiday> AddHoliday(Holiday holiday)
+
+        public async Task AddAsync(Holiday holiday)
         {
-            _context.Holidays.Add(holiday);
+            await _context.Holidays.AddAsync(holiday);
             await _context.SaveChangesAsync();
-            return holiday;
         }
-        public async Task<Holiday> UpdateHoliday(Holiday holiday)
+
+        public async Task UpdateAsync(Holiday holiday)
         {
-            _context.Entry(holiday).State = EntityState.Modified;
+            _context.Holidays.Update(holiday);
             await _context.SaveChangesAsync();
-            return holiday;
         }
-        public async Task<Holiday> DeleteHoliday(int id)
+
+        public async Task DeleteAsync(int id)
         {
             var holiday = await _context.Holidays.FindAsync(id);
             if (holiday != null)
@@ -40,7 +43,7 @@ namespace Repository.Impl
                 _context.Holidays.Remove(holiday);
                 await _context.SaveChangesAsync();
             }
-            return holiday;
         }
     }
+
 }

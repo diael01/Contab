@@ -1,6 +1,5 @@
-﻿using Contracts.Interfaces.Services;
-using Repository.Interfaces;
-using Repository.Models;
+﻿using Contracts.Interfaces;
+using Contracts.Models;
 
 namespace Services
 {
@@ -9,29 +8,35 @@ namespace Services
     {
         private readonly IDiseaseCodeRepository _repository;
 
-        Task<DiseaseCode> IDiseaseCodeService.AddDiseaseCode(DiseaseCode disease)
+        public DiseaseCodeService(IDiseaseCodeRepository repository)
         {
-            throw new NotImplementedException();
+            _repository = repository;
         }
 
-        Task<DiseaseCode> IDiseaseCodeService.DeleteDiseaseCode(int id)
+        public async Task<IEnumerable<DiseaseCode>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _repository.GetAllAsync();
         }
 
-        Task<DiseaseCode> IDiseaseCodeService.GetDiseaseCode(int id)
+        public async Task<DiseaseCode> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _repository.GetByIdAsync(id);
         }
 
-        Task<IEnumerable<DiseaseCode>> IDiseaseCodeService.GetDiseaseCodes()
+        public async Task AddAsync(DiseaseCode diseaseCode)
         {
-            throw new NotImplementedException();
+            await _repository.AddAsync(diseaseCode);
         }
 
-        Task<DiseaseCode> IDiseaseCodeService.UpdateDiseaseCode(DiseaseCode disease)
+        public async Task UpdateAsync(DiseaseCode diseaseCode)
         {
-            throw new NotImplementedException();
+            await _repository.UpdateAsync(diseaseCode);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _repository.DeleteAsync(id);
         }
     }
+
 }

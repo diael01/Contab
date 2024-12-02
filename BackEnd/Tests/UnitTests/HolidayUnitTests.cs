@@ -1,102 +1,110 @@
-﻿using Moq;
-using Repository.Interfaces;
-using Repository.Models;
-using Services;
+﻿using Contracts.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Moq;
+using Repository.Impl;
 
 namespace UnitTests
 {
-
-    public class HolidayServiceTests : BaseUnitTest
+    public class HolidayRepositoryTests
     {
-        private readonly HolidayService _service;
-        private readonly Mock<IHolidayRepository> _mockRepository;
-        //public HolidayServiceTests()
-        //{
-        //    _mockRepository = new Mock<IHolidayRepository>();
-        //    _service = new HolidayService(_mockRepository.Object);
-        //}
+        private readonly Mock<ContabContext> _mockContext;
+        private readonly Mock<DbSet<Holiday>> _mockDbSet;
+        private readonly HolidayRepository _repository;
+
+        public HolidayRepositoryTests()
+        {
+            _mockContext = new Mock<ContabContext>(new DbContextOptions<ContabContext>());
+            _mockDbSet = new Mock<DbSet<Holiday>>();
+            _repository = new HolidayRepository(_mockContext.Object);
+
+            _mockContext.Setup(m => m.Holidays).Returns(_mockDbSet.Object);
+        }
 
         [Fact]
-        public async Task GetHolidays_ReturnsHolidays()
+        public async Task GetAllAsync_ReturnsAllHolidays()
         {
             // Arrange
             var holidays = new List<Holiday>
-            {
-            new Holiday { Id = 1, VacationStartDate = DateTime.UtcNow, UpdatedBy = "TestUser", UpdatedAt = DateTime.UtcNow }
-            };
-            _mockRepository.Setup(repo => repo.GetHolidays()).ReturnsAsync(holidays);
+        {
+            new Holiday { Id = 1, EmpNode = new HierarchyId(), CalculationBase = 1000, IncreaseCode = "A1" },
+            new Holiday { Id = 2, EmpNode = new HierarchyId(), CalculationBase = 2000, IncreaseCode = "A2" }
+        }.AsQueryable();
+
+            _mockDbSet.As<IQueryable<Holiday>>().Setup(m => m.Provider).Returns(holidays.Provider);
+            _mockDbSet.As<IQueryable<Holiday>>().Setup(m => m.Expression).Returns(holidays.Expression);
+            _mockDbSet.As<IQueryable<Holiday>>().Setup(m => m.ElementType).Returns(holidays.ElementType);
+            _mockDbSet.As<IQueryable<Holiday>>().Setup(m => m.GetEnumerator()).Returns(holidays.GetEnumerator());
+
             // Act
-            var result = await _service.GetHolidays();
+            var result = await _repository.GetAllAsync();
+
             // Assert
-            Assert.Equal(holidays, result);
+            Assert.Equal(2, result.Count());
+            Assert.Equal(1000, result.First().CalculationBase);
         }
 
         [Fact]
-        public async Task GetHoliday_ReturnsHoliday()
+        public async Task GetByIdAsync_ReturnsHoliday()
         {
             // Arrange
-            var holiday = new Holiday { Id = 1, VacationStartDate = DateTime.UtcNow, UpdatedBy = "TestUser", UpdatedAt = DateTime.UtcNow };
-            _mockRepository.Setup(repo => repo.GetHoliday(1)).ReturnsAsync(holiday);
+            var holiday = new Holiday { Id = 1, EmpNode = new HierarchyId(), CalculationBase = 1000, IncreaseCode = "A1" };
+            _mockDbSet.Setup(m => m.FindAsync(1)).ReturnsAsync(holiday);
+
             // Act
-            var result = await _service.GetHoliday(1);
+            var result = await _repository.GetByIdAsync(1);
+
             // Assert
-            Assert.Equal(holiday, result);
+            Assert.NotNull(result);
+            Assert.Equal(1000, result.CalculationBase);
         }
+
         [Fact]
-        public async Task GetHoliday_ReturnsNull_WhenHolidayNotFound()
+        public async Task AddAsync_AddsHoliday()
         {
             // Arrange
-            _mockRepository.Setup(repo => repo.GetHoliday(1)).ReturnsAsync((Holiday)null);
+            var holiday = new Holiday { Id = 1, EmpNode = new HierarchyId(), CalculationBase = 1000, IncreaseCode = "A1" };
+            _mockDbSet.Setup(m => m.AddAsync(holiday, default)).ReturnsAsync((EntityEntry<Holiday>)null);
+
             // Act
-            var result = await _service.GetHoliday(1);
+            await _repository.AddAsync(holiday);
+
             // Assert
-            Assert.Null(result);
+            _mockDbSet.Verify(m => m.AddAsync(holiday, default), Times.Once());
+            _mockContext.Verify(m => m.SaveChangesAsync(default), Times.Once());
         }
+
         [Fact]
-        public async Task AddHoliday_AddsHoliday()
+        public async Task UpdateAsync_UpdatesHoliday()
         {
             // Arrange
-            var holiday = new Holiday { Id = 1, VacationStartDate = DateTime.UtcNow, UpdatedBy = "TestUser", UpdatedAt = DateTime.UtcNow };
-            _mockRepository.Setup(repo => repo.AddHoliday(holiday)).ReturnsAsync(holiday);
+            var holiday = new Holiday { Id = 1, EmpNode = new HierarchyId(), CalculationBase = 1000, IncreaseCode = "A1" };
+            _mockDbSet.Setup(m => m.Update(holiday)).Returns((EntityEntry<Holiday>)null);
+
             // Act
-            var result = await _service.AddHoliday(holiday);
-            //11 / 13 / 24, 12:44 PM Microsoft Copilot: Your AI companion
-            //https://copilot.microsoft.com/chats/ttjMFevbDYitD9vWxbr4J 1/2
+            await _repository.UpdateAsync(holiday);
+
             // Assert
-            Assert.Equal(holiday, result);
+            _mockDbSet.Verify(m => m.Update(holiday), Times.Once());
+            _mockContext.Verify(m => m.SaveChangesAsync(default), Times.Once());
         }
+
         [Fact]
-        public async Task UpdateHoliday_UpdatesHoliday()
+        public async Task DeleteAsync_DeletesHoliday()
         {
             // Arrange
-            var holiday = new Holiday { Id = 1, VacationStartDate = DateTime.UtcNow, UpdatedBy = "TestUser", UpdatedAt = DateTime.UtcNow };
-            _mockRepository.Setup(repo => repo.UpdateHoliday(holiday)).ReturnsAsync(holiday);
+            var holiday = new Holiday { Id = 1, EmpNode = new HierarchyId(), CalculationBase = 1000, IncreaseCode = "A1" };
+            _mockDbSet.Setup(m => m.FindAsync(1)).ReturnsAsync(holiday);
+            _mockDbSet.Setup(m => m.Remove(holiday)).Returns((EntityEntry<Holiday>)null);
+
             // Act
-            var result = await _service.UpdateHoliday(holiday);
+            await _repository.DeleteAsync(1);
+
             // Assert
-            Assert.Equal(holiday, result);
-        }
-        [Fact]
-        public async Task DeleteHoliday_DeletesHoliday()
-        {
-            // Arrange
-            var holiday = new Holiday { Id = 1, VacationStartDate = DateTime.UtcNow, UpdatedBy = "TestUser", UpdatedAt = DateTime.UtcNow };
-            _mockRepository.Setup(repo => repo.DeleteHoliday(1)).ReturnsAsync(holiday);
-            // Act
-            var result = await _service.DeleteHoliday(1);
-            // Assert
-            Assert.Equal(holiday, result);
-        }
-        [Fact]
-        public async Task DeleteHoliday_ReturnsNull_WhenHolidayNotFound()
-        {
-            // Arrange
-            _mockRepository.Setup(repo => repo.DeleteHoliday(1)).ReturnsAsync((Holiday)null);
-            // Act
-            var result = await _service.DeleteHoliday(1);
-            // Assert
-            Assert.Null(result);
+            _mockDbSet.Verify(m => m.Remove(holiday), Times.Once());
+            _mockContext.Verify(m => m.SaveChangesAsync(default), Times.Once());
         }
     }
+
 
 }

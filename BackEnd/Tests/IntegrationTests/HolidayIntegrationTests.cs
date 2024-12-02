@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using Repository.Models;
+﻿using Contracts.Models;
+using Newtonsoft.Json;
 using System.Text;
 using Xunit;
 

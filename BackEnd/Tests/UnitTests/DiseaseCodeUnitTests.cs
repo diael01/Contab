@@ -1,87 +1,109 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Contracts.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Moq;
 using Repository.Impl;
-using Repository.Models;
 
 namespace UnitTests
 {
-    public class DiseaseCodeRepositoryTests : BaseUnitTest
+    public class DiseaseCodeRepositoryTests
     {
-        //private readonly DiseaseCodeService _service;
-        //private readonly Mock<IDiseaseCodeRepository> _mockRepository;
         private readonly Mock<ContabContext> _mockContext;
+        private readonly Mock<DbSet<DiseaseCode>> _mockDbSet;
         private readonly DiseaseCodeRepository _repository;
-        private readonly Mock<DbSet<DiseaseCode>> _mockSet;
 
-        //public DiseaseCodeRepositoryTests()
-        //{
-        //    _mockContext = new Mock<ContabContext>();
-        //    _mockSet = new Mock<DbSet<DiseaseCode>>();
-        //    _repository = new DiseaseCodeRepository(_mockContext.Object);
-        //}
-
-        [Fact]
-        public async Task Create_ShouldAddDiseaseCode()
+        public DiseaseCodeRepositoryTests()
         {
-            var diseaseCode = new DiseaseCode { DiseaseCode1 = "A01", DiseaseDescription = "Typhoid", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, CreatedBy = "Admin", UpdatedBy = "Admin" };
+            _mockContext = new Mock<ContabContext>(new DbContextOptions<ContabContext>());
+            _mockDbSet = new Mock<DbSet<DiseaseCode>>();
+            _repository = new DiseaseCodeRepository(_mockContext.Object);
 
-            _mockSet.Setup(m => m.Add(It.IsAny<DiseaseCode>())).Callback<DiseaseCode>(dc => dc.Id = 1);
-            _mockContext.Setup(m => m.DiseaseCodes).Returns(_mockSet.Object);
-
-            var result = await _repository.AddDiseaseCode(diseaseCode);
-
-            Assert.NotNull(result);
-            Assert.Equal("A01", result.DiseaseCode1);
-            _mockSet.Verify(m => m.Add(It.IsAny<DiseaseCode>()), Times.Once());
-            _mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
+            _mockContext.Setup(m => m.DiseaseCodes).Returns(_mockDbSet.Object);
         }
 
         [Fact]
-        public async Task Read_ShouldReturnDiseaseCode()
+        public async Task GetAllAsync_ReturnsAllDiseaseCodes()
         {
-            var diseaseCode = new DiseaseCode { Id = 1, DiseaseCode1 = "A00", DiseaseDescription = "Cholera", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, CreatedBy = "Admin", UpdatedBy = "Admin" };
-            _mockSet.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(diseaseCode);
-            _mockContext.Setup(m => m.DiseaseCodes).Returns(_mockSet.Object);
+            // Arrange
+            var diseaseCodes = new List<DiseaseCode>
+        {
+            new DiseaseCode { Id = 1, DiseaseCode1 = "C1", DiseaseDescription = "Description1" },
+            new DiseaseCode { Id = 2, DiseaseCode1 = "C2", DiseaseDescription = "Description2" }
+        }.AsQueryable();
 
-            var result = await _repository.GetDiseaseCode(1);
+            _mockDbSet.As<IQueryable<DiseaseCode>>().Setup(m => m.Provider).Returns(diseaseCodes.Provider);
+            _mockDbSet.As<IQueryable<DiseaseCode>>().Setup(m => m.Expression).Returns(diseaseCodes.Expression);
+            _mockDbSet.As<IQueryable<DiseaseCode>>().Setup(m => m.ElementType).Returns(diseaseCodes.ElementType);
+            _mockDbSet.As<IQueryable<DiseaseCode>>().Setup(m => m.GetEnumerator()).Returns(diseaseCodes.GetEnumerator());
 
-            Assert.NotNull(result);
-            Assert.Equal(1, result.Id);
-            Assert.Equal("A00", result.DiseaseCode1);
+            // Act
+            var result = await _repository.GetAllAsync();
+
+            // Assert
+            Assert.Equal(2, result.Count());
+            Assert.Equal("C1", result.First().DiseaseCode1);
         }
 
         [Fact]
-        public async Task Update_ShouldModifyDiseaseCode()
+        public async Task GetByIdAsync_ReturnsDiseaseCode()
         {
-            var diseaseCode = new DiseaseCode { Id = 1, DiseaseCode1 = "A00", DiseaseDescription = "Cholera", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, CreatedBy = "Admin", UpdatedBy = "Admin" };
-            _mockSet.Setup(m => m.Update(It.IsAny<DiseaseCode>())).Returns((EntityEntry<DiseaseCode>)null);
-            _mockContext.Setup(m => m.DiseaseCodes).Returns(_mockSet.Object);
+            // Arrange
+            var diseaseCode = new DiseaseCode { Id = 1, DiseaseCode1 = "C1", DiseaseDescription = "Description1" };
+            _mockDbSet.Setup(m => m.FindAsync(1)).ReturnsAsync(diseaseCode);
 
-            diseaseCode.DiseaseCode1 = "A99";
-            diseaseCode.DiseaseDescription = "Updated Disease";
+            // Act
+            var result = await _repository.GetByIdAsync(1);
 
-            var result = await _repository.UpdateDiseaseCode(diseaseCode);
-
+            // Assert
             Assert.NotNull(result);
-            Assert.Equal("A99", result.DiseaseCode1);
-            Assert.Equal("Updated Disease", result.DiseaseDescription);
-            _mockSet.Verify(m => m.Update(It.IsAny<DiseaseCode>()), Times.Once());
-            _mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
+            Assert.Equal("C1", result.DiseaseCode1);
         }
 
         [Fact]
-        public async Task Delete_ShouldRemoveDiseaseCode()
+        public async Task AddAsync_AddsDiseaseCode()
         {
-            var diseaseCode = new DiseaseCode { Id = 1, DiseaseCode1 = "A00", DiseaseDescription = "Cholera", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, CreatedBy = "Admin", UpdatedBy = "Admin" };
-            _mockSet.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(diseaseCode);
-            _mockContext.Setup(m => m.DiseaseCodes).Returns(_mockSet.Object);
+            // Arrange
+            var diseaseCode = new DiseaseCode { Id = 1, DiseaseCode1 = "C1", DiseaseDescription = "Description1" };
+            _mockDbSet.Setup(m => m.AddAsync(diseaseCode, default)).ReturnsAsync((EntityEntry<DiseaseCode>)null);
 
-            var result = await _repository.DeleteDiseaseCode(1);
+            // Act
+            await _repository.AddAsync(diseaseCode);
 
-            Assert.NotNull(result);
-            _mockSet.Verify(m => m.Remove(It.IsAny<DiseaseCode>()), Times.Once());
-            _mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
+            // Assert
+            _mockDbSet.Verify(m => m.AddAsync(diseaseCode, default), Times.Once());
+            _mockContext.Verify(m => m.SaveChangesAsync(default), Times.Once());
+        }
+
+        [Fact]
+        public async Task UpdateAsync_UpdatesDiseaseCode()
+        {
+            // Arrange
+            var diseaseCode = new DiseaseCode { Id = 1, DiseaseCode1 = "C1", DiseaseDescription = "Description1" };
+            _mockDbSet.Setup(m => m.Update(diseaseCode)).Returns((EntityEntry<DiseaseCode>)null);
+
+            // Act
+            await _repository.UpdateAsync(diseaseCode);
+
+            // Assert
+            _mockDbSet.Verify(m => m.Update(diseaseCode), Times.Once());
+            _mockContext.Verify(m => m.SaveChangesAsync(default), Times.Once());
+        }
+
+        [Fact]
+        public async Task DeleteAsync_DeletesDiseaseCode()
+        {
+            // Arrange
+            var diseaseCode = new DiseaseCode { Id = 1, DiseaseCode1 = "C1", DiseaseDescription = "Description1" };
+            _mockDbSet.Setup(m => m.FindAsync(1)).ReturnsAsync(diseaseCode);
+            _mockDbSet.Setup(m => m.Remove(diseaseCode)).Returns((EntityEntry<DiseaseCode>)null);
+
+            // Act
+            await _repository.DeleteAsync(1);
+
+            // Assert
+            _mockDbSet.Verify(m => m.Remove(diseaseCode), Times.Once());
+            _mockContext.Verify(m => m.SaveChangesAsync(default), Times.Once());
         }
     }
+
 }

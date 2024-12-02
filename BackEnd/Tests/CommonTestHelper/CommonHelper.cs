@@ -1,12 +1,11 @@
 ﻿
 using AutoMapper;
-using Contracts.Interfaces.Services;
+using Contracts.Interfaces;
 using Contracts.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Repository.Models;
 using System.Net;
 
 namespace CommonTestHelper
@@ -15,8 +14,8 @@ namespace CommonTestHelper
     {
         public static class TestParams
         {
-            public static IOrgService org;
-            public static IEmpService emp;
+            public static IOrg org;
+            public static IEmp emp;
             public static ContabContext DBContext;
             public static IMapper mapper;
         }
@@ -131,8 +130,8 @@ namespace CommonTestHelper
             remove.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        public static void SetTestParams(ContabContext ctx, IOrgService org,
-                                    IEmpService emp, IMapper map)
+        public static void SetTestParams(ContabContext ctx, IOrg org,
+                                    IEmp emp, IMapper map)
         {
             TestParams.DBContext = ctx;
             TestParams.org = org;

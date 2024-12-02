@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Repository.Models;
+namespace Contracts.Models;
 
 public partial class Param
 {
@@ -27,6 +27,8 @@ public partial class Param
     public short? NormalWorkHoursSchedule { get; set; }
 
     public decimal? MinimSalaryGovt { get; set; }
+
+    public short? NoDaysForWhichAdvanceisPaid { get; set; }
 
     public HierarchyId? EcnDirector { get; set; }
 
