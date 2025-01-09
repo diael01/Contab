@@ -71,7 +71,7 @@ namespace IntegrationTests
             };
             var content = new StringContent(JsonConvert.SerializeObject(param), Encoding.UTF8, "application/json");
             await httpClient.PostAsync("/api/params", content);
-            param.AdvanceWeight = 50;
+            param.AdvancePercentRate = 50;
             var updateContent = new StringContent(JsonConvert.SerializeObject(param), Encoding.UTF8, "application/json");
             // Act
             var response = await httpClient.PutAsync("/api/params/1", updateContent);

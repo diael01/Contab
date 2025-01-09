@@ -16,7 +16,6 @@ CREATE TABLE [dbo].[Params](
 	--[Month] [smallint] NULL,
 	--[Day] [smallint] NULL,
 	[FiscalCode] [nvarchar](32) NULL,
-	[AdvanceWeight] smallint,--VA ?
 	[AdvancePercentRate] numeric,-- CAV 10 charactere, 7 intregi si 2 zecimale
 	[WorkRegime8Hours] smallint,--RM8 regimul de orar al muncitorilor care este calculat prin lege, functie de nr , dex 165.33 ore, indiferent de cate zile are luna
 	[NormatedRegime] smallint,--RN8

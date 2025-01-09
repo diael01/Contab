@@ -70,5 +70,7 @@
 
         public string? EmpFunctionNodeAsText { get; set; } = null!;
 
+        public short? ExceptedRetributionDays { get; set; }
+
     }
 }

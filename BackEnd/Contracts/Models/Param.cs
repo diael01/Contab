@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Contracts.Models;
 
@@ -9,8 +11,6 @@ public partial class Param
     public DateTime? ProcessingDate { get; set; }
 
     public string? FiscalCode { get; set; }
-
-    public short? AdvanceWeight { get; set; }
 
     public decimal? AdvancePercentRate { get; set; }
 

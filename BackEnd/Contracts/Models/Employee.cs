@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Contracts.Models;
 
@@ -102,7 +104,7 @@ public partial class Employee
 
     public decimal? MoneyAdvance { get; set; }
 
-    public short? ExceptedRetributionDay { get; set; }
+    public short? ExceptedRetributionDays { get; set; }
 
     public short? HoursRegie { get; set; }
 

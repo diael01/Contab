@@ -62,7 +62,9 @@ CREATE TABLE [dbo].[Employee](
 	RetirementPilonGovt smallint, --PILON?
 	-------------din pontaj1,2
 	MoneyAdvance Money null, --AVC, --[ZILAN]   Char(2), --?DateCalculationPontaj1 smalldatetime,--redundant, TBD check if it can be in param
-	ExceptedRetributionDay smallint, --ZIRE
+	ExceptedRetributionDays smallint, --ZIRE, 
+							--ZILE retributiei exceptata, poajul1 se face pt zilelelucrate intre 1-15 ale lunii
+							--pontajul poatee permite zile nepontate
 	--in pontaj2
 	HoursRegie smallint,--OLR
 	HoursOOOGiven smallint, --OINV ore invoire
