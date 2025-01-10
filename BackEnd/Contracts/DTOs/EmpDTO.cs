@@ -72,5 +72,7 @@
 
         public short? ExceptedRetributionDays { get; set; }
 
+        public decimal? MoneyAdvance { get; set; }
+
     }
 }
