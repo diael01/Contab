@@ -53,7 +53,8 @@ namespace WebApi.Controllers
             } 
             else
             {
-                var avc = emp.MainSalary * (decimal)0.5 * emp.ExceptedRetributionDays * param.AdvancePercentRate / (100 * 8);
+                var avc = emp.MainSalary * (decimal)0.5 * emp.ExceptedRetributionDays * param.AdvancePercentRate / 
+                    (100 * param.NoDaysForWhichAdvanceisPaid);
                 //nu tre sa fie 8 , tre sa fie //cate ore pe zi munceste omul , de exemplu poa sa fie 4
             }
             //unde updatez? si returnez avc sau to employyeul?

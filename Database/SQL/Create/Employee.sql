@@ -17,14 +17,32 @@ CREATE TABLE [dbo].[Employee](
 	[IdCardSerieNo] nvarchar(128) not NULL,
 	[IdCardCnp] numeric(13,0) not NULL,
 	[LastIdCardCreationDate] smalldatetime not NULL,--CALIF?
+	[LastIdCardCreatedBy] smalldatetime not NULL,--adresa3?
 	[MainSalary]			  Money not null, --numeric(10,2) not null,-- default 1500.05,= RETRIB
 	[HiringDate] smalldatetime not NULL default sysdatetime(),
 	[ManagerNode] hierarchyid Not NULL,
 	[EmpShift] char(1)			NOT NULL default 'Z', --day or night
 	[CountyCode] char(2) not NULL,-- default 'NY',
 	[WorkGroup] smallint not null default 3 , --6- mineri, 3-IT
+	----------------------------------------------------------------------------------
+	--[WorkTypeContract] smallint not null default 0,--=[SP]? --0 sau 1=tesa, --1 inseamna normal, 8 ore,
+	--                                                   --0, 3censori, 4 pensionri,--12,13,14,17,--42,23,-48
+	--												   --bica =44, =  4 pensionar si 4 = nr de ore
+	--								-- contract de munca = PEN_SUP
+	--WORKTYPECONTRACT=RETIRED+HOURSTOWORK
 	[HoursToWork] smallint not null default 8, --8 hours, make it short
-	[WorkTypeContract] smallint not null default 0,--=[SP]? --0 sau 1=tesa, --1 inseamna normal, 8 ore, 0, 3censori, 4 pensionri,--12,13,14,17,--42,23,-48
+    [Retired] bit not NULL default 0,--0 nepensionar, 1 pensionar --PEN_FC?
+	RetirementPilonGovt smallint default 0, --PILON? --se pune cifra 2 daca vrea sa participe la pilonul 2 de pensii
+	-----------------------------------------------------------------
+	[Studies] char(4),-- G=lice=studiigenerale, PROF-profesional, M - medii, PL=postliceal, S=superior, CC=curs calificare
+							--SSD=studii superioare de scurta durata, G+CC= generale+curs calificare,
+	[CivilStatus] char(1),
+	SignalDeduction bit default 1, --1 - are deducere, 2 n-are deducere (deducere) LA calculul IMPOZITului
+	SignalImpozit bit default 0, --PEN_FC dac are impozit sau nu,  --PEN_FC= cu impozit, 1=invalid gr1, 2=invgrd 2, 3 =fara imp = Semnal Impozit
+	HealthExempted bit default 0,--0 NA,1=exc, 1=nuexc dela plata cass=sanatate si CAS=casa de pensii
+	HealthExemptionReason bit default 0, -- 1 trebie adaugat motivul exceptarii - 1=elevei, 2=ucenici,3= cu dizabilitati, 4=pensionari, fara func baza
+	--PensionExemption bit default 0,
+	--impozitul de calculeaza adar nu plteste omul ci statul
 	--ContractType
 	[Email] nvarchar(128) not NULL, 
 	[WorkEmail] nvarchar(128) not null default 'org@org.com', 
@@ -35,31 +53,32 @@ CREATE TABLE [dbo].[Employee](
 	[EmpWorkTypeNode] hierarchyid NOT NULL,--loc munca care e impropriu, spus tipul de munca
 	[EmpFunctionNode] hierarchyid NOT NULL,--functie
 	----from Salar
-	[Retired] bit not NULL default 0,--0 nepensionar, 1 pensionar --PEN_FC?
+	[Bank1Code] char(3),
+	Iban1 char(24),
+	[Bank2Code] char(3),
+	Iban2 char(24),
 	[Phone] nvarchar(128),
 	[Surname] nvarchar(128),
-	[Category] smallint,
-	[EmpGradation] char(2),--STUDII
-	[CivilStatus] char(1),
-    [MgmtSalaryIncrease]       Money, --IND_COND
+	--[Category] smallint, --CATEG --muncitor calificat categoria 5
+	--[EmpGradation] char(2),--STUDII
+	 [MgmtSalaryIncrease]  Money default 0, --IND_COND
     [EndWorkCode] char(2),
 	[EndWorkDate] smalldatetime, 
-	[WorkExperienceSalaryIncrease] Money,																	
+	[WorkExperienceSalaryIncrease] Money default 0,																	
 	[FirstJobHiringDate] smalldatetime,--
 	[Location] [varchar](128) NULL,--adresa
-	[MealTickets] bit,--T_Cl
+	[MealTickets] bit default 0,--T_Cl
 	[AdvanceOrLiquidaton] bit,--AV_LI2
 	[YearSeniority] smallint,--AN_SV
 	[MonthSeniority] smallint,--LN_SV
 	[Insured] bit,--ASIGS5
 	[Insurance] nvarchar(128) ,--ASCASA
-	[Studies] nvarchar(128),
-	[Bank1Code] char(3),
-	[Bank2Code] char(3),
+	
+	
 	[RetirementSeniority] char(2),--P_SV
 	[RetirementSupplement] smallint,--PEN_SUB
 	[RetirementExclusionReason] smallint,--MOTIVEXC
-	RetirementPilonGovt smallint, --PILON?
+	
 	-------------din pontaj1,2
 	MoneyAdvance Money null, --AVC, --[ZILAN]   Char(2), --?DateCalculationPontaj1 smalldatetime,--redundant, TBD check if it can be in param
 	ExceptedRetributionDays smallint, --ZIRE, 
