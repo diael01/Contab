@@ -12,16 +12,16 @@ namespace Contracts.Mapping
             CreateMap<EmpDTO, Employee>()
                 .ForMember(dest =>
                dest.EmpDeptNode,
-               opt => opt.MapFrom(src => HierarchyId.Parse(src.EmpDeptNodeAsText)))
+               opt => opt.MapFrom(src => HierarchyId.Parse(src.EmpDeptNodeText)))
              .ForMember(dest =>
                dest.EmpActivityNode,
-               opt => opt.MapFrom(src => HierarchyId.Parse(src.EmpActivityNodeAsText)))
+               opt => opt.MapFrom(src => HierarchyId.Parse(src.EmpActivityNodeText)))
              .ForMember(dest =>
                dest.EmpWorkTypeNode,
-               opt => opt.MapFrom(src => HierarchyId.Parse(src.EmpWorkTypeNodeAsText)))
+               opt => opt.MapFrom(src => HierarchyId.Parse(src.EmpWorkTypeNodeText)))
              .ForMember(dest =>
                dest.EmpFunctionNode,
-               opt => opt.MapFrom(src => HierarchyId.Parse(src.EmpFunctionNodeAsText)));
+               opt => opt.MapFrom(src => HierarchyId.Parse(src.EmpFunctionNodeText)));
 
             // Mapping when property names are different
             CreateMap<Employee, EmpDTO>()
@@ -29,19 +29,19 @@ namespace Contracts.Mapping
                dest.EmpNodeAsText,
                opt => opt.MapFrom(src => src.EmpNode.ToString()))
               .ForMember(dest =>
-                dest.ManagerNodeAsText,
+                dest.ManagerNodeText,
                 opt => opt.MapFrom(src => src.ManagerNode.ToString()))
               .ForMember(dest =>
-                dest.EmpDeptNodeAsText,
+                dest.EmpDeptNodeText,
                 opt => opt.MapFrom(src => src.EmpDeptNode.ToString()))
               .ForMember(dest =>
-                dest.EmpActivityNodeAsText,
+                dest.EmpActivityNodeText,
                 opt => opt.MapFrom(src => src.EmpActivityNode.ToString()))
               .ForMember(dest =>
-                dest.EmpWorkTypeNodeAsText,
+                dest.EmpWorkTypeNodeText,
                 opt => opt.MapFrom(src => src.EmpWorkTypeNode.ToString()))
             .ForMember(dest =>
-               dest.EmpFunctionNodeAsText,
+               dest.EmpFunctionNodeText,
                opt => opt.MapFrom(src => src.EmpFunctionNode.ToString()));
         }
 

@@ -17,10 +17,10 @@ namespace Contracts.Validation
             RuleFor(emp => emp.Email).NotNull();
             RuleFor(emp => emp.Birthday).NotNull();
             //RuleFor(emp => emp.ManagerNodeAsName).NotNull();
-            RuleFor(emp => emp.EmpDeptNodeAsText).NotNull();
-            RuleFor(emp => emp.EmpActivityNodeAsText).NotNull();
-            RuleFor(emp => emp.EmpWorkTypeNodeAsText).NotNull();
-            RuleFor(emp => emp.EmpFunctionNodeAsText).NotNull();
+            RuleFor(emp => emp.EmpDeptNodeText).NotNull();
+            RuleFor(emp => emp.EmpActivityNodeText).NotNull();
+            RuleFor(emp => emp.EmpWorkTypeNodeText).NotNull();
+            RuleFor(emp => emp.EmpFunctionNodeText).NotNull();
         }
     }
 

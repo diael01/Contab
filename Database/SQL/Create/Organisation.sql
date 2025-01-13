@@ -13,8 +13,8 @@ GO
  GO
 CREATE TABLE [dbo].[Organisation](
 	[Node] [hierarchyid] primary key clustered not null, --node could ne the organisation, department, activity or function
-	[NodeAsText] [nvarchar](128),
-	[NodeAsName] [nvarchar](128),
+	[NodeText] [nvarchar](128),
+	[NodeName] [nvarchar](128),
 	[ParentNode] [hierarchyid],
 	[NodeLevel]  AS ([Node].[GetLevel]()),
 	[Name] [nvarchar](128) NOT NULL,

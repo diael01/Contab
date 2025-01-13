@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Contracts.Models;
 
@@ -6,7 +8,7 @@ public partial class Employee
 {
     public int Id { get; set; }
 
-    public HierarchyId EmpNode { get; set; } = null!;
+    public HierarchyId? EmpNode { get; set; }
 
     public DateTime? EmpRecordChangeDate { get; set; }
 
@@ -18,11 +20,13 @@ public partial class Employee
 
     public DateTime LastIdCardCreationDate { get; set; }
 
+    public DateTime LastIdCardCreatedBy { get; set; }
+
     public decimal MainSalary { get; set; }
 
     public DateTime HiringDate { get; set; }
 
-    public HierarchyId ManagerNode { get; set; } = null!;
+    public HierarchyId? ManagerNode { get; set; }
 
     public string EmpShift { get; set; } = null!;
 
@@ -32,7 +36,21 @@ public partial class Employee
 
     public short HoursToWork { get; set; }
 
-    public short WorkTypeContract { get; set; }
+    public bool Retired { get; set; }
+
+    public short? RetirementPilonGovt { get; set; }
+
+    public string? Studies { get; set; }
+
+    public string? CivilStatus { get; set; }
+
+    public bool? SignalDeduction { get; set; }
+
+    public bool? SignalImpozit { get; set; }
+
+    public bool? HealthExempted { get; set; }
+
+    public bool? HealthExemptionReason { get; set; }
 
     public string Email { get; set; } = null!;
 
@@ -44,23 +62,31 @@ public partial class Employee
 
     public HierarchyId EmpDeptNode { get; set; } = null!;
 
-    public HierarchyId EmpActivityNode { get; set; } = null!;
+    public HierarchyId? EmpActivityNode { get; set; }
 
-    public HierarchyId EmpWorkTypeNode { get; set; } = null!;
+    public HierarchyId? EmpWorkTypeNode { get; set; }
 
-    public HierarchyId EmpFunctionNode { get; set; } = null!;
+    public HierarchyId? EmpFunctionNode { get; set; }
 
-    public bool Retired { get; set; }
+    public string EmpDeptNodeName { get; set; } = null!;
+
+    public string EmpActivityNodeName { get; set; } = null!;
+
+    public string EmpWorkTypeNodeName { get; set; } = null!;
+
+    public string EmpFunctionNodeName { get; set; } = null!;
+
+    public string? Bank1Code { get; set; }
+
+    public string? Iban1 { get; set; }
+
+    public string? Bank2Code { get; set; }
+
+    public string? Iban2 { get; set; }
 
     public string? Phone { get; set; }
 
     public string? Surname { get; set; }
-
-    public short? Category { get; set; }
-
-    public string? EmpGradation { get; set; }
-
-    public string? CivilStatus { get; set; }
 
     public decimal? MgmtSalaryIncrease { get; set; }
 
@@ -86,19 +112,11 @@ public partial class Employee
 
     public string? Insurance { get; set; }
 
-    public string? Studies { get; set; }
-
-    public string? Bank1Code { get; set; }
-
-    public string? Bank2Code { get; set; }
-
     public string? RetirementSeniority { get; set; }
 
     public short? RetirementSupplement { get; set; }
 
     public short? RetirementExclusionReason { get; set; }
-
-    public short? RetirementPilonGovt { get; set; }
 
     public decimal? MoneyAdvance { get; set; }
 
@@ -296,9 +314,9 @@ public partial class Employee
 
     public string? AllOrOnlyWomenOrOnlyMen { get; set; }
 
-    public string? EmpNodeAsText { get; set; }
+    public string? EmpNodeText { get; set; }
 
-    public string? EmpNodeAsName { get; set; }
+    public string? EmpNodeName { get; set; }
 
     public short? EmpLevel { get; set; }
 

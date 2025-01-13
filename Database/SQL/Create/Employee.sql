@@ -11,7 +11,7 @@ GO
  DROP TABLE [Employee];
 CREATE TABLE [dbo].[Employee](
 	[Id] int identity(1,1) primary key clustered not null,
-	[EmpNode] hierarchyid  NOT NULL, 
+	[EmpNode] hierarchyid,--  NOT NULL, 
 	EmpRecordChangeDate smalldatetime,--[ZIM]= only 5 changes allowed per month = ZIM = zi modificare 0-30
 	[Name] nvarchar(128)		NOT NULL,-- default 'Jannie Doe',
 	[IdCardSerieNo] nvarchar(128) not NULL,
@@ -20,7 +20,7 @@ CREATE TABLE [dbo].[Employee](
 	[LastIdCardCreatedBy] smalldatetime not NULL,--adresa3?
 	[MainSalary]			  Money not null, --numeric(10,2) not null,-- default 1500.05,= RETRIB
 	[HiringDate] smalldatetime not NULL default sysdatetime(),
-	[ManagerNode] hierarchyid Not NULL,
+	[ManagerNode] hierarchyid, --Not NULL,
 	[EmpShift] char(1)			NOT NULL default 'Z', --day or night
 	[CountyCode] char(2) not NULL,-- default 'NY',
 	[WorkGroup] smallint not null default 3 , --6- mineri, 3-IT
@@ -45,13 +45,17 @@ CREATE TABLE [dbo].[Employee](
 	--impozitul de calculeaza adar nu plteste omul ci statul
 	--ContractType
 	[Email] nvarchar(128) not NULL, 
-	[WorkEmail] nvarchar(128) not null default 'org@org.com', 
+	[WorkEmail] nvarchar(128) not null default 'email@org.com', 
 	[Gender] char(1) not NULL default 'F',
 	[Birthday] smalldatetime not NULL,-- default sysdatetime(),
 	[EmpDeptNode] hierarchyid NOT NULL,--sectia
-	[EmpActivityNode] hierarchyid NOT NULL,--activitate
-	[EmpWorkTypeNode] hierarchyid NOT NULL,--loc munca care e impropriu, spus tipul de munca
-	[EmpFunctionNode] hierarchyid NOT NULL,--functie
+	[EmpActivityNode] hierarchyid,-- NOT NULL,--activitate
+	[EmpWorkTypeNode] hierarchyid,-- NOT NULL,--loc munca care e impropriu, spus tipul de munca
+	[EmpFunctionNode] hierarchyid,-- NOT NULL,--functie
+	[EmpDeptNodeName] varchar(128) NOT NULL,--sectia
+	[EmpActivityNodeName] varchar(128) NOT NULL,--activitate
+	[EmpWorkTypeNodeName] varchar(128) NOT NULL,--loc munca care e impropriu, spus tipul de munca
+	[EmpFunctionNodeName] varchar(128) NOT NULL,--functie
 	----from Salar
 	[Bank1Code] char(3),
 	Iban1 char(24),
@@ -196,8 +200,8 @@ CREATE TABLE [dbo].[Employee](
 	--[TIPCARD]                          Char(1), ? to find; n-au legatura cu banca
 	--[RET]                              Integer, --codRetinere? de ce am evoie de el cn am ret avand si lichidare????
 	---------------------------------------------------------------------
-	[EmpNodeAsText] [nvarchar](128) NULL,
-	[EmpNodeAsName] [nvarchar](128) NULL,
+	[EmpNodeText] [nvarchar](128) NULL,
+	[EmpNodeName] [nvarchar](128) NULL,
 	[EmpLevel]  AS ([EmpNode].[GetLevel]()),
 	[CreatedAt] [smalldatetime] NULL,
 	[CreatedBy] [nvarchar](128) NULL,

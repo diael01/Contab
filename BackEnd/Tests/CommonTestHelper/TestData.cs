@@ -47,15 +47,15 @@ namespace CommonTestHelper
             emp.EmpShift = "Z";
 
             //emp.ManagerNodeAsName = manager ?? "Eu";
-            emp.ManagerNodeAsText = managerAsText;
+            emp.ManagerNodeText = managerAsText;
             //emp.EmpDeptNodeAsName = dept ?? "IT";
-            emp.EmpDeptNodeAsText = d.deptId;
+            emp.EmpDeptNodeText = d.deptId;
             //emp.EmpActivityNodeAsName = act ?? "Research";
-            emp.EmpActivityNodeAsText = d.actId;
+            emp.EmpActivityNodeText = d.actId;
             //emp.EmpWorkTypeNodeAsName = wtyp ?? "Paza";
-            emp.EmpWorkTypeNodeAsText = d.workTypeId;
+            emp.EmpWorkTypeNodeText = d.workTypeId;
             //emp.EmpFunctionNodeAsName = func ?? "SDev";
-            emp.EmpFunctionNodeAsText = d.funcId1;
+            emp.EmpFunctionNodeText = d.funcId1;
 
             return emp;
         }

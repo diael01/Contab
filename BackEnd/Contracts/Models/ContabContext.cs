@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Contracts.Models;
 
@@ -15,6 +17,8 @@ public partial class ContabContext : DbContext
 
     public virtual DbSet<Bank> Banks { get; set; }
 
+    public virtual DbSet<CodCor> CodCors { get; set; }
+
     public virtual DbSet<Disease> Diseases { get; set; }
 
     public virtual DbSet<DiseaseCode> DiseaseCodes { get; set; }
@@ -29,6 +33,8 @@ public partial class ContabContext : DbContext
 
     public virtual DbSet<Param> Params { get; set; }
 
+    public virtual DbSet<Retain> Retains { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Bank>(entity =>
@@ -38,6 +44,17 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.Adress).HasMaxLength(128);
             entity.Property(e => e.BankCode).HasMaxLength(32);
             entity.Property(e => e.Iban).HasMaxLength(128);
+        });
+
+        modelBuilder.Entity<CodCor>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("CodCor");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(10)
+                .IsFixedLength();
         });
 
         modelBuilder.Entity<Disease>(entity =>
@@ -114,7 +131,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Employee__3214EC07BEDC2EA0");
+            entity.HasKey(e => e.Id).HasName("PK__Employee__3214EC0785D387F0");
 
             entity.ToTable("Employee");
 
@@ -167,19 +184,27 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.CreatedBy).HasMaxLength(128);
             entity.Property(e => e.DaysOoogiven).HasColumnName("DaysOOOGiven");
             entity.Property(e => e.Email).HasMaxLength(128);
-            entity.Property(e => e.EmpGradation)
-                .HasMaxLength(2)
-                .IsUnicode(false)
-                .IsFixedLength();
+            entity.Property(e => e.EmpActivityNodeName)
+                .HasMaxLength(128)
+                .IsUnicode(false);
+            entity.Property(e => e.EmpDeptNodeName)
+                .HasMaxLength(128)
+                .IsUnicode(false);
+            entity.Property(e => e.EmpFunctionNodeName)
+                .HasMaxLength(128)
+                .IsUnicode(false);
             entity.Property(e => e.EmpLevel).HasComputedColumnSql("([EmpNode].[GetLevel]())", false);
-            entity.Property(e => e.EmpNodeAsName).HasMaxLength(128);
-            entity.Property(e => e.EmpNodeAsText).HasMaxLength(128);
+            entity.Property(e => e.EmpNodeName).HasMaxLength(128);
+            entity.Property(e => e.EmpNodeText).HasMaxLength(128);
             entity.Property(e => e.EmpRecordChangeDate).HasColumnType("smalldatetime");
             entity.Property(e => e.EmpShift)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasDefaultValue("Z")
                 .IsFixedLength();
+            entity.Property(e => e.EmpWorkTypeNodeName)
+                .HasMaxLength(128)
+                .IsUnicode(false);
             entity.Property(e => e.EndWorkCode)
                 .HasMaxLength(2)
                 .IsUnicode(false)
@@ -195,12 +220,22 @@ public partial class ContabContext : DbContext
                 .HasDefaultValue("F")
                 .IsFixedLength();
             entity.Property(e => e.GrossBonus).HasColumnType("money");
+            entity.Property(e => e.HealthExempted).HasDefaultValue(false);
+            entity.Property(e => e.HealthExemptionReason).HasDefaultValue(false);
             entity.Property(e => e.HiringDate)
                 .HasDefaultValueSql("(sysdatetime())")
                 .HasColumnType("smalldatetime");
             entity.Property(e => e.HoursOoogiven).HasColumnName("HoursOOOGiven");
             entity.Property(e => e.HoursToWork).HasDefaultValue((short)8);
             entity.Property(e => e.HoursWorkedInTl).HasColumnName("HoursWorkedInTL");
+            entity.Property(e => e.Iban1)
+                .HasMaxLength(24)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.Iban2)
+                .HasMaxLength(24)
+                .IsUnicode(false)
+                .IsFixedLength();
             entity.Property(e => e.IdCardCnp).HasColumnType("numeric(13, 0)");
             entity.Property(e => e.IdCardSerieNo).HasMaxLength(128);
             entity.Property(e => e.IncreaseCode)
@@ -227,6 +262,7 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.InterestNotCalculated).HasColumnType("money");
             entity.Property(e => e.InterestOnBorrowed).HasColumnType("numeric(18, 0)");
             entity.Property(e => e.InterestRestant).HasColumnType("money");
+            entity.Property(e => e.LastIdCardCreatedBy).HasColumnType("smalldatetime");
             entity.Property(e => e.LastIdCardCreationDate).HasColumnType("smalldatetime");
             entity.Property(e => e.LastRate).HasColumnType("money");
             entity.Property(e => e.LeaveGross).HasColumnType("money");
@@ -235,7 +271,10 @@ public partial class ContabContext : DbContext
                 .HasMaxLength(128)
                 .IsUnicode(false);
             entity.Property(e => e.MainSalary).HasColumnType("money");
-            entity.Property(e => e.MgmtSalaryIncrease).HasColumnType("money");
+            entity.Property(e => e.MealTickets).HasDefaultValue(false);
+            entity.Property(e => e.MgmtSalaryIncrease)
+                .HasDefaultValue(0m)
+                .HasColumnType("money");
             entity.Property(e => e.MoneyAdvance).HasColumnType("money");
             entity.Property(e => e.MoneyBonus).HasColumnType("money");
             entity.Property(e => e.MoneyFinancialAid).HasColumnType("money");
@@ -265,6 +304,7 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.PriorityRate).HasColumnType("money");
             entity.Property(e => e.RateRetentionAdvance).HasColumnType("money");
             entity.Property(e => e.RateRetentionLiquidation).HasColumnType("money");
+            entity.Property(e => e.RetirementPilonGovt).HasDefaultValue((short)0);
             entity.Property(e => e.RetirementSeniority)
                 .HasMaxLength(2)
                 .IsUnicode(false)
@@ -285,7 +325,12 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.SalinlocReplacementSalaryForWhichInCalculateTheIncrease)
                 .HasColumnType("numeric(18, 1)")
                 .HasColumnName("SALINLOC_ReplacementSalaryForWhichInCalculateTheIncrease");
-            entity.Property(e => e.Studies).HasMaxLength(128);
+            entity.Property(e => e.SignalDeduction).HasDefaultValue(true);
+            entity.Property(e => e.SignalImpozit).HasDefaultValue(false);
+            entity.Property(e => e.Studies)
+                .HasMaxLength(4)
+                .IsUnicode(false)
+                .IsFixedLength();
             entity.Property(e => e.Surname).HasMaxLength(128);
             entity.Property(e => e.TaxCumulated).HasColumnType("money");
             entity.Property(e => e.TotalIncreaseValue).HasColumnType("money");
@@ -298,8 +343,10 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
             entity.Property(e => e.WorkEmail)
                 .HasMaxLength(128)
-                .HasDefaultValue("org@org.com");
-            entity.Property(e => e.WorkExperienceSalaryIncrease).HasColumnType("money");
+                .HasDefaultValue("email@org.com");
+            entity.Property(e => e.WorkExperienceSalaryIncrease)
+                .HasDefaultValue(0m)
+                .HasColumnType("money");
             entity.Property(e => e.WorkGroup).HasDefaultValue((short)3);
             entity.Property(e => e.WorkQuantity).HasColumnType("numeric(18, 0)");
             entity.Property(e => e.WorkQuantity2).HasColumnType("numeric(18, 0)");
@@ -355,7 +402,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Organisation>(entity =>
         {
-            entity.HasKey(e => e.Node).HasName("PK__Organisa__7D8CACC0E29C5F96");
+            entity.HasKey(e => e.Node).HasName("PK__Organisa__7D8CACC07F8A4BA6");
 
             entity.ToTable("Organisation");
 
@@ -375,9 +422,9 @@ public partial class ContabContext : DbContext
                 .HasMaxLength(128)
                 .IsUnicode(false);
             entity.Property(e => e.Name).HasMaxLength(128);
-            entity.Property(e => e.NodeAsName).HasMaxLength(128);
-            entity.Property(e => e.NodeAsText).HasMaxLength(128);
             entity.Property(e => e.NodeLevel).HasComputedColumnSql("([Node].[GetLevel]())", false);
+            entity.Property(e => e.NodeName).HasMaxLength(128);
+            entity.Property(e => e.NodeText).HasMaxLength(128);
             entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
         });
@@ -395,6 +442,7 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.BaseDeduction).HasColumnType("money");
             entity.Property(e => e.BeneficiaryCode).HasColumnType("numeric(18, 0)");
             entity.Property(e => e.BigFriday).HasColumnType("smalldatetime");
+            entity.Property(e => e.CaenCode).HasColumnType("numeric(18, 0)");
             entity.Property(e => e.ChildDay).HasColumnType("smalldatetime");
             entity.Property(e => e.CodesRetention).HasMaxLength(64);
             entity.Property(e => e.CommerceRegister).HasMaxLength(64);
@@ -442,6 +490,15 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.UnionDay).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
+        });
+
+        modelBuilder.Entity<Retain>(entity =>
+        {
+            entity.HasNoKey();
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(10)
+                .IsFixedLength();
         });
 
         OnModelCreatingPartial(modelBuilder);

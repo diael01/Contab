@@ -53,7 +53,7 @@ namespace Services
                         orgdb.Node = node.GetDescendant(null, null);
                 } else return null;
             }
-            orgdb.NodeAsText = orgdb.Node.ToString();
+            orgdb.NodeText = orgdb.Node.ToString();
             orgdb.CreatedAt = DateTime.Now;
             orgdb.CreatedBy = "system";
             orgdb.UpdatedAt = DateTime.Now;
@@ -63,7 +63,7 @@ namespace Services
             await DBContext.AddAsync(orgdb);
             await DBContext.SaveChangesAsync();
 
-            return orgdb.NodeAsText;
+            return orgdb.NodeText;
         }
 
         public async Task<string> UpdateNode(OrgDTO org)

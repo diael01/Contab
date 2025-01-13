@@ -42,8 +42,8 @@ namespace Services
             //set the function node based on the Text which was retrieved from DB based on the name
             //empdb.EmpFunctionNode = HierarchyId.Parse(emp.EmpFunctionNodeAsText);
             //set the manager node: if is null then the manager is the utmost top leve ie CEO
-            if (string.IsNullOrEmpty(emp.ManagerNodeAsText) ||
-                string.IsNullOrWhiteSpace(emp.ManagerNodeAsText))
+            if (string.IsNullOrEmpty(emp.ManagerNodeText) ||
+                string.IsNullOrWhiteSpace(emp.ManagerNodeText))
             {
                 empdb.EmpNode = empdb.ManagerNode = HierarchyId.GetRoot();
             } else //if is not top level, get the manager also from same EMployee table
@@ -60,7 +60,7 @@ namespace Services
                 } else return null;
 
             }
-            empdb.EmpNodeAsText = empdb.EmpNode.ToString();
+            empdb.EmpNodeText = empdb.EmpNode.ToString();
             empdb.CreatedAt = DateTime.Now;
             empdb.CreatedBy = "system";
             empdb.UpdatedAt = DateTime.Now;
@@ -70,7 +70,7 @@ namespace Services
             await DBContext.AddAsync(empdb);
             await DBContext.SaveChangesAsync();
 
-            return empdb.EmpNodeAsText;
+            return empdb.EmpNodeText;
         }
 
         public async Task<string> UpdateEmployee(EmpDTO empdto)
@@ -112,8 +112,8 @@ namespace Services
         private async Task<HierarchyId> GetManagerNodeFromDB(EmpDTO emp)
         {
             HierarchyId node = null;
-            if (!string.IsNullOrEmpty(emp.ManagerNodeAsText))
-                node = HierarchyId.Parse(emp.ManagerNodeAsText);
+            if (!string.IsNullOrEmpty(emp.ManagerNodeText))
+                node = HierarchyId.Parse(emp.ManagerNodeText);
             else
             {
                 //search the node via name

@@ -76,7 +76,7 @@ namespace IntegrationTests
             {
                 data = await SetupEmp();
 
-                var emp = await TestParams.DBContext.Employees.Where(e => e.EmpNodeAsText == data.empId).FirstOrDefaultAsync();
+                var emp = await TestParams.DBContext.Employees.Where(e => e.EmpNodeText == data.empId).FirstOrDefaultAsync();
                 emp.Name = "TestDataNameUpdate";
                 var empDto = TestParams.mapper.Map<EmpDTO>(emp);
                 var content = JsonContent.Create(empDto);
@@ -115,7 +115,7 @@ namespace IntegrationTests
             {
                 data = await SetupEmp();
 
-                var emp = await TestParams.DBContext.Employees.Where(e => e.EmpNodeAsText == data.empId).FirstOrDefaultAsync();
+                var emp = await TestParams.DBContext.Employees.Where(e => e.EmpNodeText == data.empId).FirstOrDefaultAsync();
 
                 //Act
                 await DeleteEmployee(httpClient, new Dictionary<string, string>

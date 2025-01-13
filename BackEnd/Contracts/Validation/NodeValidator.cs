@@ -21,7 +21,7 @@ namespace Contracts.Validation
             RuleFor(org => org).NotNull();
             RuleFor(org => org.Name).NotNull();
             RuleFor(org => org.Node).NotNull();
-            RuleFor(org => org.NodeAsText).NotNull();
+            RuleFor(org => org.NodeText).NotNull();
             RuleFor(org => org.UpdatedBy).NotNull();
             RuleFor(org => org.UpdatedAt).NotNull();
             //RuleFor(org => org.OrgLevel).GreaterThan(0);

@@ -47,28 +47,28 @@
 
         //Send to UI the HierarchyId As name for dispaying the Hierarchycal tree
 
-        public string? ManagerNodeAsName { get; set; }
+        public string? ManagerNodeName { get; set; }
 
-        public string? EmpDeptNodeAsName { get; set; } = null!;
+        public string? EmpDeptNodeName { get; set; } = null!;
 
-        public string? EmpActivityNodeAsName { get; set; } = null!;
+        public string? EmpActivityNodeName { get; set; } = null!;
 
-        public string? EmpWorkTypeNodeAsName { get; set; } = null!;
+        public string? EmpWorkTypeNodeName { get; set; } = null!;
 
-        public string? EmpFunctionNodeAsName { get; set; } = null!;
+        public string? EmpFunctionNodeName { get; set; } = null!;
 
 
         //Also retrieve HierarchyId as text just in case we need to send them back for a search
 
-        public string? ManagerNodeAsText { get; set; }
+        public string? ManagerNodeText { get; set; }
 
-        public string? EmpDeptNodeAsText { get; set; } = null!;
+        public string? EmpDeptNodeText { get; set; } = null!;
 
-        public string? EmpActivityNodeAsText { get; set; } = null!;
+        public string? EmpActivityNodeText { get; set; } = null!;
 
-        public string? EmpWorkTypeNodeAsText { get; set; } = null!;
+        public string? EmpWorkTypeNodeText { get; set; } = null!;
 
-        public string? EmpFunctionNodeAsText { get; set; } = null!;
+        public string? EmpFunctionNodeText { get; set; } = null!;
 
         public short? ExceptedRetributionDays { get; set; }
 
