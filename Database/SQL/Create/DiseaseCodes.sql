@@ -12,7 +12,7 @@ GO
 CREATE TABLE [dbo].[DiseaseCodes](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[DiseaseCode] [nvarchar](8) NULL,
-	[DiseseDescription] [nvarchar](128) NULL,
+	[DiseaseDescription] [nvarchar](128) NULL,
 	[CreatedAt] [smalldatetime] NULL,
 	[CreatedBy] [nvarchar](128) NULL,
 	[UpdatedAt] [smalldatetime] NOT NULL,

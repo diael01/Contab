@@ -17,10 +17,6 @@ public partial class ContabContext : DbContext
 
     public virtual DbSet<Bank> Banks { get; set; }
 
-    public virtual DbSet<CodCor> CodCors { get; set; }
-
-    public virtual DbSet<CodesPerCountry> CodesPerCountries { get; set; }
-
     public virtual DbSet<Disease> Diseases { get; set; }
 
     public virtual DbSet<DiseaseCode> DiseaseCodes { get; set; }
@@ -28,6 +24,10 @@ public partial class ContabContext : DbContext
     public virtual DbSet<Employee> Employees { get; set; }
 
     public virtual DbSet<Holiday> Holidays { get; set; }
+
+    public virtual DbSet<HolidayCode> HolidayCodes { get; set; }
+
+    public virtual DbSet<Increase> Increases { get; set; }
 
     public virtual DbSet<IncreaseCode> IncreaseCodes { get; set; }
 
@@ -39,6 +39,10 @@ public partial class ContabContext : DbContext
 
     public virtual DbSet<Retain> Retains { get; set; }
 
+    public virtual DbSet<RetainCode> RetainCodes { get; set; }
+
+    public virtual DbSet<WorkTypeCode> WorkTypeCodes { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Bank>(entity =>
@@ -48,28 +52,6 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.Adress).HasMaxLength(128);
             entity.Property(e => e.BankCode).HasMaxLength(32);
             entity.Property(e => e.Iban).HasMaxLength(128);
-        });
-
-        modelBuilder.Entity<CodCor>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("CodCor");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(10)
-                .IsFixedLength();
-        });
-
-        modelBuilder.Entity<CodesPerCountry>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("CodesPerCountry");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(10)
-                .IsFixedLength();
         });
 
         modelBuilder.Entity<Disease>(entity =>
@@ -400,6 +382,32 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.VacationValueGross).HasColumnType("money");
         });
 
+        modelBuilder.Entity<HolidayCode>(entity =>
+        {
+            entity.HasNoKey();
+
+            entity.Property(e => e.CreatedAt).HasColumnType("smalldatetime");
+            entity.Property(e => e.CreatedBy).HasMaxLength(128);
+            entity.Property(e => e.HolidayCode1)
+                .HasMaxLength(8)
+                .HasColumnName("HolidayCode");
+            entity.Property(e => e.HolidayDescription).HasMaxLength(128);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
+            entity.Property(e => e.UpdatedBy).HasMaxLength(128);
+        });
+
+        modelBuilder.Entity<Increase>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("Increase");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(10)
+                .IsFixedLength();
+        });
+
         modelBuilder.Entity<IncreaseCode>(entity =>
         {
             entity.HasNoKey();
@@ -527,11 +535,41 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Retain>(entity =>
         {
-            entity.HasNoKey();
+            entity
+                .HasNoKey()
+                .ToTable("Retain");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(10)
                 .IsFixedLength();
+        });
+
+        modelBuilder.Entity<RetainCode>(entity =>
+        {
+            entity.HasNoKey();
+
+            entity.Property(e => e.CreatedAt).HasColumnType("smalldatetime");
+            entity.Property(e => e.CreatedBy).HasMaxLength(128);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.RetainCode1)
+                .HasMaxLength(8)
+                .HasColumnName("RetainCode");
+            entity.Property(e => e.RetainDescription).HasMaxLength(128);
+            entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
+            entity.Property(e => e.UpdatedBy).HasMaxLength(128);
+        });
+
+        modelBuilder.Entity<WorkTypeCode>(entity =>
+        {
+            entity.HasNoKey();
+
+            entity.Property(e => e.CreatedAt).HasColumnType("smalldatetime");
+            entity.Property(e => e.CreatedBy).HasMaxLength(128);
+            entity.Property(e => e.DiseaseCode).HasMaxLength(8);
+            entity.Property(e => e.DiseaseDescription).HasMaxLength(128);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
+            entity.Property(e => e.UpdatedBy).HasMaxLength(128);
         });
 
         OnModelCreatingPartial(modelBuilder);
