@@ -101,7 +101,7 @@ namespace IntegrationTests
             add.Should().NotBeNull();
             add.StatusCode.Should().Be(HttpStatusCode.OK);
             org.Name = "TestDataNameUpdate";
-            org.NodeAsText = await add.Content.ReadAsStringAsync();
+            org.NodeText = await add.Content.ReadAsStringAsync();
             content = JsonContent.Create(org);
 
             // Act
@@ -124,7 +124,7 @@ namespace IntegrationTests
             orgres!.Name.Should().Be(org.Name);
 
             // Remove the object to leave the DB in the same state  
-            query = new Dictionary<string, string> { ["id"] = orgres.NodeAsText! };
+            query = new Dictionary<string, string> { ["id"] = orgres.NodeText! };
             await DeleteNode(httpClient, query);
         }
 

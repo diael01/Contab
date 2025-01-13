@@ -2,11 +2,11 @@
 {
     public class OrgDTO
     {
-        public string? NodeAsText { get; set; } = null!; //hierarchyId as string as is
+        public string? NodeText { get; set; } = null!; //hierarchyId as string as is
 
-        public string? NodeAsName { get; set; } //for user easy swagger
+        public string? NodeName { get; set; } //for user easy swagger
 
-        public string? ParentNodeAsText { get; set; } = null!; //ParentNode hierarchyId as string
+        public string? ParentNodeText { get; set; } = null!; //ParentNode hierarchyId as string
 
         public string Name { get; set; } = null!;
 

@@ -13,10 +13,10 @@ namespace Contracts.Mapping
             // Mapping when property names are different
             CreateMap<Organisation, OrgDTO>()
                .ForMember(dest =>
-               dest.NodeAsText,
+               dest.NodeText,
                opt => opt.MapFrom(src => src.Node.ToString()))
             .ForMember(dest =>
-            dest.ParentNodeAsText,
+            dest.ParentNodeText,
             opt => opt.MapFrom(src => src.Name));
         }
     }

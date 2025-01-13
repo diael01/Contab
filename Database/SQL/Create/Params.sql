@@ -31,10 +31,16 @@ CREATE TABLE [dbo].[Params](
 	[NoDaysForWhichAdvanceisPaid] smallint, --ZAP8
 	------------------------------------------------------
 	--TODO: addonly nodes and join with Employee tBLES
+	EcnDirectorName varchar(128),
+	GenDirectorName varchar(128),
+	FinDirectorName varchar(128),
+	--UserApp hierarchyid,
+
 	EcnDirector hierarchyid,
 	GenDirector hierarchyid,
 	FinDirector hierarchyid,
-	UserApp hierarchyid,
+	--UserApp hierarchyid,
+	
 	--[NameEconomicDirector] [nvarchar](64) NULL,--SEFC
 	--[NameGeneralDirector] [nvarchar](64) NULL,--SEFD
 	--[NameFinanceDirector] [nvarchar](64) NULL,--SEFF

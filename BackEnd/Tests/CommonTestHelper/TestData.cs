@@ -23,7 +23,7 @@ namespace CommonTestHelper
                     org.Name = "Function";
                     break;
             }
-            org.ParentNodeAsText = parent;
+            org.ParentNodeText = parent;
             org.Location = "Location";
             return org;
         }

@@ -32,13 +32,17 @@ public partial class Param
 
     public short? NoDaysForWhichAdvanceisPaid { get; set; }
 
+    public string? EcnDirectorName { get; set; }
+
+    public string? GenDirectorName { get; set; }
+
+    public string? FinDirectorName { get; set; }
+
     public HierarchyId? EcnDirector { get; set; }
 
     public HierarchyId? GenDirector { get; set; }
 
     public HierarchyId? FinDirector { get; set; }
-
-    public HierarchyId? UserApp { get; set; }
 
     public short? LiquidationDate { get; set; }
 

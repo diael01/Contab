@@ -19,6 +19,8 @@ public partial class ContabContext : DbContext
 
     public virtual DbSet<CodCor> CodCors { get; set; }
 
+    public virtual DbSet<CodesPerCountry> CodesPerCountries { get; set; }
+
     public virtual DbSet<Disease> Diseases { get; set; }
 
     public virtual DbSet<DiseaseCode> DiseaseCodes { get; set; }
@@ -28,6 +30,8 @@ public partial class ContabContext : DbContext
     public virtual DbSet<Holiday> Holidays { get; set; }
 
     public virtual DbSet<IncreaseCode> IncreaseCodes { get; set; }
+
+    public virtual DbSet<MonthlyWorkDay> MonthlyWorkDays { get; set; }
 
     public virtual DbSet<Organisation> Organisations { get; set; }
 
@@ -51,6 +55,17 @@ public partial class ContabContext : DbContext
             entity
                 .HasNoKey()
                 .ToTable("CodCor");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(10)
+                .IsFixedLength();
+        });
+
+        modelBuilder.Entity<CodesPerCountry>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("CodesPerCountry");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(10)
@@ -400,6 +415,15 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
         });
 
+        modelBuilder.Entity<MonthlyWorkDay>(entity =>
+        {
+            entity.HasNoKey();
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(10)
+                .IsFixedLength();
+        });
+
         modelBuilder.Entity<Organisation>(entity =>
         {
             entity.HasKey(e => e.Node).HasName("PK__Organisa__7D8CACC07F8A4BA6");
@@ -451,7 +475,16 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.CurrentYearMonthlyWorkDays).HasMaxLength(64);
             entity.Property(e => e.DiminishingRegime).HasColumnType("numeric(18, 0)");
             entity.Property(e => e.Easter).HasColumnType("smalldatetime");
+            entity.Property(e => e.EcnDirectorName)
+                .HasMaxLength(128)
+                .IsUnicode(false);
+            entity.Property(e => e.FinDirectorName)
+                .HasMaxLength(128)
+                .IsUnicode(false);
             entity.Property(e => e.FiscalCode).HasMaxLength(32);
+            entity.Property(e => e.GenDirectorName)
+                .HasMaxLength(128)
+                .IsUnicode(false);
             entity.Property(e => e.HowToCalculateSalary).HasColumnType("numeric(18, 0)");
             entity.Property(e => e.InterestCar)
                 .HasColumnType("numeric(18, 0)")

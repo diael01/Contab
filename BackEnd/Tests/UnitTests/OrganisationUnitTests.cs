@@ -43,7 +43,7 @@ namespace UnitTests
                 Node!.Name = "ChangedName";
                 Node.Location = "Location";
                 var orgDTO = mapper.Map<OrgDTO>(Node);
-                orgDTO.NodeAsText = orgId;
+                orgDTO.NodeText = orgId;
                 //Act
                 await orgService.UpdateNode(orgDTO);
                 var node = await DBContext.Organisations.Where(e => String.Equals(e.Name.ToUpper(), Node.Name.ToUpper())).FirstOrDefaultAsync();
