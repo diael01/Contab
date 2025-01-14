@@ -55,7 +55,7 @@ CREATE TABLE [dbo].[Params](
 	[CodesRetention] [nvarchar](64) NULL,--RETIN
 	[PercSeniorityAddition] numeric,--SPVEC
 	[PercDifferentForPension] numeric,--CASS_D_
-	[PercNormalForPension] numeric,--CASS_N
+	[PercNormalForPension] numeric,--CASS_N[dbo].[Disease]
 	[PercSpecialForPension] numeric,--CASS_S
 	[BeneficiaryCode] [numeric](18, 0) NULL,--CODBEN
 	[InterestCAR] numeric,--DOBCAR
