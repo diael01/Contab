@@ -7,12 +7,14 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
- if exists ( select * from sys.tables where name = N'HolidayCode')
- DROP TABLE [HolidayCode];
-CREATE TABLE [dbo].[HolidayCode](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[HolidayCode] [nvarchar](8) NULL,
-	[HolidayDescription] [nvarchar](128) NULL,
+ if exists ( select * from sys.tables where name = N'WorkDaysPerMonth')
+ DROP TABLE WorkDaysPerMonth;
+CREATE TABLE [dbo].WorkDaysPerMonth(
+	[Id] [int] IDENTITY(1,1) primary key clustered NOT NULL,
+	[Month] smallint not null,
+	[MonthName] varchar(16), 
+	WorkDaysNo smallint not null,
+	[Year] smallint not null,
 	[CreatedAt] [smalldatetime] NULL,
 	[CreatedBy] [nvarchar](128) NULL,
 	[UpdatedAt] [smalldatetime] NOT NULL,

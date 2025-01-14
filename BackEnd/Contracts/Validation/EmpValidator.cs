@@ -44,7 +44,7 @@ namespace Contracts.Validation
             //RuleFor(emp => emp.TypeWorkContract).NotNull();
 
             RuleFor(emp => emp.CountyCode).NotNull();
-            RuleFor(emp => emp.Email).NotNull();
+            RuleFor(emp => emp.PersonalEmail).NotNull();
             RuleFor(emp => emp.Birthday).NotNull();
             RuleFor(emp => emp.EmpDeptNode).NotNull();
             RuleFor(emp => emp.EmpActivityNode).NotNull();

@@ -7,9 +7,9 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
- if exists ( select * from sys.tables where name = N'RetainCodes')
- DROP TABLE [RetainCodes];
-CREATE TABLE [dbo].[RetainCodes](
+ if exists ( select * from sys.tables where name = N'RetainCode')
+ DROP TABLE [RetainCode];
+CREATE TABLE [dbo].[RetainCode](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[RetainCode] [nvarchar](8) NULL,
 	[RetainDescription] [nvarchar](128) NULL,

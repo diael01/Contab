@@ -7,9 +7,9 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-  if exists ( select * from sys.tables where name = N'DiseaseCodes')
- DROP TABLE [DiseaseCodes];
-CREATE TABLE [dbo].[DiseaseCodes](
+  if exists ( select * from sys.tables where name = N'DiseaseCode')
+ DROP TABLE [DiseaseCode];
+CREATE TABLE [dbo].[DiseaseCode](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[DiseaseCode] [nvarchar](8) NULL,
 	[DiseaseDescription] [nvarchar](128) NULL,

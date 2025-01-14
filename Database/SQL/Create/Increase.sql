@@ -7,8 +7,9 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
-CREATE TABLE [dbo].[Retain](
+if exists ( select * from sys.tables where name = N'Increase')
+ DROP TABLE Increase;
+CREATE TABLE [dbo].Increase(
 	[Id] int identity(1,1) primary key clustered not null,
 ) ON [PRIMARY]
 GO

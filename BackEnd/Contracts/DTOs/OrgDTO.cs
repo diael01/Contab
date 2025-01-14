@@ -12,8 +12,6 @@
 
         public short NodeLevel { get; set; }
 
-        public string? Surname { get; set; }
-
         public string? Location { get; set; }
 
     }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Contracts.Models;
 
@@ -26,8 +24,6 @@ public partial class Employee
 
     public DateTime HiringDate { get; set; }
 
-    public HierarchyId? ManagerNode { get; set; }
-
     public string EmpShift { get; set; } = null!;
 
     public string CountyCode { get; set; } = null!;
@@ -40,7 +36,7 @@ public partial class Employee
 
     public short? RetirementPilonGovt { get; set; }
 
-    public string? Studies { get; set; }
+    public string Studies { get; set; } = null!;
 
     public string? CivilStatus { get; set; }
 
@@ -52,15 +48,13 @@ public partial class Employee
 
     public bool? HealthExemptionReason { get; set; }
 
-    public string Email { get; set; } = null!;
-
     public string WorkEmail { get; set; } = null!;
 
     public string Gender { get; set; } = null!;
 
     public DateTime Birthday { get; set; }
 
-    public HierarchyId EmpDeptNode { get; set; } = null!;
+    public HierarchyId? EmpDeptNode { get; set; }
 
     public HierarchyId? EmpActivityNode { get; set; }
 
@@ -70,11 +64,17 @@ public partial class Employee
 
     public string EmpDeptNodeName { get; set; } = null!;
 
-    public string EmpActivityNodeName { get; set; } = null!;
+    public string? EmpActivityNodeName { get; set; }
 
-    public string EmpWorkTypeNodeName { get; set; } = null!;
+    public string? EmpWorkTypeNodeName { get; set; }
 
     public string EmpFunctionNodeName { get; set; } = null!;
+
+    public HierarchyId? ManagerNode { get; set; }
+
+    public string? PersonalEmail { get; set; }
+
+    public string? Surname { get; set; }
 
     public string? Bank1Code { get; set; }
 
@@ -85,8 +85,6 @@ public partial class Employee
     public string? Iban2 { get; set; }
 
     public string? Phone { get; set; }
-
-    public string? Surname { get; set; }
 
     public decimal? MgmtSalaryIncrease { get; set; }
 

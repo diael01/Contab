@@ -7,9 +7,9 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
- if exists ( select * from sys.tables where name = N'WorkTypeCodes')
- DROP TABLE [WorkTypeCodes];
-CREATE TABLE [dbo].[WorkTypeCodes](
+ if exists ( select * from sys.tables where name = N'WorkTypeCode')
+ DROP TABLE [WorkTypeCode];
+CREATE TABLE [dbo].[WorkTypeCode](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[WorkTypeCode] [nvarchar](8) NULL,
 	[WorkTypeDescription] [nvarchar](128) NULL,
