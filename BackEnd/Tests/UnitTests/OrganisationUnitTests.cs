@@ -40,15 +40,15 @@ namespace UnitTests
                 orgId = await AddEntityNode("Con");
                 var Node = await DBContext.Organisations.Where(e => e.Node.GetLevel() == 0).FirstOrDefaultAsync();
                 new OrgValidator().ValidateAndThrow(Node!);
-                Node!.Name = "ChangedName";
+                Node!.NodeName = "ChangedName";
                 Node.Location = "Location";
                 var orgDTO = mapper.Map<OrgDTO>(Node);
                 orgDTO.NodeText = orgId;
                 //Act
                 await orgService.UpdateNode(orgDTO);
-                var node = await DBContext.Organisations.Where(e => String.Equals(e.Name.ToUpper(), Node.Name.ToUpper())).FirstOrDefaultAsync();
+                var nod = await DBContext.Organisations.Where(e => String.Equals(e.NodeName.ToUpper(), Node.NodeName.ToUpper())).FirstOrDefaultAsync();
                 //Assert
-                Assert.Equal(node.Name, Node!.Name);
+                Assert.Equal(nod.NodeName, Node!.NodeName);
             } finally
             {
                 await orgService.DeleteNode(orgId);

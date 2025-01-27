@@ -115,7 +115,7 @@ namespace CommonTestHelper
         {
             //Arrange
             OrgDTO dto = new OrgDTO();
-            dto.Name = name;
+            dto.NodeName = name;
             dto.ParentNodeText = nodeId;
 
             //Act add company

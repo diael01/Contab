@@ -12,21 +12,29 @@ namespace Contracts.Mapping
             CreateMap<EmpDTO, Employee>()
                 .ForMember(dest =>
                dest.EmpDeptNode,
-               opt => opt.MapFrom(src => HierarchyId.Parse(src.EmpDeptNodeText)))
+               opt => opt.MapFrom(src => (string.IsNullOrEmpty(src.EmpDeptNodeText) && !string.IsNullOrWhiteSpace(src.EmpDeptNodeText))
+               ? HierarchyId.Parse(src.EmpDeptNodeText)
+               : null))
              .ForMember(dest =>
                dest.EmpActivityNode,
-               opt => opt.MapFrom(src => HierarchyId.Parse(src.EmpActivityNodeText)))
+               opt => opt.MapFrom(src => (string.IsNullOrEmpty(src.EmpActivityNodeText) && !string.IsNullOrWhiteSpace(src.EmpActivityNodeText))
+                                ? HierarchyId.Parse(src.EmpActivityNodeText)
+                                : null))
              .ForMember(dest =>
                dest.EmpWorkTypeNode,
-               opt => opt.MapFrom(src => HierarchyId.Parse(src.EmpWorkTypeNodeText)))
+               opt => opt.MapFrom(src => (string.IsNullOrEmpty(src.EmpWorkTypeNodeText) && !string.IsNullOrWhiteSpace(src.EmpWorkTypeNodeText))
+                  ? HierarchyId.Parse(src.EmpWorkTypeNodeText)
+                  : null))
              .ForMember(dest =>
                dest.EmpFunctionNode,
-               opt => opt.MapFrom(src => HierarchyId.Parse(src.EmpFunctionNodeText)));
+               opt => opt.MapFrom(src => (string.IsNullOrEmpty(src.EmpFunctionNodeText) && !string.IsNullOrWhiteSpace(src.EmpFunctionNodeText))
+               ? HierarchyId.Parse(src.EmpFunctionNodeText)
+               : null));
 
             // Mapping when property names are different
             CreateMap<Employee, EmpDTO>()
               .ForMember(dest =>
-               dest.EmpNodeAsText,
+               dest.EmpNodeText,
                opt => opt.MapFrom(src => src.EmpNode.ToString()))
               .ForMember(dest =>
                 dest.ManagerNodeText,

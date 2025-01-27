@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Contracts.Models;
 
@@ -40,6 +42,11 @@ public partial class ContabContext : DbContext
     public virtual DbSet<WorkDaysPerMonth> WorkDaysPerMonths { get; set; }
 
     public virtual DbSet<WorkTypeCode> WorkTypeCodes { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=localhost;Database=Contab;Trusted_Connection=True;TrustServerCertificate=True", x => x.UseHierarchyId());
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Bank>(entity =>
@@ -127,7 +134,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Employee__3214EC074BD0D850");
+            entity.HasKey(e => e.Id).HasName("PK__Employee__3214EC070C43A52C");
 
             entity.ToTable("Employee");
 
@@ -206,6 +213,7 @@ public partial class ContabContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.EndWorkDate).HasColumnType("smalldatetime");
             entity.Property(e => e.FirstJobHiringDate).HasColumnType("smalldatetime");
+            entity.Property(e => e.FirstName).HasMaxLength(128);
             entity.Property(e => e.FundEnterDate).HasColumnType("smalldatetime");
             entity.Property(e => e.FundTax).HasColumnType("money");
             entity.Property(e => e.FundTotal).HasColumnType("money");
@@ -259,6 +267,7 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.InterestRestant).HasColumnType("money");
             entity.Property(e => e.LastIdCardCreatedBy).HasColumnType("smalldatetime");
             entity.Property(e => e.LastIdCardCreationDate).HasColumnType("smalldatetime");
+            entity.Property(e => e.LastName).HasMaxLength(128);
             entity.Property(e => e.LastRate).HasColumnType("money");
             entity.Property(e => e.LeaveGross).HasColumnType("money");
             entity.Property(e => e.LiquidationDocumentDate).HasColumnType("smalldatetime");
@@ -270,6 +279,7 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.MgmtSalaryIncrease)
                 .HasDefaultValue(0m)
                 .HasColumnType("money");
+            entity.Property(e => e.MiddleName).HasMaxLength(128);
             entity.Property(e => e.MoneyAdvance).HasColumnType("money");
             entity.Property(e => e.MoneyBonus).HasColumnType("money");
             entity.Property(e => e.MoneyFinancialAid).HasColumnType("money");
@@ -281,7 +291,6 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.MoneyPartialSalary).HasColumnType("money");
             entity.Property(e => e.MonthlyContributionToFound).HasColumnType("money");
             entity.Property(e => e.MonthlyRetentionRate).HasColumnType("money");
-            entity.Property(e => e.Name).HasMaxLength(128);
             entity.Property(e => e.NetBonus).HasColumnType("money");
             entity.Property(e => e.OtherRate).HasColumnType("money");
             entity.Property(e => e.Penalty).HasColumnType("money");
@@ -327,7 +336,6 @@ public partial class ContabContext : DbContext
                 .HasMaxLength(4)
                 .IsUnicode(false)
                 .IsFixedLength();
-            entity.Property(e => e.Surname).HasMaxLength(128);
             entity.Property(e => e.TaxCumulated).HasColumnType("money");
             entity.Property(e => e.TotalIncreaseValue).HasColumnType("money");
             entity.Property(e => e.TotalIncreaseValue2).HasColumnType("money");
@@ -424,7 +432,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Organisation>(entity =>
         {
-            entity.HasKey(e => e.Node).HasName("PK__Organisa__7D8CACC07F8A4BA6");
+            entity.HasKey(e => e.Id).HasName("PK__Organisa__3214EC07E85CDD50");
 
             entity.ToTable("Organisation");
 
@@ -443,10 +451,9 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.Location)
                 .HasMaxLength(128)
                 .IsUnicode(false);
-            entity.Property(e => e.Name).HasMaxLength(128);
             entity.Property(e => e.NodeLevel).HasComputedColumnSql("([Node].[GetLevel]())", false);
             entity.Property(e => e.NodeName).HasMaxLength(128);
-            entity.Property(e => e.NodeText).HasMaxLength(128);
+            entity.Property(e => e.ParentNodeName).HasMaxLength(128);
             entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
         });

@@ -8,7 +8,7 @@ namespace Contracts.Validation
         public NodeValidator() : base()
         {
             RuleFor(org => org).NotNull();
-            RuleFor(org => org.Name).NotNull();
+            RuleFor(org => org.NodeName).NotNull();
             //RuleFor(org => org.NodeAsText).NotNull();
             //validate not null only if is not the root
         }
@@ -19,9 +19,9 @@ namespace Contracts.Validation
         public OrgValidator() : base()
         {
             RuleFor(org => org).NotNull();
-            RuleFor(org => org.Name).NotNull();
+            //RuleFor(org => org.Name).NotNull();
             RuleFor(org => org.Node).NotNull();
-            RuleFor(org => org.NodeText).NotNull();
+            //RuleFor(org => org.NodeText).NotNull();
             RuleFor(org => org.UpdatedBy).NotNull();
             RuleFor(org => org.UpdatedAt).NotNull();
             //RuleFor(org => org.OrgLevel).GreaterThan(0);

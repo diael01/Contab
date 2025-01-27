@@ -9,18 +9,20 @@ namespace Contracts.Validation
         {
             RuleFor(emp => emp).NotNull();
             //RuleFor(emp => emp.EmpNodeAsText).NotNull();
-            RuleFor(emp => emp.Name).NotNull();
+            RuleFor(emp => emp.FullName).NotNull();
+            RuleFor(emp => emp.FullName).NotEmpty();
+            //RuleFor(emp => emp.FullName).NotWhiteSpace(); todo
             RuleFor(emp => emp.IdCardSerieNo).NotNull();
             RuleFor(emp => emp.IdCardCnp).NotNull();
             RuleFor(emp => emp.MainSalary).NotNull();
             RuleFor(emp => emp.CountyCode).NotNull();
-            RuleFor(emp => emp.Email).NotNull();
+            RuleFor(emp => emp.PersonalEmail).NotNull();
             RuleFor(emp => emp.Birthday).NotNull();
-            //RuleFor(emp => emp.ManagerNodeAsName).NotNull();
-            RuleFor(emp => emp.EmpDeptNodeText).NotNull();
-            RuleFor(emp => emp.EmpActivityNodeText).NotNull();
-            RuleFor(emp => emp.EmpWorkTypeNodeText).NotNull();
-            RuleFor(emp => emp.EmpFunctionNodeText).NotNull();
+
+            //RuleFor(emp => emp.EmpDeptNodeText).NotNull();
+            //RuleFor(emp => emp.EmpActivityNodeText).NotNull();
+            //RuleFor(emp => emp.EmpWorkTypeNodeText).NotNull();
+            //RuleFor(emp => emp.EmpFunctionNodeText).NotNull();
         }
     }
 
@@ -31,7 +33,8 @@ namespace Contracts.Validation
             RuleFor(emp => emp).NotNull();
             RuleFor(emp => emp.EmpNode).NotNull();
             RuleFor(emp => emp.ManagerNode).NotNull();
-            RuleFor(emp => emp.Name).NotNull();
+            RuleFor(emp => emp.LastName).NotNull();
+            RuleFor(emp => emp.FirstName).NotNull();
             RuleFor(emp => emp.IdCardSerieNo).NotNull();
             RuleFor(emp => emp.IdCardCnp).NotNull();
             RuleFor(emp => emp.MainSalary).NotNull();
@@ -46,10 +49,10 @@ namespace Contracts.Validation
             RuleFor(emp => emp.CountyCode).NotNull();
             RuleFor(emp => emp.PersonalEmail).NotNull();
             RuleFor(emp => emp.Birthday).NotNull();
-            RuleFor(emp => emp.EmpDeptNode).NotNull();
-            RuleFor(emp => emp.EmpActivityNode).NotNull();
-            RuleFor(emp => emp.EmpWorkTypeNode).NotNull();
-            RuleFor(emp => emp.EmpFunctionNode).NotNull();
+            //RuleFor(emp => emp.EmpDeptNode).NotNull();
+            //RuleFor(emp => emp.EmpActivityNode).NotNull();
+            //RuleFor(emp => emp.EmpWorkTypeNode).NotNull();
+            //RuleFor(emp => emp.EmpFunctionNode).NotNull();
             RuleFor(emp => emp.UpdatedAt).NotNull();
             RuleFor(emp => emp.UpdatedBy).NotNull();
         }

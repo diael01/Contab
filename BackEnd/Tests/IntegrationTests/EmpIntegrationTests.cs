@@ -1,5 +1,6 @@
 ﻿using CommonTestHelper;
 using Contracts.Models;
+using Contracts.Utils;
 using Contracts.Validation;
 using FluentAssertions;
 using FluentValidation;
@@ -77,7 +78,7 @@ namespace IntegrationTests
                 data = await SetupEmp();
 
                 var emp = await TestParams.DBContext.Employees.Where(e => e.EmpNodeText == data.empId).FirstOrDefaultAsync();
-                emp.Name = "TestDataNameUpdate";
+                emp.LastName = "TestDataNameUpdate";
                 var empDto = TestParams.mapper.Map<EmpDTO>(emp);
                 var content = JsonContent.Create(empDto);
 
@@ -98,7 +99,7 @@ namespace IntegrationTests
                 string contentString = await node.Content.ReadAsStringAsync();
                 var empres = JsonConvert.DeserializeObject<EmpDTO>(contentString);
                 empres.Should().NotBeNull();
-                empres!.Name.Should().Be(emp.Name);
+                Utils.GetEmployeeLastName(empres!.FullName).Should().Be(emp.LastName);
 
                 // Remove the objects to leave the DB in the same state  
             } finally

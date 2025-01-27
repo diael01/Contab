@@ -1,20 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Contracts.Models;
 
 public partial class Organisation
 {
-    public HierarchyId Node { get; set; } = null!;
+    public int Id { get; set; }
 
-    public string? NodeText { get; set; }
+    public HierarchyId? Node { get; set; }
 
-    public string? NodeName { get; set; }
+    public string NodeName { get; set; } = null!;
 
     public HierarchyId? ParentNode { get; set; }
 
-    public short? NodeLevel { get; set; }
+    public string ParentNodeName { get; set; } = null!;
 
-    public string Name { get; set; } = null!;
+    public short? NodeLevel { get; set; }
 
     public string? CountyCode { get; set; }
 

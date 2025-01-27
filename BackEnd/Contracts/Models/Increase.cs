@@ -1,4 +1,7 @@
-﻿namespace Contracts.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Contracts.Models;
 
 public partial class Increase
 {

@@ -10,20 +10,55 @@ namespace WebApi.Controllers
     {
         IClockingService cSvc;
 
-        ClockingController(IClockingService csvc)
+        public ClockingController(IClockingService csvc)
         {
             cSvc = csvc;
 
         }
 
+
+        /// <summary>
+        /// Calculates the monthly advance of a specific person BY NAME
+        /// </summary>
+        /// <param name="empId"></param>
+        /// <returns></returns>
         [HttpPut]
-        [Route("UpdateClocking1")]
-        public async Task<IActionResult> UpdateClocking1(string empId)
+        [Route("UpdateClockingOneByName")]
+        public async Task<IActionResult> UpdateClockingOneByName(string empName)
+        {
+            //validate
+            var avc = await cSvc.UpdateClocking1Async(empName);
+            return Ok(avc);
+            //return Ok or problem
+        }
+
+        /// <summary>
+        /// Calculates the monthly advnce by teh EMployee Id from database
+        /// </summary>
+        /// <param name="empId"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("UpdateClockingOneById")]
+        public async Task<IActionResult> UpdateClockingById(string empId)
         {
             //validate
             var avc = await cSvc.UpdateClocking1Async(empId);
             return Ok(avc);
-            //retunr Ok or problem
+        }
+
+
+        /// <summary>
+        /// Calculates the monthly advnce by teh EMployee Id from database
+        /// </summary>
+        /// <param name="empId"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("UpdateClockingOneById")]
+        public async Task<IActionResult> UpdateClockingByNode(string empNode)
+        {
+            //validate
+            var avc = await cSvc.UpdateClocking1Async(empNode);
+            return Ok(avc);
         }
     }
 }

@@ -38,8 +38,7 @@ namespace Services
         public async Task<string> AddNode(OrgDTO org)
         {
             var orgdb = Mapper.Map<Organisation>(org);
-            if (string.IsNullOrEmpty(org.ParentNodeText) ||
-                string.IsNullOrWhiteSpace(org.ParentNodeText))
+            if (string.IsNullOrEmpty(org.ParentNodeText) || string.IsNullOrWhiteSpace(org.ParentNodeText))
                 orgdb.Node = HierarchyId.GetRoot();
             else
             {
@@ -53,7 +52,11 @@ namespace Services
                         orgdb.Node = node.GetDescendant(null, null);
                 } else return null;
             }
-            orgdb.NodeText = orgdb.Node.ToString();
+            //orgdb.NodeText = orgdb.Node.ToString();
+            if (!string.IsNullOrEmpty(org.ParentNodeText) && !string.IsNullOrWhiteSpace(org.ParentNodeText))
+                orgdb.ParentNode = HierarchyId.Parse(org.ParentNodeText);
+            orgdb.ParentNodeName = org.ParentNodeName;
+            orgdb.NodeName = org.NodeName;
             orgdb.CreatedAt = DateTime.Now;
             orgdb.CreatedBy = "system";
             orgdb.UpdatedAt = DateTime.Now;
@@ -63,7 +66,7 @@ namespace Services
             await DBContext.AddAsync(orgdb);
             await DBContext.SaveChangesAsync();
 
-            return orgdb.NodeText;
+            return orgdb.Node.ToString();
         }
 
         public async Task<string> UpdateNode(OrgDTO org)
@@ -71,7 +74,7 @@ namespace Services
             var id = HierarchyId.Parse(org.NodeText);
             Organisation node = await DBContext.Organisations.Where(e => e.Node == id).FirstOrDefaultAsync();
             new OrgValidator().ValidateAndThrow(node!);
-            node!.Name = org.Name;
+            node!.NodeName = org.NodeName;
             node.Location = org.Location;
             node.NodeLevel = org.NodeLevel;
             node.UpdatedAt = DateTime.Now;
@@ -107,7 +110,7 @@ namespace Services
                     node = obj.ParentNode!;
                 else
                 {
-                    obj = await DBContext.Organisations.Where(e => e.Name == org.NodeName).FirstOrDefaultAsync();
+                    obj = await DBContext.Organisations.Where(e => e.NodeName == org.NodeName).FirstOrDefaultAsync();
                     if (obj != null)
                         return obj.ParentNode;
                     else

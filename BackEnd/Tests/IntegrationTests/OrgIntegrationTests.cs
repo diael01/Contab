@@ -100,7 +100,7 @@ namespace IntegrationTests
             var add = await httpClient.PostAsync("/api/v1/Org/AddNode", content);
             add.Should().NotBeNull();
             add.StatusCode.Should().Be(HttpStatusCode.OK);
-            org.Name = "TestDataNameUpdate";
+            org.NodeName = "TestDataNameUpdate";
             org.NodeText = await add.Content.ReadAsStringAsync();
             content = JsonContent.Create(org);
 
@@ -121,7 +121,7 @@ namespace IntegrationTests
             string contentString = await node.Content.ReadAsStringAsync();
             var orgres = JsonConvert.DeserializeObject<OrgDTO>(contentString);
             orgres.Should().NotBeNull();
-            orgres!.Name.Should().Be(org.Name);
+            orgres!.NodeName.Should().Be(org.NodeName);
 
             // Remove the object to leave the DB in the same state  
             query = new Dictionary<string, string> { ["id"] = orgres.NodeText! };

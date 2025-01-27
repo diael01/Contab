@@ -11,16 +11,16 @@ namespace CommonTestHelper
             switch (level)
             {
                 case 0:
-                    org.Name = "Company";
+                    org.NodeName = "Company";
                     break;
                 case 1:
-                    org.Name = "Department";
+                    org.NodeName = "Department";
                     break;
                 case 2:
-                    org.Name = "Activity";
+                    org.NodeName = "Activity";
                     break;
                 case 3:
-                    org.Name = "Function";
+                    org.NodeName = "Function";
                     break;
             }
             org.ParentNodeText = parent;
@@ -32,7 +32,7 @@ namespace CommonTestHelper
                                                         string managerAsText = null)
         {
             EmpDTO emp = new EmpDTO();
-            emp.Name = name ?? "Eu";
+            emp.FullName = name ?? "Eu";
             emp.EmpLevel = level ?? 0;
             emp.Location = "Location_" + name;
             emp.IdCardSerieNo = "RX12345";
@@ -41,7 +41,7 @@ namespace CommonTestHelper
             emp.LastIdCardCreationDate = DateTime.Now; //just bogus data
 
             emp.CountyCode = "NY";//judetul
-            emp.Email = "contab@gmail.com";
+            emp.PersonalEmail = "contab@gmail.com";
             emp.Birthday = DateTime.Now; //just bogus data
             emp.Gender = "F";
             emp.EmpShift = "Z";

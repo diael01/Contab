@@ -12,12 +12,14 @@ GO
  DROP TABLE [dbo].[Organisation];
  GO
 CREATE TABLE [dbo].[Organisation](
-	[Node] [hierarchyid] primary key clustered not null, --node could ne the organisation, department, activity or function
-	[NodeText] [nvarchar](128),
-	[NodeName] [nvarchar](128),
+    [Id] int identity(1,1) primary key clustered not null,
+	[Node] [hierarchyid], --node could be the organisation, department, activity or function
+	--[NodeText] [nvarchar](128),
+	[NodeName] [nvarchar](128) not null,
 	[ParentNode] [hierarchyid],
+	[ParentNodeName] [nvarchar](128) not null,
 	[NodeLevel]  AS ([Node].[GetLevel]()),
-	[Name] [nvarchar](128) NOT NULL,
+	--[Name] [nvarchar](128) NOT NULL,
 	[CountyCode]  [char](2) NULL, --cod judet
 	[Location] [varchar](128) NULL, --adresa
 	[CodCor] int NULL,

@@ -8,6 +8,10 @@ namespace Contracts.Interfaces
 
         Task<EmpDTO> GetEmployeeById(string id);
 
+        Task<EmpDTO> GetEmployeeByNode(string id);
+
+        Task<EmpDTO> GetEmployeeByFullName(string id);
+
         Task<string> AddEmployee(EmpDTO pers);
 
         Task<string> UpdateEmployee(EmpDTO pers);

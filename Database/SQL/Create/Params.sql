@@ -22,13 +22,13 @@ CREATE TABLE [dbo].[Params](
 	[AdvancePercentRate] numeric not null,-- CAV 10 charactere, 7 intregi si 2 zecimale, dex avns=85%, este per organizatie
 	[WorkRegime8Hours] smallint not null,-- dex=184 este nr de ore al lunii, dar legea spune ca e bine sa platesti muncitorii la media pe an
 										--=> RM8 regimul de orar al muncitorilor care este calculat prin lege, functie de nr , dex 165.33 ore, indiferent de cate zile are luna
-	[NormatedRegime] smallint,--RN8, 20, 21, 19, =cate zile are luna
+	[NormatedRegime] smallint default 20,--RN8, 20, 21, 19, =cate zile are luna
 	[Bank1Code] [nvarchar](64) NULL,
 	[Bank2Code] [nvarchar](64) NULL,
 	[CommerceRegister] [nvarchar](64) NULL,--REGC
 	[NormalWorkHoursSchedule] smallint,--RNO8 regim normal de ore  ca la TESA, ca muncesc atat platesc
 	[MinimSalaryGovt] money,--SALM
-	[NoDaysForWhichAdvanceisPaid] smallint, --ZAP8
+	[NoDaysForWhichAdvanceisPaid] smallint default 10, --ZAP8
 	------------------------------------------------------
 	--TODO: addonly nodes and join with Employee tBLES
 	EcnDirectorName varchar(128),

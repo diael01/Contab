@@ -38,11 +38,11 @@ namespace UnitTests
                 d = await SetupEmp();
 
                 //act emp3 => change manager
-                var empNode2 = await DBContext.Employees.Where(e => e.Name == "Vili").FirstOrDefaultAsync();
-                var empNode3 = await DBContext.Employees.Where(e => e.Name == "mama").FirstOrDefaultAsync();
+                var empNode2 = await DBContext.Employees.Where(e => e.LastName == "Vili").FirstOrDefaultAsync();
+                var empNode3 = await DBContext.Employees.Where(e => e.LastName == "mama").FirstOrDefaultAsync();
                 empNode3.ManagerNode = empNode2.EmpNode;
                 empNode3.Location = "aaaLoc";
-                empNode3.Surname = "aaaSur";
+                empNode3.FirstName = "aaaSur";
 
                 var empdto = mapper.Map<EmpDTO>(empNode3);
                 await empService.UpdateEmployee(empdto);

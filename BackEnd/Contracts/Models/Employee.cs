@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Contracts.Models;
 
@@ -10,7 +12,11 @@ public partial class Employee
 
     public DateTime? EmpRecordChangeDate { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string LastName { get; set; } = null!;
+
+    public string? MiddleName { get; set; }
+
+    public string? FirstName { get; set; }
 
     public string IdCardSerieNo { get; set; } = null!;
 
@@ -73,8 +79,6 @@ public partial class Employee
     public HierarchyId? ManagerNode { get; set; }
 
     public string? PersonalEmail { get; set; }
-
-    public string? Surname { get; set; }
 
     public string? Bank1Code { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
 using Contracts.Models;
+using Contracts.Utils;
 
 namespace Services
 {
@@ -21,10 +22,29 @@ namespace Services
             empSvc = esvc;
         }
 
-        public async Task<decimal?> UpdateClocking1Async(string empId)
+
+        public async Task<decimal?> UpdateClocking1Async(string employee)
         {
             var param = await paramSvc.GetByIdAsync(1);//the one and only updated record in this table
-            var emp = await empSvc.GetEmployeeById(empId);
+            //find out if an employee is an Id=numer, or a Name(only letters, no numbers), or a node (/s and numbers)
+            var typ = Utils.GetEmployeeType(employee);
+            EmpDTO emp = null;
+            switch (typ)
+            {
+                case EmpType.Id:
+                    emp = await empSvc.GetEmployeeById(employee);
+                    break;
+                case EmpType.Name:
+                    emp = await empSvc.GetEmployeeByFullName(employee);
+                    break;
+                case EmpType.Node:
+                    emp = await empSvc.GetEmployeeByNode(employee);
+                    break;
+                case EmpType.Other:
+                    throw new Exception("Not a valid employeeid,name or node");
+            }
+
+
 
             if (param.FiscalCode == "12345")
             {

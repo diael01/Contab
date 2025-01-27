@@ -13,7 +13,9 @@ CREATE TABLE [dbo].[Employee](
 	[Id] int identity(1,1) primary key clustered not null,
 	[EmpNode] hierarchyid,--  NOT NULL, 
 	EmpRecordChangeDate smalldatetime,--[ZIM]= only 5 changes allowed per month = ZIM = zi modificare 0-30
-	[Name] nvarchar(128)		NOT NULL,-- default 'Jannie Doe',
+	[LastName] nvarchar(128)		NOT NULL,
+	MiddleName nvarchar(128),
+	[FirstName] nvarchar(128),
 	[IdCardSerieNo] nvarchar(128) not NULL,
 	[IdCardCnp] numeric(13,0) not NULL,
 	[LastIdCardCreationDate] smalldatetime not NULL,--CALIF?
@@ -59,7 +61,6 @@ CREATE TABLE [dbo].[Employee](
 	----from Salar
 	[ManagerNode] hierarchyid, --Not NULL,
 	[PersonalEmail] nvarchar(128), 
-	[Surname] nvarchar(128),
 	[Bank1Code] char(3),
 	Iban1 char(24),
 	[Bank2Code] char(3),

@@ -13,8 +13,8 @@ namespace WebApi.Extensions
             var settings = cfg.GetSection("Settings").Get<AppSettings>();
             if (settings != null)
                 svc.AddSingleton(settings);
-            svc.AddScoped<IOrg, OrgService>();
-            svc.AddScoped<IEmp, EmpService>();
+            svc.AddScoped<IOrgService, OrgService>();
+            svc.AddScoped<IEmpService, EmpService>();
             svc.AddScoped<IBankRepository, BankRepository>();
             svc.AddScoped<IBankService, BankService>();
             svc.AddScoped<IDiseaseCodeRepository, DiseaseCodeRepository>();
@@ -24,7 +24,8 @@ namespace WebApi.Extensions
             svc.AddScoped<IHolidayRepository, HolidayRepository>();
             svc.AddScoped<IHoliday, HolidayService>();
             svc.AddScoped<IParamRepository, ParamRepository>();
-            svc.AddScoped<IParam, ParamService>();
+            svc.AddScoped<IParamService, ParamService>();
+            svc.AddScoped<IClockingService, ClockingService>();
             svc.AddAutoMapper(typeof(OrganisationProfile), typeof(EmployeeProfile));//, typeof(DeviceProfile));
             return svc;
         }

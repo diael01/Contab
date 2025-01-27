@@ -2,23 +2,23 @@
 {
     public class EmpDTO
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
-        public string? EmpNodeAsText { get; set; }
+        public string? EmpNodeText { get; set; }
 
         public int EmpRecordChangeDay { get; set; }
 
-        public string? EmpNodeAsName { get; set; }
-
         public short? EmpLevel { get; set; }
 
-        public string Name { get; set; } = null!;
+        public string FullName { get; set; } = null!;
 
         public string IdCardSerieNo { get; set; } = null!;
 
         public string IdCardCnp { get; set; } = null!;
 
         public DateTime LastIdCardCreationDate { get; set; }
+
+        public string LastIdCardCreatedBy { get; set; }
 
         public decimal MainSalary { get; set; }
 
@@ -34,7 +34,7 @@
 
         public int TypeWorkContract { get; set; }
 
-        public string Email { get; set; } = null!;
+        public string PersonalEmail { get; set; } = null!;
 
         public string Gender { get; set; } = null!;
 
