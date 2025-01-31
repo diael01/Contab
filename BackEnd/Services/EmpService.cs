@@ -103,10 +103,10 @@ namespace Services
             //node.EmpFunctionNode = HierarchyId.Parse(emp.EmpFunctionNodeAsText);
 
             node.MoneyAdvance = emp.MoneyAdvance;
-            
-            
+
+
             node.Location = emp.Location;
-            
+
             node.EmpLevel = emp.EmpLevel;
             node.UpdatedAt = DateTime.Now;
             node.UpdatedBy = "system";
