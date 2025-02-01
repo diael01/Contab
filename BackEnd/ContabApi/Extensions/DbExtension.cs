@@ -1,7 +1,7 @@
 ﻿using Contracts.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApi.Extensions
+namespace ContabApi.Extensions
 {
     public static class DbExtension
     {

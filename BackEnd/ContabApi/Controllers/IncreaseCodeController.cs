@@ -1,11 +1,14 @@
 ﻿using Contracts.Interfaces;
 using Contracts.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
-namespace WebApi.Controllers
+namespace ContabApi.Controllers
 {
     [Route("/api/v1/incode")]
     [ApiController]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class IncreaseCodeController : ControllerBase
     {
         private readonly IIncreaseCodeService _service;

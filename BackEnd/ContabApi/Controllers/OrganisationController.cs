@@ -3,13 +3,16 @@ using Contracts.Models;
 using Contracts.Validation;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace WebApi.Controllers
+namespace ContabApi.Controllers
 {
     [Route("/api/v1/Org")]
     [ApiController]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class OrgController : ControllerBase
     {
         IOrg OrgService;

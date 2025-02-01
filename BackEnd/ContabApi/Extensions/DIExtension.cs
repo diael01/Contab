@@ -4,7 +4,7 @@ using Contracts.Settings;
 using Repository.Impl;
 using Services;
 
-namespace WebApi.Extensions
+namespace ContabApi.Extensions
 {
     public static class DIExtension
     {

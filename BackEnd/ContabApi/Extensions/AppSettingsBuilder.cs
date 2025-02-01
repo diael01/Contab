@@ -1,6 +1,6 @@
 ﻿
 
-namespace WebApi.Extensions
+namespace ContabApi.Extensions
 {
 
     public static class WebAppBuilder

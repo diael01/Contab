@@ -2,11 +2,14 @@
 using Contracts.Interfaces;
 using Contracts.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
-namespace WebApi.Controllers
+namespace ContabApi.Controllers
 {
     [ApiController]
     [Route("api/v1/bank")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class BankController : ControllerBase
     {
         private readonly IBankService _service;

@@ -1,5 +1,5 @@
+using ContabApi.Extensions;
 using Serilog;
-using WebApi.Extensions;
 
 //logging
 var builder = WebApplication.CreateBuilder(args);
@@ -18,22 +18,24 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDI(builder.Configuration);
 builder.Services.AddHealthChecks();
 builder.Services.AddHttpContextAccessor();
-
+builder.AddSwagger();
 
 var app = builder.Build();
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("localhost:3000"));//app.UseBff();
-
-app.AddMiddleware();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+//todo: when UI, use bff
+//app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("localhost:3000"));//app.UseBff();
+app.AddMiddleware();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseRouting();
 app.UseAuthorization();
+//todo: when UI
 //app.UseEndpoints(e => e.MapBffManagementEndpoints());
 //app.MapFallbackToFile("index.html");
 

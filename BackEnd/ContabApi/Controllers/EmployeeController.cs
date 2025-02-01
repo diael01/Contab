@@ -3,13 +3,16 @@ using Contracts.Models;
 using Contracts.Validation;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
-namespace WebApi.Controllers
+namespace ContabApi.Controllers
 {
 
     // [Route("api/v1/[controller]")]
     [Route("/api/v1/Emp")]
     [ApiController]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class EmployeeController : ControllerBase
     {
         IEmp EmployeeService;

@@ -1,12 +1,15 @@
 ﻿using Contracts.Interfaces;
 using Contracts.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
-namespace WebApi.Controllers
+namespace ContabApi.Controllers
 {
 
     [ApiController]
     [Route("api/v1/holiday")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class HolidayController : ControllerBase
     {
         private readonly IHolidayService _service;

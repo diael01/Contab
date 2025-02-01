@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Exceptions;
 using Infrastructure.Logging;
 
-namespace WebApi.Extensions
+namespace ContabApi.Extensions
 {
     public static class MiddlewareBuilder
     {
