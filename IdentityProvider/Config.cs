@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using Duende.IdentityModel;
 using Duende.IdentityServer.Models;
 
 namespace IdentityProvider
@@ -13,94 +14,75 @@ namespace IdentityProvider
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResource(name: "roles",
-                    userClaims: new[] { "role" }, displayName: "Your roles")
+                 new IdentityResource("Contab", new [] { JwtClaimTypes.Role })
+                //new IdentityResource(name: "roles",
+                //    userClaims: new[] { "role" }, displayName: "Your roles")
             };
 
-        public static IEnumerable<ApiScope> ApiScopes =>
-            new ApiScope[]
-            {
-                new ApiScope("ContabApi.basicAccess", "Basic access to Contab API")
-            };
+       
 
         public static IEnumerable<ApiResource> ApiResources =>
-            new ApiResource[]
+        new ApiResource[]
+        {
+            new ApiResource("ContabApi")
             {
-                new ApiResource
-                {
-                    Name = "ContabApi",
-                    Description = "Contab API",
-                    Scopes = new List<string> {"ContabApi.basicAccess" },
-                    UserClaims = new[] { "role" }
-                }
+                Scopes = { "ContabApi_fullaccess"},
+                ApiSecrets = { new Secret("secret".Sha256()) },
+            }
+        };
 
-            };
+        public static IEnumerable<ApiScope> ApiScopes =>
+           new ApiScope[]
+           {
+                new ApiScope("ContabApi_fullaccess", "Basic access to Contab API")
+           };
+       // public static IEnumerable<ApiScope> ApiScopes =>
+       //new ApiScope[]
+       //{
+       //      new ApiScope("ContabApi_fullaccess")
+       //      {
+       //          UserClaims = new[] { "email", JwtClaimTypes.Role }
+       //      },
 
-        //    public static IEnumerable<Client> Clients =>
-        //        new Client[]
-        //        {
-        //            // interactive client using code flow + pkce
-        //            new Client
-        //            {
-        //                ClientId = "ContabApi",
-        //                ClientName = "Contab Api",
-        //                RequireConsent = false,
+       //      new ApiScope("Contabauthorization")
 
-        //                ClientSecrets =
-        //                {
-        //                    new Secret("secret".Sha256())
-        //                },
+       //};
 
-        //                RedirectUris = {"https://localhost:4001/signin-oidc"},
-        //                PostLogoutRedirectUris = {"https://localhost:4001"},
-
-        //                AllowedScopes =
-        //                {
-        //                    "openid",
-        //                    "roles",
-        //                    "profile",
-        //                    "ContabApi.basicAccess",
-        //                },
-
-        //                AlwaysIncludeUserClaimsInIdToken = true,
-        //                AllowedGrantTypes = GrantTypes.Code,
-        //                RequirePkce = true,
-        //                AllowOfflineAccess = true
-        //            },
-        //        };
 
         public static IEnumerable<Client> Clients =>
         new Client[]
         {
-            // m2mclient credentials
-            //for now this is client which is Contab API
          
+
             new Client
             {
-                ClientId = "ContabApi",
+                ClientId = "ContabApi.client",
                 ClientName = "Contab Api",
-                RequireConsent = false,
-
+                 AllowedGrantTypes = GrantTypes.ClientCredentials,
                 ClientSecrets =
                 {
                     new Secret("secret".Sha256())
+                    //new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256())
                 },
-
-                RedirectUris = {"https://localhost:4001/signin-oidc"},
-                PostLogoutRedirectUris = {"https://localhost:4001"},
-
-                AllowedScopes =
+                 AllowedScopes =
                 {
-                    "ContabApi.basicAccess",
+                    "ContabApi_fullaccess"
                 },
+                Claims = new ClientClaim[]
+                {
+                    new ClientClaim("ClientType", "ContabApi")
+                }
+            
+            //RequireConsent = false,
+            //RedirectUris = {"https://localhost:4001/signin-oidc"},
+            //PostLogoutRedirectUris = {"https://localhost:4001"},
+            //AlwaysIncludeUserClaimsInIdToken = true,
 
-                AlwaysIncludeUserClaimsInIdToken = true,
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-                RequirePkce = true,
-                AllowOfflineAccess = false,
-                AccessTokenLifetime = 7200,
-                Enabled = true //if we wish we can disable it
-            },
+            //RequirePkce = true,
+            //AllowOfflineAccess = false,
+            //AccessTokenLifetime = 7200,
+            //Enabled = true //if we wish we can disable it
+        },
        
 
          // interactive client using code flow + pkce
@@ -138,3 +120,49 @@ namespace IdentityProvider
     }
 }
 
+
+//public static IEnumerable<ApiResource> ApiResources =>
+//    new ApiResource[]
+//    {
+//        new ApiResource
+//        {
+//            Name = "ContabApi",
+//            Description = "Contab API",
+//            Scopes = new List<string> {"ContabApi" },
+//            UserClaims = new[] { "role" }
+//        }
+
+//    };
+
+//    public static IEnumerable<Client> Clients =>
+//        new Client[]
+//        {
+//            // interactive client using code flow + pkce
+//            new Client
+//            {
+//                ClientId = "ContabApi",
+//                ClientName = "Contab Api",
+//                RequireConsent = false,
+
+//                ClientSecrets =
+//                {
+//                    new Secret("secret".Sha256())
+//                },
+
+//                RedirectUris = {"https://localhost:4001/signin-oidc"},
+//                PostLogoutRedirectUris = {"https://localhost:4001"},
+
+//                AllowedScopes =
+//                {
+//                    "openid",
+//                    "roles",
+//                    "profile",
+//                    "ContabApi.basicAccess",
+//                },
+
+//                AlwaysIncludeUserClaimsInIdToken = true,
+//                AllowedGrantTypes = GrantTypes.Code,
+//                RequirePkce = true,
+//                AllowOfflineAccess = true
+//            },
+//        };

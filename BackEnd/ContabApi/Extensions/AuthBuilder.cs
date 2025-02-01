@@ -6,6 +6,7 @@ namespace ContabApi.Extensions
     {
         public static void AddAuthInfrastructure(this WebApplicationBuilder builder)
         {
+            builder.Services.AddHttpClient("authorization", o => o.BaseAddress = new Uri("https://localhost:5001"));
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(o =>
