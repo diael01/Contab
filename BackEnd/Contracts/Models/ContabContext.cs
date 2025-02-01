@@ -13,7 +13,19 @@ public partial class ContabContext : DbContext
     {
     }
 
+    public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+
+    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+
+    public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+
+    public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
+
     public virtual DbSet<Bank> Banks { get; set; }
+
+    public virtual DbSet<Claim> Claims { get; set; }
+
+    public virtual DbSet<Client> Clients { get; set; }
 
     public virtual DbSet<Disease> Diseases { get; set; }
 
@@ -29,6 +41,10 @@ public partial class ContabContext : DbContext
 
     public virtual DbSet<IncreaseCode> IncreaseCodes { get; set; }
 
+    public virtual DbSet<MenuAuthorization> MenuAuthorizations { get; set; }
+
+    public virtual DbSet<MenuItem> MenuItems { get; set; }
+
     public virtual DbSet<Organisation> Organisations { get; set; }
 
     public virtual DbSet<Param> Params { get; set; }
@@ -37,16 +53,43 @@ public partial class ContabContext : DbContext
 
     public virtual DbSet<RetainCode> RetainCodes { get; set; }
 
+    public virtual DbSet<RoleClaim> RoleClaims { get; set; }
+
     public virtual DbSet<WorkDaysPerMonth> WorkDaysPerMonths { get; set; }
 
     public virtual DbSet<WorkTypeCode> WorkTypeCodes { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=localhost;Database=Contab;Trusted_Connection=True;TrustServerCertificate=True", x => x.UseHierarchyId());
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<AspNetRole>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__AspNetRo__3214EC079F249BC8");
+
+            entity.Property(e => e.Name).HasMaxLength(128);
+        });
+
+        modelBuilder.Entity<AspNetUser>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__AspNetUs__3214EC07C935AF61");
+
+            entity.Property(e => e.Email).HasMaxLength(256);
+            entity.Property(e => e.LockoutEndDateUtc).HasColumnType("datetime");
+            entity.Property(e => e.PasswordHash).HasMaxLength(128);
+            entity.Property(e => e.PhoneNumber).HasMaxLength(64);
+            entity.Property(e => e.SecurityStamp).HasMaxLength(256);
+            entity.Property(e => e.UserName).HasMaxLength(256);
+        });
+
+        modelBuilder.Entity<AspNetUserClaim>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__AspNetUs__3214EC072EA8267A");
+        });
+
+        modelBuilder.Entity<AspNetUserRole>(entity =>
+        {
+            entity.HasKey(e => e.UserId).HasName("PK__AspNetUs__1788CC4C1BB36695");
+        });
+
         modelBuilder.Entity<Bank>(entity =>
         {
             entity.ToTable("Bank");
@@ -54,6 +97,24 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.Adress).HasMaxLength(128);
             entity.Property(e => e.BankCode).HasMaxLength(32);
             entity.Property(e => e.Iban).HasMaxLength(128);
+        });
+
+        modelBuilder.Entity<Claim>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Claims__3214EC07E96535D7");
+
+            entity.Property(e => e.Claim1)
+                .HasMaxLength(128)
+                .HasColumnName("Claim");
+        });
+
+        modelBuilder.Entity<Client>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Clients__3214EC0742F22D15");
+
+            entity.Property(e => e.AllowedOrigin).HasMaxLength(128);
+            entity.Property(e => e.Name).HasMaxLength(64);
+            entity.Property(e => e.Secret).HasMaxLength(128);
         });
 
         modelBuilder.Entity<Disease>(entity =>
@@ -428,6 +489,20 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
         });
 
+        modelBuilder.Entity<MenuAuthorization>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__MenuAuth__3214EC076E02D770");
+        });
+
+        modelBuilder.Entity<MenuItem>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__MenuItem__3214EC07AA65DEBB");
+
+            entity.Property(e => e.MenuItem1)
+                .HasMaxLength(128)
+                .HasColumnName("MenuItem");
+        });
+
         modelBuilder.Entity<Organisation>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Organisa__3214EC07E85CDD50");
@@ -550,6 +625,11 @@ public partial class ContabContext : DbContext
             entity.Property(e => e.RetainDescription).HasMaxLength(128);
             entity.Property(e => e.UpdatedAt).HasColumnType("smalldatetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(128);
+        });
+
+        modelBuilder.Entity<RoleClaim>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__RoleClai__3214EC074D58B7CF");
         });
 
         modelBuilder.Entity<WorkDaysPerMonth>(entity =>

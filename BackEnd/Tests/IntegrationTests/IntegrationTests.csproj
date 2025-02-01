@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\WebApi\ContabApi.csproj" />
+    <ProjectReference Include="..\..\ContabApi\ContabApi.csproj" />
     <ProjectReference Include="..\CommonTestHelper\CommonTestHelper.csproj" />
   </ItemGroup>
 
