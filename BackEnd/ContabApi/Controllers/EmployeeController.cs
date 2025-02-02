@@ -2,7 +2,6 @@
 using Contracts.Models;
 using Contracts.Validation;
 using FluentValidation;
-using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

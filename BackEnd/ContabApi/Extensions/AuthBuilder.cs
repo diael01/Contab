@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using IdentityModel;
-using Microsoft.IdentityModel.Tokens;
+﻿using IdentityModel;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ContabApi.Extensions
 {
@@ -50,56 +50,56 @@ namespace ContabApi.Extensions
                 //there is no user, thus role check cant be done. Scopes can be defined in the IDP buta token
                 //containing a scope doesnt verify the scope, IDP does not do authorization, however it determise
                 //which client gets which scope. Authorization based on scope gotten from IDP it is done in the API via policies.
-                
+
             });
 
-                //todo: later when i add the UI
-                //builder.Services.AddBff(o => o.ManagementBasePath = "/account").AddServerSideSessions();
+            //todo: later when i add the UI
+            //builder.Services.AddBff(o => o.ManagementBasePath = "/account").AddServerSideSessions();
 
-                //builder.Services.AddAuthentication(o =>
-                //{
-                //    o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                //    o.DefaultChallengeScheme = "oidc";
-                //    o.DefaultSignOutScheme = "oidc";
-                //})
-                //    .AddCookie(o =>
-                //    {
-                //        o.Cookie.Name = "__Host-spa";
-                //        o.Cookie.SameSite = SameSiteMode.Strict;
+            //builder.Services.AddAuthentication(o =>
+            //{
+            //    o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    o.DefaultChallengeScheme = "oidc";
+            //    o.DefaultSignOutScheme = "oidc";
+            //})
+            //    .AddCookie(o =>
+            //    {
+            //        o.Cookie.Name = "__Host-spa";
+            //        o.Cookie.SameSite = SameSiteMode.Strict;
 
-                //        o.Events.OnRedirectToLogin = (context) =>
-                //  {
-                //      context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                //      return Task.CompletedTask;
-                //  };
-                //    })
-                //    .AddOpenIdConnect("oidc", options =>
-                //    {
-                //        //this is Identity Provider port
-                //        options.Authority = "https://localhost:5001";
+            //        o.Events.OnRedirectToLogin = (context) =>
+            //  {
+            //      context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            //      return Task.CompletedTask;
+            //  };
+            //    })
+            //    .AddOpenIdConnect("oidc", options =>
+            //    {
+            //        //this is Identity Provider port
+            //        options.Authority = "https://localhost:5001";
 
-                //        // confidential ClientDTO using code flow + PKCE + query response mode
-                //        options.ClientId = "ContabApi";
-                //        options.ClientSecret = "secret"; // Secret("secret".Sha256());  
-                //        options.ResponseType = "code";
-                //        options.ResponseMode = "query";
-                //        options.UsePkce = true;
+            //        // confidential ClientDTO using code flow + PKCE + query response mode
+            //        options.ClientId = "ContabApi";
+            //        options.ClientSecret = "secret"; // Secret("secret".Sha256());  
+            //        options.ResponseType = "code";
+            //        options.ResponseMode = "query";
+            //        options.UsePkce = true;
 
-                //        options.MapInboundClaims = false;
-                //        options.GetClaimsFromUserInfoEndpoint = true;
+            //        options.MapInboundClaims = false;
+            //        options.GetClaimsFromUserInfoEndpoint = true;
 
-                //        // save access and refresh token to enable automatic lifetime management
-                //        options.SaveTokens = true;
+            //        // save access and refresh token to enable automatic lifetime management
+            //        options.SaveTokens = true;
 
-                //        // request scopes
-                //        options.Scope.Add("ContabApi.basicAccess");
-                //        options.Scope.Add("roles");
+            //        // request scopes
+            //        options.Scope.Add("ContabApi.basicAccess");
+            //        options.Scope.Add("roles");
 
-                //        // request refresh token
-                //        options.Scope.Add("offline_access");
-                //    });
+            //        // request refresh token
+            //        options.Scope.Add("offline_access");
+            //    });
 
-            
+
         }
     }
 }

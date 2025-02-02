@@ -1,5 +1,4 @@
 using ContabApi.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Serilog;
 
 //logging
