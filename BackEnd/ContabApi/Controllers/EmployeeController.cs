@@ -2,8 +2,8 @@
 using Contracts.Models;
 using Contracts.Validation;
 using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ContabApi.Controllers
 {

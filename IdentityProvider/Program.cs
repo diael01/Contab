@@ -1,4 +1,4 @@
-﻿using IdentityProvider;
+﻿using Globomantics.Idp;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()

@@ -2,7 +2,7 @@ using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace identityprovider.Pages.Error;
+namespace Globomantics.Idp.Pages.Home.Error;
 
 [AllowAnonymous]
 [SecurityHeaders]

@@ -1,6 +1,6 @@
-{
+﻿{
   "profiles": {
-    "IdentityProvider": {
+    "SelfHost": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

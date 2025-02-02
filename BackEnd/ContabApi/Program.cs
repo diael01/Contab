@@ -8,8 +8,8 @@ builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(Log.Logger);
 Log.Information("Starting up");
 
-builder.AddAuthInfrastructure();
 builder.Services.AddCors();
+builder.AddAuthInfrastructure();
 builder.Host.ConfigureAppSettings();
 builder.AddDbInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
@@ -27,13 +27,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 //todo: when UI, use bff
-//app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("localhost:3000"));//app.UseBff();
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());//todo: specify only be endpoints
+//todo: use bff when UI
+//app.UseBff();
 app.AddMiddleware();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseRouting();
+
 app.UseAuthorization();
 //todo: when UI
 //app.UseEndpoints(e => e.MapBffManagementEndpoints());

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 
-namespace identityprovider.Pages.Ciba;
+namespace Globomantics.Idp.Pages.Ciba;
 
 [SecurityHeaders]
 [Authorize]

@@ -2,7 +2,7 @@
 // See LICENSE in the project root for license information.
 
 
-namespace identityprovider.Pages.Device;
+namespace Globomantics.Idp.Pages.Device;
 
 public class DeviceOptions
 {

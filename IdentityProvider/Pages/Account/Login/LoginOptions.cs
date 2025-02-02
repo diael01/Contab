@@ -1,4 +1,4 @@
-namespace identityprovider.Pages.Login;
+namespace Globomantics.Idp.Pages.Account.Login;
 
 public class LoginOptions
 {

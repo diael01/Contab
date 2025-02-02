@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace identityprovider.Pages.Device;
+namespace Globomantics.Idp.Pages.Device;
 
 [SecurityHeaders]
 [Authorize]

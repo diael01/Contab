@@ -5,7 +5,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace identityprovider.Pages;
+namespace Globomantics.Idp.Pages;
 
 public class SecurityHeadersAttribute : ActionFilterAttribute
 {

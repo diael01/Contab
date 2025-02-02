@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace identityprovider.Pages.ExternalLogin;
+namespace Globomantics.Idp.Pages.ExternalLogin;
 
 [AllowAnonymous]
 [SecurityHeaders]

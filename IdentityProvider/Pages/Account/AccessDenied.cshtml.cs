@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace identityprovider.Pages.Account;
+namespace Globomantics.Idp.Pages.Account;
 
 public class AccessDeniedModel : PageModel
 {

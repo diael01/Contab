@@ -1,4 +1,4 @@
-namespace identityprovider.Pages.Grants;
+namespace Globomantics.Idp.Pages.Grants;
 
 public class ViewModel
 {

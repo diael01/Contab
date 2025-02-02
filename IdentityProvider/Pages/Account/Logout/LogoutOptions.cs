@@ -1,5 +1,4 @@
-
-namespace identityprovider.Pages.Logout;
+namespace Globomantics.Idp.Pages.Account.Logout;
 
 public class LogoutOptions
 {

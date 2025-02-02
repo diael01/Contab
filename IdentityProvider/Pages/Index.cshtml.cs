@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Reflection;
 
-namespace identityprovider.Pages.Home;
+namespace Globomantics.Idp.Pages;
 
 [AllowAnonymous]
 public class Index : PageModel

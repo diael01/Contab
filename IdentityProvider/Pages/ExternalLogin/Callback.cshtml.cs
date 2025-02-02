@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 
-namespace identityprovider.Pages.ExternalLogin;
+namespace Globomantics.Idp.Pages.ExternalLogin;
 
 [AllowAnonymous]
 [SecurityHeaders]

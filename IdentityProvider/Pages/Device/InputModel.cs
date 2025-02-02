@@ -1,4 +1,4 @@
-namespace identityprovider.Pages.Device;
+namespace Globomantics.Idp.Pages.Device;
 
 public class InputModel
 {

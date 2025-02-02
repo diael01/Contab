@@ -1,7 +1,7 @@
 // Copyright (c) Duende Software. All rights reserved.
 // See LICENSE in the project root for license information.
 
-namespace identityprovider.Pages.Ciba;
+namespace Globomantics.Idp.Pages.Ciba;
 
 public class InputModel
 {

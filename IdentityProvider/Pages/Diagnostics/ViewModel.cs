@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Text;
 using System.Text.Json;
 
-namespace identityprovider.Pages.Diagnostics;
+namespace Globomantics.Idp.Pages.Diagnostics;
 
 public class ViewModel
 {

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace identityprovider.Pages.Ciba;
+namespace Globomantics.Idp.Pages.Ciba;
 
 [AllowAnonymous]
 [SecurityHeaders]

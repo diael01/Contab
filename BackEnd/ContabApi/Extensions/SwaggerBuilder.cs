@@ -16,7 +16,6 @@ namespace ContabApi.Extensions
                         ClientCredentials = new OpenApiOAuthFlow
                         {
                             TokenUrl = new Uri("https://localhost:5001/connect/token"),
-                            //TokenUrl = new Uri("https://localhost:5001/connect/authorize"),
                             Scopes = new Dictionary<string, string>
                             {
                                 {"ContabApi_fullaccess","Basic access to Contab API" },
@@ -67,6 +66,6 @@ namespace ContabApi.Extensions
             //        }
             //    });
             //    });
-            }
         }
+    }
 }

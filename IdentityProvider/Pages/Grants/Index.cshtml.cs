@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 
-namespace identityprovider.Pages.Grants;
+namespace Globomantics.Idp.Pages.Grants;
 
 [SecurityHeaders]
 [Authorize]

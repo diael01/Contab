@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace identityprovider.Pages.Logout;
+namespace Globomantics.Idp.Pages.Account.Logout;
 
 [SecurityHeaders]
 [AllowAnonymous]

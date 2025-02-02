@@ -4,7 +4,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace identityprovider.Pages.Login;
+namespace Globomantics.Idp.Pages.Account.Login;
 
 public class InputModel
 {

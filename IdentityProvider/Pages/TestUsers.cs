@@ -3,10 +3,12 @@
 
 
 using Duende.IdentityModel;
+using Duende.IdentityServer;
 using Duende.IdentityServer.Test;
 using System.Security.Claims;
+using System.Text.Json;
 
-namespace identityprovider;
+namespace Globomantics.Idp.Pages;
 
 public class TestUsers
 {
@@ -16,31 +18,49 @@ public class TestUsers
         {
             var address = new
             {
-                street_address = "Contab Test Address",
-                locality = "Contab"
+                street_address = "Street",
+                locality = "City",
+                postal_code = 12345,
+                country = "Country"
             };
 
             return new List<TestUser>
-        {
-            new TestUser
             {
-                SubjectId = "1",
-                Username = "admin",
-                Password = "adminpwd",
-                Claims =
+                new TestUser
                 {
-                    new Claim(JwtClaimTypes.Role, "admin"),
-                    new Claim(JwtClaimTypes.Name, "FirstName LastName"),
-                    //new Claim(JwtClaimTypes.GivenName, "AdminFirst"),
-                    //new Claim(JwtClaimTypes.FamilyName, "AdminLast"),
-                    //new Claim(JwtClaimTypes.Email, "Admin@email.com"),
-                    //new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                    //new Claim(JwtClaimTypes.WebSite, "http://contab.com"),
-                    //new Claim(JwtClaimTypes.Address, JsonSerializer.Serialize(address), IdentityServerConstants.ClaimValueTypes.Json)
+                    SubjectId = "1",
+                    Username = "admin",
+                    Password = "admin",
+                    Claims =
+                    {
+                        new Claim(JwtClaimTypes.Name, "Alice Smith"),
+                        new Claim(JwtClaimTypes.GivenName, "Alice"),
+                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                        new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                        new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+                        new Claim(JwtClaimTypes.Role, "admin"),
+                        new Claim(JwtClaimTypes.Address, JsonSerializer.Serialize(address), IdentityServerConstants.ClaimValueTypes.Json)
+                    }
+                },
+                new TestUser
+                {
+                    SubjectId = "2",
+                    Username = "bob",
+                    Password = "bob",
+                    Claims =
+                    {
+                        new Claim(JwtClaimTypes.Name, "Bob Smith"),
+                        new Claim(JwtClaimTypes.GivenName, "Bob"),
+                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                        new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                        new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
+                        new Claim(JwtClaimTypes.Role, "contributor"),
+                        new Claim(JwtClaimTypes.Address, JsonSerializer.Serialize(address), IdentityServerConstants.ClaimValueTypes.Json)
+                    }
                 }
-            },
-
-        };
+            };
         }
     }
 }

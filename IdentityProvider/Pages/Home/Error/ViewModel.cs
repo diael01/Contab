@@ -3,7 +3,7 @@
 
 using Duende.IdentityServer.Models;
 
-namespace identityprovider.Pages.Error;
+namespace Globomantics.Idp.Pages.Home.Error;
 
 public class ViewModel
 {
