@@ -2,8 +2,11 @@
 using Contracts.Models;
 using Contracts.Validation;
 using FluentValidation;
+using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
 
 namespace ContabApi.Controllers
 {
@@ -11,23 +14,40 @@ namespace ContabApi.Controllers
     // [Route("api/v1/[controller]")]
     [Route("/api/v1/Emp")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "admin")]
+    [Authorize(Policy = "fullaccess")] //for testing purpose
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class EmployeeController : ControllerBase
     {
         IEmp EmployeeService;
-        public EmployeeController(IEmp os)
+        IAuthorizationService Auth;
+        public EmployeeController(IEmp os, IAuthorizationService auth)
         {
             EmployeeService = os;
+            Auth = auth;
         }
 
         [HttpGet]
         [Route("GetEmployeeById")]
         public async Task<IActionResult> GetEmployeeById([FromQuery] string id)
         {
-            var node = await EmployeeService.GetEmployeeById(id);
-            new EmpDTOValidator().ValidateAndThrow(node);
-            return Ok(node);
+            //new 
+            var result = await Auth.AuthorizeAsync(User, "isadmin");
+            if (result.Succeeded)
+            {
+                //return Ok(result);
+
+                ////old way
+                //var claims = User.Claims;
+                //var fullaccess = User.HasClaim(p => p.Type == "scope" && p.Value == "ContabApi_fullaccess");
+                //var isAdmin = User.FindFirst(p => p.Type == JwtClaimTypes.Role && p.Value == "admin");
+                ////do not use it coz it clutters the code,use instead POLICIES
+
+                var node = await EmployeeService.GetEmployeeById(id);
+                new EmpDTOValidator().ValidateAndThrow(node);
+                return Ok(node);
+            }
+            return Problem(JsonConvert.SerializeObject(result));
         }
 
         // POST api/<employeeController>
@@ -80,9 +100,6 @@ namespace ContabApi.Controllers
             var emps = await EmployeeService.GetEmployeesByLevel(level);
             return Ok(emps);
         }
-
-
-
     }
 
 }

@@ -31,7 +31,8 @@ public static class Config
     public static IEnumerable<ApiScope> ApiScopes =>
        new ApiScope[]
        {
-                new ApiScope("ContabApi_fullaccess", "Basic access to Contab API")
+                //new ApiScope("ContabApi_fullaccess", "Basic access to Contab API"),
+                new ApiScope("ContabApi_fullaccess") { UserClaims = new[] {JwtClaimTypes.Email, JwtClaimTypes.Role } }
        };
 
 
@@ -91,8 +92,8 @@ public static class Config
                     new ClientClaim("clienttype", "interactive")
                 },
 
-                AllowedScopes = { "openid", "profile", "globomantics",
-                    "globoapi_fullaccess", "globoauthorization" },
+                AllowedScopes = { "openid", "profile", "Contab",
+                    "ContabApi_fullaccess", "ContabAuthorization" },
             },
         };
 }

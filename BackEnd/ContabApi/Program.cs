@@ -1,4 +1,5 @@
 using ContabApi.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Serilog;
 
 //logging
@@ -13,6 +14,8 @@ builder.AddAuthInfrastructure();
 builder.Host.ConfigureAppSettings();
 builder.AddDbInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
+//for global policies, create a filter
+//builder.Services.AddControllers(o=> o.Filters.Add(new AuthorizeFilter("fullaccess")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDI(builder.Configuration);
@@ -41,6 +44,10 @@ app.UseAuthorization();
 //todo: when UI
 //app.UseEndpoints(e => e.MapBffManagementEndpoints());
 //app.MapFallbackToFile("index.html");
+
+app.MapGet("/user/{userId}", //[Authorize("fullaccess")] //authroize atrirbute works as well
+                    (int userId, int appId) => Results.Ok(new { Role = "admin" }))
+                    .RequireAuthorization("fullaccess", "");
 
 app.MapControllers();
 app.Run();
