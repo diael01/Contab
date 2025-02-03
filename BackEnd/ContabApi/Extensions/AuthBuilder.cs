@@ -1,4 +1,5 @@
-﻿using IdentityModel;
+﻿using ContabApi.Authorization;
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
@@ -9,7 +10,9 @@ namespace ContabApi.Extensions
     {
         public static void AddAuthInfrastructure(this WebApplicationBuilder builder)
         {
-            builder.Services.AddHttpClient("authorization", o => o.BaseAddress = new Uri("https://localhost:5001"));
+            //this is the authorization service to be employed in case User Claims are very heavy
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddHttpClient("authorization", o => o.BaseAddress = new Uri("https://localhost:5002"));
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(o =>
@@ -34,11 +37,13 @@ namespace ContabApi.Extensions
                 //employing Microsoft standard
                 o.AddPolicy("fullaccess",
                            p => p.RequireClaim(JwtClaimTypes.Scope, "ContabApi_fullaccess"));
-                o.AddPolicy("isadmin",
-                                   p => p.RequireClaim(JwtClaimTypes.Role, "admin"));
+                //o.AddPolicy("isadmin",
+                //                   p => p.RequireClaim(JwtClaimTypes.Role, "admin"));
+
+
                 //or own generic strings
-                o.AddPolicy("isemployee",
-                               p => p.RequireClaim("employeeno"));
+                //o.AddPolicy("isemployee",
+                //               p => p.RequireClaim("employeeno"));
                 //builder.Services.AddAuthorization(o => o.AddPolicy("admin", 
                 //                                       p => p.RequireClaim("role", "admin"))
                 o.FallbackPolicy = new AuthorizationPolicyBuilder()
@@ -51,6 +56,9 @@ namespace ContabApi.Extensions
                 //containing a scope doesnt verify the scope, IDP does not do authorization, however it determise
                 //which client gets which scope. Authorization based on scope gotten from IDP it is done in the API via policies.
 
+                //check policy via ApiAuthorizationservice
+                o.AddPolicy("isAdmin",
+                                  p => p.AddRequirements(new IsInRoleRequirement { Role = "admin", ApplicationId = 1 }));
             });
 
             //todo: later when i add the UI

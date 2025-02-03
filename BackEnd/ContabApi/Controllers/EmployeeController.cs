@@ -4,7 +4,6 @@ using Contracts.Validation;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 
 namespace ContabApi.Controllers
@@ -13,7 +12,7 @@ namespace ContabApi.Controllers
     // [Route("api/v1/[controller]")]
     [Route("/api/v1/Emp")]
     [ApiController]
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")] //do not use roles, use claims and policies, a claim can be a role
     [Authorize(Policy = "fullaccess")] //for testing purpose
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class EmployeeController : ControllerBase
@@ -30,23 +29,22 @@ namespace ContabApi.Controllers
         [Route("GetEmployeeById")]
         public async Task<IActionResult> GetEmployeeById([FromQuery] string id)
         {
-            //new 
-            var result = await Auth.AuthorizeAsync(User, "isadmin");
-            if (result.Succeeded)
-            {
-                //return Ok(result);
+            //old way
+            //do not use it coz it clutters the code,use instead POLICIES
+            // var result = await Auth.AuthorizeAsync(User, "isadmin");
+            // if (result.Succeeded)
+            // {
+            //return Ok(result);
+            //or even this, do not use it like this
+            //var claims = User.Claims;
+            //var fullaccess = User.HasClaim(p => p.Type == "scope" && p.Value == "ContabApi_fullaccess");
+            //var isAdmin = User.FindFirst(p => p.Type == JwtClaimTypes.Role && p.Value == "admin");
 
-                ////old way
-                //var claims = User.Claims;
-                //var fullaccess = User.HasClaim(p => p.Type == "scope" && p.Value == "ContabApi_fullaccess");
-                //var isAdmin = User.FindFirst(p => p.Type == JwtClaimTypes.Role && p.Value == "admin");
-                ////do not use it coz it clutters the code,use instead POLICIES
-
-                var node = await EmployeeService.GetEmployeeById(id);
-                new EmpDTOValidator().ValidateAndThrow(node);
-                return Ok(node);
-            }
-            return Problem(JsonConvert.SerializeObject(result));
+            var node = await EmployeeService.GetEmployeeById(id);
+            new EmpDTOValidator().ValidateAndThrow(node);
+            return Ok(node);
+            //}
+            //return Problem(JsonConvert.SerializeObject(result));
         }
 
         // POST api/<employeeController>

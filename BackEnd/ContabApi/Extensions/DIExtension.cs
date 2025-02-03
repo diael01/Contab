@@ -1,6 +1,8 @@
-﻿using Contracts.Interfaces;
+﻿using ContabApi.Authorization;
+using Contracts.Interfaces;
 using Contracts.Mapping;
 using Contracts.Settings;
+using Microsoft.AspNetCore.Authorization;
 using Repository.Impl;
 using Services;
 
@@ -26,6 +28,8 @@ namespace ContabApi.Extensions
             svc.AddScoped<IParamRepository, ParamRepository>();
             svc.AddScoped<IParamService, ParamService>();
             svc.AddScoped<IClockingService, ClockingService>();
+            svc.AddScoped<IAuthorizationApiService, AuthorizationApiService>();
+            svc.AddScoped<IAuthorizationHandler, IsInRoleHandler>();
             svc.AddAutoMapper(typeof(OrganisationProfile), typeof(EmployeeProfile));//, typeof(DeviceProfile));
             return svc;
         }

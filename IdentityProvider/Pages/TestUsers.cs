@@ -33,6 +33,7 @@ public class TestUsers
                     Password = "adminpwd",
                     Claims =
                     {
+
                         new Claim(JwtClaimTypes.Name, "Alice Smith"),
                         new Claim(JwtClaimTypes.GivenName, "Alice"),
                         new Claim(JwtClaimTypes.FamilyName, "Smith"),
@@ -50,6 +51,7 @@ public class TestUsers
                     Password = "bob",
                     Claims =
                     {
+
                         new Claim(JwtClaimTypes.Name, "Bob Smith"),
                         new Claim(JwtClaimTypes.GivenName, "Bob"),
                         new Claim(JwtClaimTypes.FamilyName, "Smith"),

@@ -32,7 +32,8 @@ public static class Config
        new ApiScope[]
        {
                 //new ApiScope("ContabApi_fullaccess", "Basic access to Contab API"),
-                new ApiScope("ContabApi_fullaccess") { UserClaims = new[] {JwtClaimTypes.Email, JwtClaimTypes.Role } }
+                new ApiScope("ContabApi_fullaccess") { UserClaims = new[] {JwtClaimTypes.Email, JwtClaimTypes.Role } },
+                new ApiScope("ContabAuthorization")
        };
 
 
@@ -52,7 +53,7 @@ public static class Config
                 },
                  AllowedScopes =
                 {
-                    "ContabApi_fullaccess"
+                    "ContabApi_fullaccess", "ContabAuthorization"
                 },
                 Claims = new ClientClaim[]
                 {
@@ -79,9 +80,9 @@ public static class Config
 
                 AllowedGrantTypes = GrantTypes.Code,
 
-                RedirectUris = { "https://localhost:7113/signin-oidc" },
-                FrontChannelLogoutUri = "https://localhost:7113/signout-oidc",
-                PostLogoutRedirectUris = { "https://localhost:7113/signout-callback-oidc" },
+                RedirectUris = { "https://localhost:4002/signin-oidc" },
+                FrontChannelLogoutUri = "https://localhost:4002/signout-oidc",
+                PostLogoutRedirectUris = { "https://localhost:4002/signout-callback-oidc" },
 
                 AllowOfflineAccess = true,
                 AbsoluteRefreshTokenLifetime = 2592000, // 30 days

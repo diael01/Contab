@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\..\WebApi\appsettings.Development.json" Link="appsettings.Development.json" />
-    <Content Include="..\..\WebApi\appsettings.json" Link="appsettings.json" />
+    <Content Include="..\..\ContabApi\appsettings.Development.json" Link="appsettings.Development.json" />
+    <Content Include="..\..\ContabApi\appsettings.json" Link="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>

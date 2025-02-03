@@ -7,7 +7,8 @@ namespace ContabApi.Controllers
 {
     [ApiController]
     [Route("api/v1/clock")]
-    [Authorize]
+    //[Authorize]
+    [Authorize(Policy = "isAdmin")] //for testing purpose
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class ClockingController : ControllerBase
     {
@@ -17,22 +18,6 @@ namespace ContabApi.Controllers
         {
             cSvc = csvc;
 
-        }
-
-
-        /// <summary>
-        /// Calculates the monthly advance of a specific person BY NAME
-        /// </summary>
-        /// <param name="empId"></param>
-        /// <returns></returns>
-        [HttpPut]
-        [Route("UpdateClockingOneByName")]
-        public async Task<IActionResult> UpdateClockingOneByName(string empName)
-        {
-            //validate
-            var avc = await cSvc.UpdateClocking1Async(empName);
-            return Ok(avc);
-            //return Ok or problem
         }
 
         /// <summary>
@@ -49,6 +34,20 @@ namespace ContabApi.Controllers
             return Ok(avc);
         }
 
+        /// <summary>
+        /// Calculates the monthly advance of a specific person BY NAME
+        /// </summary>
+        /// <param name="empId"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("UpdateClockingOneByName")]
+        public async Task<IActionResult> UpdateClockingOneByName(string empName)
+        {
+            //validate
+            var avc = await cSvc.UpdateClocking1Async(empName);
+            return Ok(avc);
+            //return Ok or problem
+        }
 
         /// <summary>
         /// Calculates the monthly advnce by teh EMployee Id from database

@@ -2,6 +2,8 @@
 using Contracts.Interfaces;
 using Contracts.Models;
 using Contracts.Utils;
+using Contracts.Validation;
+using FluentValidation;
 
 namespace Services
 {
@@ -44,8 +46,7 @@ namespace Services
                     throw new Exception("Not a valid employeeid,name or node");
             }
 
-
-
+            new EmpDTOValidator().ValidateAndThrow(emp);
             if (param.FiscalCode == "12345")
             {
                 emp.MoneyAdvance = ((decimal)(emp.MainSalary / param.NormatedRegime * param.NoDaysForWhichAdvanceisPaid) / 10) * 10; //avans pt oamenii normali dar sunt si exceptii
