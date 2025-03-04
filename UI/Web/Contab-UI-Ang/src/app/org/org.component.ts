@@ -3,6 +3,8 @@ import {FlatTreeControl} from '@angular/cdk/tree';
 import {Component, Injectable} from '@angular/core';
 import {BehaviorSubject, merge, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import { OrgDraft } from './org.model';
+import { HttpClient } from '@angular/common/http';
 
 /** Flat node with expandable and level information */
 export class DynamicFlatNode {
@@ -120,13 +122,19 @@ export class DynamicDataSource {
   styleUrls: ['org.component.css'],
   providers: [DynamicDatabase]
 })
-export class OrgComponent {//TreeDynamicExample {
-  constructor(database: DynamicDatabase) {
+export class OrgComponent { //TreeDynamicExample {
+  constructor(database: DynamicDatabase, http: HttpClient) {
     this.treeControl = new FlatTreeControl<DynamicFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new DynamicDataSource(this.treeControl, database);
 
     this.dataSource.data = database.initialData();
+    this.httpCli = http;
   }
+  //work in progress
+  getOrgs(): Observable<OrgDraft[]> {
+    return this.httpCli.get<OrgDraft[]>('/api/v1/org/getOrganisations');
+  }
+  httpCli: HttpClient;
 
   treeControl: FlatTreeControl<DynamicFlatNode>;
 
