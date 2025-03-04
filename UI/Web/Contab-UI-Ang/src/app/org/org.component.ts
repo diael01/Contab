@@ -123,18 +123,17 @@ export class DynamicDataSource {
   providers: [DynamicDatabase]
 })
 export class OrgComponent { //TreeDynamicExample {
-  constructor(database: DynamicDatabase, http: HttpClient) {
+  constructor(database: DynamicDatabase) {//, http: HttpClient) {
     this.treeControl = new FlatTreeControl<DynamicFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new DynamicDataSource(this.treeControl, database);
-
     this.dataSource.data = database.initialData();
-    this.httpCli = http;
+    //this.httpCli = http;
   }
   //work in progress
-  getOrgs(): Observable<OrgDraft[]> {
+ /*  getOrgs(): Observable<OrgDraft[]> {
     return this.httpCli.get<OrgDraft[]>('/api/v1/org/getOrganisations');
-  }
-  httpCli: HttpClient;
+  } */
+  //httpCli: HttpClient;
 
   treeControl: FlatTreeControl<DynamicFlatNode>;
 
