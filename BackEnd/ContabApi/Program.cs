@@ -9,7 +9,7 @@ builder.Logging.AddSerilog(Log.Logger);
 Log.Information("Starting up");
 
 builder.Services.AddCors();
-builder.AddAuthInfrastructure();
+//builder.AddAuthInfrastructure();1.
 builder.Host.ConfigureAppSettings();
 builder.AddDbInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
@@ -30,8 +30,6 @@ if (app.Environment.IsDevelopment())
 }
 //todo: when UI, use bff
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());//todo: specify only be endpoints
-//todo: use bff when UI
-//app.UseBff();
 app.AddMiddleware();
 
 app.UseHttpsRedirection();
@@ -39,14 +37,15 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseRouting();
 
-app.UseAuthorization();
-//todo: when UI
+//2. app.UseAuthorization();
+//3. app.MapGet("/user/{userId}", //[Authorize("fullaccess")] //authorize atrirbute works as well
+//                    (int userId, int appId) => Results.Ok(new { Role = "admin" }))
+//                    .RequireAuthorization("fullaccess", "");
+
+//todo: use bff when UI
+//app.UseBff();
 //app.UseEndpoints(e => e.MapBffManagementEndpoints());
 //app.MapFallbackToFile("index.html");
-
-app.MapGet("/user/{userId}", //[Authorize("fullaccess")] //authroize atrirbute works as well
-                    (int userId, int appId) => Results.Ok(new { Role = "admin" }))
-                    .RequireAuthorization("fullaccess", "");
 
 app.MapControllers();
 app.Run();

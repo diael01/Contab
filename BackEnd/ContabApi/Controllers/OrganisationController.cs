@@ -2,32 +2,34 @@
 using Contracts.Models;
 using Contracts.Validation;
 using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
+//todo: refactor Organisation and Employee
 namespace ContabApi.Controllers
 {
     [Route("/api/v1/Org")]
     [ApiController]
-    [Authorize]
+    //6. [Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class OrgController : ControllerBase
     {
-        IOrg OrgService;
-        public OrgController(IOrg os)
+        IOrgService OrgService;
+        public OrgController(IOrgService os)
+        //todo: use factory to get the services, IRepositoryFactory repositoryFactory)
         {
             OrgService = os;
         }
 
         [HttpGet]
         [Route("GetNodeById")]
-        public async Task<IActionResult> GetNodeById([FromQuery] string id)
+        public async Task<IActionResult> GetNodeById([FromQuery] string node)
         {
-            var node = await OrgService.GetNodeById(id);
-            new NodeValidator().ValidateAndThrow(node);
-            return Ok(node);
+            var nodeDTO = await OrgService.GetNodeById(node);
+            new NodeValidator().ValidateAndThrow(nodeDTO);
+            return Ok(nodeDTO);
         }
 
         // POST api/<OrganisationController>
@@ -58,9 +60,9 @@ namespace ContabApi.Controllers
         //// DELETE api/<OrganisationController>/5
         [HttpDelete]
         [Route("DeleteNode")]
-        public async Task<IActionResult> DeleteNode([FromQuery] string id)
+        public async Task<IActionResult> DeleteNode([FromQuery] string node)
         {
-            await OrgService.DeleteNode(id);
+            await OrgService.DeleteNode(node);
             return Ok();
         }
 

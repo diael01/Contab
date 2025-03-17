@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Contracts.Models;
 
@@ -12,7 +14,7 @@ public partial class Organisation
 
     public HierarchyId? ParentNode { get; set; }
 
-    public string ParentNodeName { get; set; } = null!;
+    public string? ParentNodeName { get; set; }
 
     public short? NodeLevel { get; set; }
 

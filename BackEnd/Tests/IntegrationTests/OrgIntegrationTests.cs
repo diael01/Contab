@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
+using Xunit;
 using static CommonTestHelper.CommonHelper;
 
 namespace IntegrationTests
 {
     [TestClass]
+    [Collection("Sequential")]
     public class OrgIntegrationTests : BaseIntegrationTest
     {
-
         [TestMethod]
         public async Task GetNodes_Integration_Should_Return_OK()
         {
@@ -53,19 +54,19 @@ namespace IntegrationTests
             //cleanup
             await DeleteNode(httpClient, new Dictionary<string, string>
             {
-                ["id"] = await fnc.Content.ReadAsStringAsync()
+                ["node"] = await fnc.Content.ReadAsStringAsync()
             });
             await DeleteNode(httpClient, new Dictionary<string, string>
             {
-                ["id"] = await act.Content.ReadAsStringAsync()
+                ["node"] = await act.Content.ReadAsStringAsync()
             });
             await DeleteNode(httpClient, new Dictionary<string, string>
             {
-                ["id"] = await dept.Content.ReadAsStringAsync()
+                ["node"] = await dept.Content.ReadAsStringAsync()
             });
             await DeleteNode(httpClient, new Dictionary<string, string>
             {
-                ["id"] = await comp.Content.ReadAsStringAsync()
+                ["node"] = await comp.Content.ReadAsStringAsync()
             });
         }
 
@@ -83,10 +84,12 @@ namespace IntegrationTests
             add.Should().NotBeNull();
             add.StatusCode.Should().Be(HttpStatusCode.OK);
 
+            var hNode = await add.Content.ReadAsStringAsync();
+            //var id = add.Content.ReadAsString();
             // Remove the object to leave the DB in the same state  
-            await CommonHelper.DeleteNode(httpClient, new Dictionary<string, string>
+            await DeleteNode(httpClient, new Dictionary<string, string>
             {
-                ["id"] = await add.Content.ReadAsStringAsync()
+                ["node"] = hNode
             });
         }
 
@@ -113,7 +116,7 @@ namespace IntegrationTests
             //get again the Org from DB
             var query = new Dictionary<string, string>
             {
-                ["id"] = await update.Content.ReadAsStringAsync()
+                ["node"] = await update.Content.ReadAsStringAsync()
             };
 
             // Act
@@ -124,7 +127,7 @@ namespace IntegrationTests
             orgres!.NodeName.Should().Be(org.NodeName);
 
             // Remove the object to leave the DB in the same state  
-            query = new Dictionary<string, string> { ["id"] = orgres.NodeText! };
+            query = new Dictionary<string, string> { ["node"] = orgres.NodeText! };
             await DeleteNode(httpClient, query);
         }
 

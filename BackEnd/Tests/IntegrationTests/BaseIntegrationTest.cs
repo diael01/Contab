@@ -41,9 +41,9 @@ namespace IntegrationTests
 
             var DBContext = sp.GetRequiredService<ContabContext>();
             Assert.IsNotNull(DBContext);
-            var orgService = sp.GetRequiredService<IOrg>();
+            var orgService = sp.GetRequiredService<IOrgService>();
             Assert.IsNotNull(orgService);
-            var empService = sp.GetRequiredService<IEmp>();
+            var empService = sp.GetRequiredService<IEmpService>();
             Assert.IsNotNull(empService);
             var mapper = sp.GetRequiredService<IMapper>();
             Assert.IsNotNull(mapper);

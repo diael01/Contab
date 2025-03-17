@@ -28,8 +28,9 @@ namespace ContabApi.Extensions
             svc.AddScoped<IParamRepository, ParamRepository>();
             svc.AddScoped<IParamService, ParamService>();
             svc.AddScoped<IClockingService, ClockingService>();
-            svc.AddScoped<IAuthorizationApiService, AuthorizationApiService>();
-            svc.AddScoped<IAuthorizationHandler, IsInRoleHandler>();
+            //4. svc.AddScoped<IAuthorizationApiService, AuthorizationApiService>();
+            //5. svc.AddScoped<IAuthorizationHandler, IsInRoleHandler>();
+            svc.AddScoped<IRepositoryFactory, RepositoryFactory>();
             svc.AddAutoMapper(typeof(OrganisationProfile), typeof(EmployeeProfile));//, typeof(DeviceProfile));
             return svc;
         }

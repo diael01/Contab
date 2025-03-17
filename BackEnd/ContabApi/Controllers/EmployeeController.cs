@@ -5,7 +5,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-
+//todo: refactor Organisation and Employee
 namespace ContabApi.Controllers
 {
 

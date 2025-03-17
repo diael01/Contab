@@ -87,12 +87,18 @@ namespace Services
         public async Task DeleteNode(string nodeId)
         {
             var id = HierarchyId.Parse(nodeId);
-            Organisation node = await DBContext.Organisations.Where(e => e.Node == id).FirstOrDefaultAsync();
-            if (node != null)
+            try
             {
-                DBContext.Entry(node).State = EntityState.Deleted;
-                await DBContext.SaveChangesAsync();
-
+                Organisation node = await DBContext.Organisations.Where(e => e.Node == id).FirstOrDefaultAsync();
+                if (node != null)
+                {
+                    DBContext.Entry(node).State = EntityState.Deleted;
+                    await DBContext.SaveChangesAsync();
+                }
+            } 
+            catch (Exception ex)
+            {
+                throw (ex);
             }
         }
 

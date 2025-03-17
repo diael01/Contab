@@ -15,6 +15,7 @@ namespace ContabApi.Controllers
         private readonly IParamService _service;
 
         public ParamController(IParamService service)
+        //todo: use factory to get the services, IRepositoryFactory repositoryFactory)
         {
             _service = service;
         }
