@@ -145,7 +145,7 @@ namespace Services
                     return obj.ManagerNode;
                 else
                 {
-                    obj = await DBContext.Employees.Where(e => e.LastName == Utils.GetEmployeeLastNameUpper(emp.FullName)).FirstOrDefaultAsync();
+                    obj = await DBContext.Employees.Where(e => e.LastName == Utils.GetEmployeeLastNameUpper(emp.LastName)).FirstOrDefaultAsync();
                     if (obj != null)
                         return obj.ManagerNode;
                     else
@@ -159,7 +159,7 @@ namespace Services
         {
             var obj = await DBContext.Employees.Where(e => e.EmpNode == HierarchyId.Parse(emp.EmpNodeText)).FirstOrDefaultAsync();
             if (obj == null)
-                obj = await DBContext.Employees.Where(e => String.Equals(e.LastName.ToUpper(), Utils.GetEmployeeLastNameUpper(emp.FullName))).FirstOrDefaultAsync();
+                obj = await DBContext.Employees.Where(e => String.Equals(e.LastName.ToUpper(), Utils.GetEmployeeLastNameUpper(emp.LastName))).FirstOrDefaultAsync();
             return obj;
         }
     }

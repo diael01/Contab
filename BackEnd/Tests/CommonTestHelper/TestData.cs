@@ -32,19 +32,22 @@ namespace CommonTestHelper
                                                         string managerAsText = null)
         {
             EmpDTO emp = new EmpDTO();
-            emp.FullName = name ?? "Eu";
+            emp.LastName = name ?? "Eu";
+            emp.FirstName = name+"Fst" ?? "EuFst";
             emp.EmpLevel = level ?? 0;
             emp.Location = "Location_" + name;
             emp.IdCardSerieNo = "RX12345";
             emp.IdCardCnp = "123456123456";
             emp.MainSalary = new decimal(100.5);
             emp.LastIdCardCreationDate = DateTime.Now; //just bogus data
-
+            emp.LastIdCardCreatedBy = "spcp";
             emp.CountyCode = "NY";//judetul
             emp.PersonalEmail = "contab@gmail.com";
             emp.Birthday = DateTime.Now; //just bogus data
             emp.Gender = "F";
             emp.EmpShift = "Z";
+            emp.HiringDate = DateTime.Now;
+            emp.Studies = "University";
 
             //emp.ManagerNodeAsName = manager ?? "Eu";
             emp.ManagerNodeText = managerAsText;

@@ -52,14 +52,16 @@ namespace CommonTestHelper
 
         public static async Task TearDownOrg(EmpData d)
         {
-
-            await TestParams.org.DeleteNode(d.funcId3);
-            await TestParams.org.DeleteNode(d.funcId2);
-            await TestParams.org.DeleteNode(d.funcId1);
-            await TestParams.org.DeleteNode(d.workTypeId);
-            await TestParams.org.DeleteNode(d.actId);
-            await TestParams.org.DeleteNode(d.deptId);
-            await TestParams.org.DeleteNode(d.orgId);
+            if (d != null)
+            {
+                await TestParams.org.DeleteNode(d.funcId3);
+                await TestParams.org.DeleteNode(d.funcId2);
+                await TestParams.org.DeleteNode(d.funcId1);
+                await TestParams.org.DeleteNode(d.workTypeId);
+                await TestParams.org.DeleteNode(d.actId);
+                await TestParams.org.DeleteNode(d.deptId);
+                await TestParams.org.DeleteNode(d.orgId);
+            }
         }
 
         public static async Task<EmpData> SetupEmp()
@@ -83,15 +85,15 @@ namespace CommonTestHelper
 
         public static async Task TearDownEmp(EmpData d)
         {
-
-            if (d.empId2 != null)
-                await TestParams.emp.DeleteEmployee(d.empId2);
-            if (d.empId1 != null)
-                await TestParams.emp.DeleteEmployee(d.empId1);
-            if (d.empId != null)
-                await TestParams.emp.DeleteEmployee(d.empId);
-
-            await TearDownOrg(d);
+            if (d != null) {
+                if (d.empId2 != null)
+                    await TestParams.emp.DeleteEmployee(d.empId2);
+                if (d.empId1 != null)
+                    await TestParams.emp.DeleteEmployee(d.empId1);
+                if (d.empId != null)
+                    await TestParams.emp.DeleteEmployee(d.empId);
+                await TearDownOrg(d);
+            }
         }
 
 

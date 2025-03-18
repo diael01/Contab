@@ -9,8 +9,8 @@ namespace Contracts.Validation
         {
             RuleFor(emp => emp).NotNull();
             //RuleFor(emp => emp.EmpNodeAsText).NotNull();
-            RuleFor(emp => emp.FullName).NotNull();
-            RuleFor(emp => emp.FullName).NotEmpty();
+            RuleFor(emp => emp.FirstName).NotNull();
+            RuleFor(emp => emp.LastName).NotEmpty();
             //RuleFor(emp => emp.FullName).NotWhiteSpace(); todo
             RuleFor(emp => emp.IdCardSerieNo).NotNull();
             RuleFor(emp => emp.IdCardCnp).NotNull();
@@ -38,7 +38,6 @@ namespace Contracts.Validation
             RuleFor(emp => emp.IdCardSerieNo).NotNull();
             RuleFor(emp => emp.IdCardCnp).NotNull();
             RuleFor(emp => emp.MainSalary).NotNull();
-            RuleFor(emp => emp.ManagerNode).NotNull();
 
             //RuleFor(emp => emp.HiringDate).NotNull();
             //RuleFor(emp => emp.EmpShift).NotNull();

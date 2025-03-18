@@ -6,11 +6,15 @@
 
         public string? EmpNodeText { get; set; }
 
-        public int EmpRecordChangeDay { get; set; }
+        public DateTime EmpRecordChangeDate { get; set; }
 
         public short? EmpLevel { get; set; }
 
-        public string FullName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
+
+        public string? MiddleName { get; set; }
+
+        public string? FirstName { get; set; }
 
         public string IdCardSerieNo { get; set; } = null!;
 
@@ -43,6 +47,8 @@
         public string? Surname { get; set; }
 
         public string? Location { get; set; }
+
+        public string Studies { get; set; } = null!;
 
 
         //Send to UI the HierarchyId As name for dispaying the Hierarchycal tree

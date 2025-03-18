@@ -99,7 +99,7 @@ namespace IntegrationTests
                 string contentString = await node.Content.ReadAsStringAsync();
                 var empres = JsonConvert.DeserializeObject<EmpDTO>(contentString);
                 empres.Should().NotBeNull();
-                Utils.GetEmployeeLastName(empres!.FullName).Should().Be(emp.LastName);
+                Utils.GetEmployeeLastName(empres!.LastName).Should().Be(emp.LastName);
 
                 // Remove the objects to leave the DB in the same state  
             } finally

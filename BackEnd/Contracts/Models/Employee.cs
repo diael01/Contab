@@ -24,7 +24,7 @@ public partial class Employee
 
     public DateTime LastIdCardCreationDate { get; set; }
 
-    public DateTime LastIdCardCreatedBy { get; set; }
+    public string LastIdCardCreatedBy { get; set; } = null!;
 
     public decimal MainSalary { get; set; }
 
@@ -68,15 +68,17 @@ public partial class Employee
 
     public HierarchyId? EmpFunctionNode { get; set; }
 
-    public string EmpDeptNodeName { get; set; } = null!;
+    public string? EmpDeptNodeName { get; set; }
 
     public string? EmpActivityNodeName { get; set; }
 
     public string? EmpWorkTypeNodeName { get; set; }
 
-    public string EmpFunctionNodeName { get; set; } = null!;
+    public string? EmpFunctionNodeName { get; set; }
 
     public HierarchyId? ManagerNode { get; set; }
+
+    public string? ManagerNodeName { get; set; }
 
     public string? PersonalEmail { get; set; }
 
