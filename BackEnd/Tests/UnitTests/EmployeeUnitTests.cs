@@ -22,6 +22,8 @@ namespace UnitTests
                 //Arrange
                 d = await SetupEmp();
 
+                //todo: act and assert if exists...
+
             } finally
             {
                 await TearDownEmp(d);
@@ -46,6 +48,10 @@ namespace UnitTests
 
                 var empdto = mapper.Map<EmpDTO>(empNode3);
                 await empService.UpdateEmployee(empdto);
+
+
+                //todo: check by retrieving employy again form DB
+                //whr eis the assert?
             } finally
             {
                 await TearDownEmp(d);

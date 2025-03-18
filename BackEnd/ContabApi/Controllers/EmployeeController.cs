@@ -13,16 +13,16 @@ namespace ContabApi.Controllers
     [Route("/api/v1/Emp")]
     [ApiController]
     //[Authorize(Roles = "admin")] //do not use roles, use claims and policies, a claim can be a role
-    [Authorize(Policy = "fullaccess")] //for testing purpose
+    //[Authorize(Policy = "fullaccess")] //for testing purpose
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class EmployeeController : ControllerBase
     {
-        IEmp EmployeeService;
+        IEmpService EmployeeService;
         IAuthorizationService Auth;
-        public EmployeeController(IEmp os, IAuthorizationService auth)
+        public EmployeeController(IEmpService os)//, IAuthorizationService auth)
         {
             EmployeeService = os;
-            Auth = auth;
+            //Auth = auth;
         }
 
         [HttpGet]

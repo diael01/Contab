@@ -5,6 +5,7 @@ using Contracts.Utils;
 using Contracts.Validation;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Services
 {
@@ -35,10 +36,10 @@ namespace Services
             return nodeDTO;
         }
 
-        public async Task<EmpDTO> GetEmployeeById(string id)
+        public async Task<EmpDTO> GetEmployeeById(string node)
         {
 
-            var nodeOrg = await DBContext.Employees.Where(e => e.Id == Convert.ToInt64(id)).FirstOrDefaultAsync();
+            var nodeOrg = await DBContext.Employees.Where(e => e.EmpNode == HierarchyId.Parse(node)).FirstOrDefaultAsync();
             var nodeDTO = Mapper.Map<EmpDTO>(nodeOrg);
             return nodeDTO;
         }
@@ -99,21 +100,42 @@ namespace Services
             var node = await GetNodeFromDB(empdto);
             var emp = Mapper.Map<Employee>(empdto);
 
-            //node.ManagerNode = HierarchyId.Parse(emp.ManagerNodeAsText);
-            //node.EmpFunctionNode = HierarchyId.Parse(emp.EmpFunctionNodeAsText);
+            if (node != null)
+            {
+                //clone the employee
+                //var serialized = JsonConvert.SerializeObject(emp);
+                //var node1 = JsonConvert.DeserializeObject<Employee>(serialized);
+                //node1.EmpNode = HierarchyId.Parse(empdto.EmpNodeText);
+                //node1.ManagerNode = HierarchyId.Parse(empdto.ManagerNodeText);
+                //node1.UpdatedAt = DateTime.Now;
+                //node1.UpdatedBy = "system";
+                //new EmpValidator().ValidateAndThrow(node1);
+                //DBContext.Entry(node1).State = EntityState.Modified;
+                //try
+                //{
+                //    await DBContext.SaveChangesAsync();
+                //} catch (Exception ex)
+                //{
+                //    Console.WriteLine(ex.Message);
+                //}
+                //return node1.EmpNode.ToString();
+                //todo: use cloning lib for all fields
+                node.LastName = emp.LastName;
 
-            node.MoneyAdvance = emp.MoneyAdvance;
-
-
-            node.Location = emp.Location;
-
-            node.EmpLevel = emp.EmpLevel;
-            node.UpdatedAt = DateTime.Now;
-            node.UpdatedBy = "system";
-            new EmpValidator().ValidateAndThrow(node);
-            DBContext.Entry(node).State = EntityState.Modified;
-            await DBContext.SaveChangesAsync();
-            return node.EmpNode.ToString();
+                node.UpdatedAt = DateTime.Now;
+                node.UpdatedBy = "system";
+                new EmpValidator().ValidateAndThrow(node);
+                DBContext.Entry(node).State = EntityState.Modified;
+                try
+                {
+                    await DBContext.SaveChangesAsync();
+                } catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                return node.EmpNode.ToString();
+            }
+            return null;
         }
 
         public async Task DeleteEmployee(string nodeId)
@@ -129,7 +151,6 @@ namespace Services
                 }
             }
         }
-
 
         private async Task<HierarchyId> GetManagerNode(EmpDTO emp)
         {

@@ -74,6 +74,7 @@ namespace Services
             var id = HierarchyId.Parse(org.NodeText);
             Organisation node = await DBContext.Organisations.Where(e => e.Node == id).FirstOrDefaultAsync();
             new OrgValidator().ValidateAndThrow(node!);
+            //todo: use cloning library for all fields
             node!.NodeName = org.NodeName;
             node.Location = org.Location;
             node.NodeLevel = org.NodeLevel;
