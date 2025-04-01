@@ -23,10 +23,17 @@ namespace UnitTests
             string? orgId = null;
             try
             {
+                //Arrange,Act
                 orgId = await AddEntityNode("Con");
+                //Assert
+                 var Node = await DBContext.Organisations.Where(e => e.Node.GetLevel() == 0).FirstOrDefaultAsync();
+                new OrgValidator().ValidateAndThrow(Node!);
+                  //Assert
+                Assert.NotNull(Node.NodeName);
             } finally
             {
-                await orgService.DeleteNode(orgId);
+                if(orgId!=null)
+                    await orgService.DeleteNode(orgId);
             }
         }
 
