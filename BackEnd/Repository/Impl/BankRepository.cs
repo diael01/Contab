@@ -15,7 +15,8 @@ namespace Repository.Impl
 
         public async Task<IEnumerable<Bank>> GetAllAsync()
         {
-            return await _context.Banks.ToListAsync();
+            //return await _context.Banks.ToListAsync();
+            return await EfExtensions.ToListAsyncSafe<Bank>(_context.Banks.AsQueryable());
         }
 
         public async Task<Bank> GetByIdAsync(int id)

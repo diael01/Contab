@@ -16,7 +16,7 @@ namespace Repository.Impl
 
         public async Task<IEnumerable<IncreaseCode>> GetAllAsync()
         {
-            return await _context.IncreaseCodes.ToListAsync();
+            return await EfExtensions.ToListAsyncSafe<IncreaseCode>(_context.IncreaseCodes.AsQueryable());
         }
 
         public async Task<IncreaseCode> GetByIdAsync(int id)

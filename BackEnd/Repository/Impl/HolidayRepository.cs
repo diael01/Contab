@@ -15,7 +15,8 @@ namespace Repository.Impl
 
         public async Task<IEnumerable<Holiday>> GetAllAsync()
         {
-            return await _context.Holidays.ToListAsync();
+            //return await _context.Holidays.ToListAsync();
+            return await EfExtensions.ToListAsyncSafe<Holiday>(_context.Holidays.AsQueryable());
         }
 
         public async Task<Holiday> GetByIdAsync(int id)

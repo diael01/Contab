@@ -15,7 +15,8 @@ namespace Repository.Impl
 
         public async Task<IEnumerable<Param>> GetAllAsync()
         {
-            return await _context.Params.ToListAsync();
+            var result = _context.Params;
+            return await EfExtensions.ToListAsyncSafe<Param>(result.AsQueryable());
         }
 
         public async Task<Param> GetByIdAsync(short id)

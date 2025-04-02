@@ -16,7 +16,8 @@ namespace Repository.Impl
 
         public async Task<IEnumerable<DiseaseCode>> GetAllAsync()
         {
-            return await _context.DiseaseCodes.ToListAsync();
+            //return await _context.DiseaseCodes.ToListAsync();
+            return await EfExtensions.ToListAsyncSafe<DiseaseCode>(_context.DiseaseCodes.AsQueryable());
         }
 
         public async Task<DiseaseCode> GetByIdAsync(int id)
