@@ -6,17 +6,18 @@ namespace Contracts.Interfaces
     {
         Task<IEnumerable<Param>> GetAllAsync();
         Task<Param> GetByIdAsync(short id);
-        Task AddAsync(Param param);
-        Task UpdateAsync(Param param);
         Task DeleteAsync(short id);
     }
 
-
     public interface IParamRepository : IParam
     {
+        Task AddAsync(Param param);
+        Task UpdateAsync(Param param);
     }
 
     public interface IParamService : IParam
     {
+        Task AddAsync(ParamDTO param);
+        Task UpdateAsync(ParamDTO param);
     }
 }

@@ -8,7 +8,7 @@ namespace ContabApi.Controllers
 
     [ApiController]
     [Route("api/v1/param")]
-    [Authorize]
+    //[Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class ParamController : ControllerBase
     {
@@ -39,14 +39,15 @@ namespace ContabApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Param param)
+        [Route("Post")]
+        public async Task<ActionResult> Post([FromBody] ParamDTO param)
         {
             await _service.AddAsync(param);
             return CreatedAtAction(nameof(Get), new { id = param.Id }, param);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(short id, [FromBody] Param param)
+        public async Task<ActionResult> Put(short id, [FromBody] ParamDTO param)
         {
             if (id != param.Id)
             {

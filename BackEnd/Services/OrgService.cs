@@ -58,7 +58,7 @@ namespace Services
             orgdb.ParentNodeName = org.ParentNodeName;
             orgdb.NodeName = org.NodeName;
             orgdb.CreatedAt = DateTime.Now;
-            orgdb.CreatedBy = "system";
+            orgdb.CreatedBy = "system";             
             orgdb.UpdatedAt = DateTime.Now;
             orgdb.UpdatedBy = "system";
             new OrgValidator().ValidateAndThrow(orgdb);
@@ -88,19 +88,14 @@ namespace Services
         public async Task DeleteNode(string nodeId)
         {
             var id = HierarchyId.Parse(nodeId);
-            try
+            
+            Organisation node = await DBContext.Organisations.Where(e => e.Node == id).FirstOrDefaultAsync();
+            if (node != null)
             {
-                Organisation node = await DBContext.Organisations.Where(e => e.Node == id).FirstOrDefaultAsync();
-                if (node != null)
-                {
-                    DBContext.Entry(node).State = EntityState.Deleted;
-                    await DBContext.SaveChangesAsync();
-                }
-            } 
-            catch (Exception ex)
-            {
-                throw (ex);
+                DBContext.Entry(node).State = EntityState.Deleted;
+                await DBContext.SaveChangesAsync();
             }
+            
         }
 
         private async Task<HierarchyId> GetParentNodeFromDTO(OrgDTO org)
