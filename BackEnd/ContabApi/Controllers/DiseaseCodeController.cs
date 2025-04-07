@@ -7,7 +7,7 @@ namespace ContabApi.Controllers
 {
     [Route("api/v1/discode")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class DiseaseCodeController : ControllerBase
     {

@@ -7,7 +7,7 @@ namespace ContabApi.Controllers
 {
     [ApiController]
     [Route("/api/health")]
-    [Authorize]
+    //[Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class HealthController : ControllerBase
     {

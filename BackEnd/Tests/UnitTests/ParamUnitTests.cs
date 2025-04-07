@@ -12,9 +12,14 @@ namespace UnitTests
         private readonly Mock<ContabContext> _mockContext;
         private readonly Mock<DbSet<Param>> _mockDbSet;
         private readonly ParamRepository _repository;
+        private readonly Param param;
 
         public ParamRepositoryTests()
         {
+            param = new Param { AdvanceDay=10, NormatedRegime = 0, NoDaysForWhichAdvanceisPaid=10, 
+            FiscalCode="12345", CaenCode=6203,AdvancePercentRate=10, WorkRegime8Hours = 0,
+            ApplicationVersion = "1.0", UpdatedBy = "User1" , UpdatedAt=DateTime.Now};
+            
             _mockContext = new Mock<ContabContext>(new DbContextOptions<ContabContext>());
             _mockDbSet = new Mock<DbSet<Param>>();
             _repository = new ParamRepository(_mockContext.Object);
@@ -49,7 +54,7 @@ namespace UnitTests
         public async Task GetByIdAsync_ReturnsParam()
         {
             // Arrange
-            var param = new Param { Id = 1, ApplicationVersion = "1.0", CreatedBy = "User1" };
+            //var param = new Param { Id = 1, ApplicationVersion = "1.0", CreatedBy = "User1" };
             _mockDbSet.Setup(m => m.FindAsync((short)1)).ReturnsAsync(param);
 
             // Act
@@ -61,10 +66,10 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task AddAsync_AddsParam()
+        public async Task AddAsync_Param()
         {
             // Arrange
-            var param = new Param { Id = 1, ApplicationVersion = "1.0", CreatedBy = "User1" };
+            
             _mockDbSet.Setup(m => m.AddAsync(param, default)).ReturnsAsync((EntityEntry<Param>)null);
 
             // Act
@@ -76,10 +81,32 @@ namespace UnitTests
         }
 
         [Fact]
+        public async Task AddAsync_NoMockAddParam()
+        {
+            // Arrange
+            // var param = new Param { Id = 1, AdvanceDay=10, NormatedRegime = 0, NoDaysForWhichAdvanceisPaid, 
+            // FiscalCode="12345", CaenCode=6203,AdvancePercentRate=10, WorkRegime8Hours = 0,
+            // ApplicationVersion = "1.0", UpdatedBy = "User1" , UpdatedAt=DateTime.Now};
+            //_mockDbSet.Setup(m => m.AddAsync(param, default)).ReturnsAsync((EntityEntry<Param>)null);
+
+            // Act
+            await _repository.AddAsync(param);
+
+            Param res = await _repository.GetByIdAsync(1);
+            Assert.NotNull(res);
+            Assert.Equal(10, res.AdvanceDay);
+
+            //await _repository.DeleteAsync(param);
+            // Assert
+            //_mockDbSet.Verify(m => m.AddAsync(param, default), Times.Once());
+            //_mockContext.Verify(m => m.SaveChangesAsync(default), Times.Once());
+        }
+
+        [Fact]
         public async Task UpdateAsync_UpdatesParam()
         {
             // Arrange
-            var param = new Param { Id = 1, ApplicationVersion = "1.0", CreatedBy = "User1" };
+            //var param = new Param { Id = 1, ApplicationVersion = "1.0", CreatedBy = "User1" };
             _mockDbSet.Setup(m => m.Update(param)).Returns((EntityEntry<Param>)null);
 
             // Act
@@ -94,7 +121,7 @@ namespace UnitTests
         public async Task DeleteAsync_DeletesParam()
         {
             // Arrange
-            var param = new Param { Id = 1, ApplicationVersion = "1.0", CreatedBy = "User1" };
+            //var param = new Param { Id = 1, ApplicationVersion = "1.0", CreatedBy = "User1" };
             _mockDbSet.Setup(m => m.FindAsync((short)1)).ReturnsAsync(param);
             _mockDbSet.Setup(m => m.Remove(param)).Returns((EntityEntry<Param>)null);
 

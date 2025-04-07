@@ -8,7 +8,7 @@ namespace ContabApi.Controllers
 
     [ApiController]
     [Route("api/v1/holiday")]
-    [Authorize]
+    //[Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class HolidayController : ControllerBase
     {

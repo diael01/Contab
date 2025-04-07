@@ -61,18 +61,19 @@ public partial class ContabContext : DbContext
 
     public virtual DbSet<WorkTypeCode> WorkTypeCodes { get; set; }
 
+  
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AspNetRole>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__AspNetRo__3214EC079F249BC8");
+            entity.HasKey(e => e.Id).HasName("PK__AspNetRo__3214EC07861ED5F1");
 
             entity.Property(e => e.Name).HasMaxLength(128);
         });
 
         modelBuilder.Entity<AspNetUser>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__AspNetUs__3214EC07C935AF61");
+            entity.HasKey(e => e.Id).HasName("PK__AspNetUs__3214EC07043DDF03");
 
             entity.Property(e => e.Email).HasMaxLength(256);
             entity.Property(e => e.LockoutEndDateUtc).HasColumnType("datetime");
@@ -84,12 +85,12 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<AspNetUserClaim>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__AspNetUs__3214EC072EA8267A");
+            entity.HasKey(e => e.Id).HasName("PK__AspNetUs__3214EC0774AE505B");
         });
 
         modelBuilder.Entity<AspNetUserRole>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__AspNetUs__1788CC4C1BB36695");
+            entity.HasKey(e => e.UserId).HasName("PK__AspNetUs__1788CC4C5C4379DF");
         });
 
         modelBuilder.Entity<Bank>(entity =>
@@ -103,7 +104,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Claim>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Claims__3214EC07E96535D7");
+            entity.HasKey(e => e.Id).HasName("PK__Claims__3214EC07F588B00E");
 
             entity.Property(e => e.Claim1)
                 .HasMaxLength(128)
@@ -112,7 +113,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Client>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Clients__3214EC0742F22D15");
+            entity.HasKey(e => e.Id).HasName("PK__Clients__3214EC07E5B4FF51");
 
             entity.Property(e => e.AllowedOrigin).HasMaxLength(128);
             entity.Property(e => e.Name).HasMaxLength(64);
@@ -121,7 +122,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Disease>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Disease__3214EC0727D6F904");
+            entity.HasKey(e => e.Id).HasName("PK__Disease__3214EC07A8BFD151");
 
             entity.ToTable("Disease");
 
@@ -195,7 +196,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Employee__3214EC07D6C8D4BF");
+            entity.HasKey(e => e.Id).HasName("PK__Employee__3214EC0748ADB665");
 
             entity.ToTable("Employee");
 
@@ -415,7 +416,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Holiday>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Holiday__3214EC0713580E49");
+            entity.HasKey(e => e.Id).HasName("PK__Holiday__3214EC0730C7CEE5");
 
             entity.ToTable("Holiday");
 
@@ -463,7 +464,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Increase>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Increase__3214EC074178229B");
+            entity.HasKey(e => e.Id).HasName("PK__Increase__3214EC0749D4A7E3");
 
             entity.ToTable("Increase");
         });
@@ -487,12 +488,12 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<MenuAuthorization>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__MenuAuth__3214EC076E02D770");
+            entity.HasKey(e => e.Id).HasName("PK__MenuAuth__3214EC07A77BC29C");
         });
 
         modelBuilder.Entity<MenuItem>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__MenuItem__3214EC07AA65DEBB");
+            entity.HasKey(e => e.Id).HasName("PK__MenuItem__3214EC075C073F12");
 
             entity.Property(e => e.MenuItem1)
                 .HasMaxLength(128)
@@ -501,7 +502,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Organisation>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Organisa__3214EC07059CD14A");
+            entity.HasKey(e => e.Id).HasName("PK__Organisa__3214EC07270E00AC");
 
             entity.ToTable("Organisation");
 
@@ -601,7 +602,7 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<Retain>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Retain__3214EC0705826403");
+            entity.HasKey(e => e.Id).HasName("PK__Retain__3214EC0765C35638");
 
             entity.ToTable("Retain");
         });
@@ -625,12 +626,12 @@ public partial class ContabContext : DbContext
 
         modelBuilder.Entity<RoleClaim>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__RoleClai__3214EC074D58B7CF");
+            entity.HasKey(e => e.Id).HasName("PK__RoleClai__3214EC07BE9ED256");
         });
 
         modelBuilder.Entity<WorkDaysPerMonth>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__WorkDays__3214EC07A9AB839C");
+            entity.HasKey(e => e.Id).HasName("PK__WorkDays__3214EC078B7F22D4");
 
             entity.ToTable("WorkDaysPerMonth");
 

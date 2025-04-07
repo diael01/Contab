@@ -44,15 +44,11 @@ namespace Services
             return nodeDTO;
         }
 
-        public async Task<EmpDTO> GetEmployeeByFullName(string fullName)
+        public async Task<EmpDTO> GetEmployeeByLastName(string lastName)
         {
-            return null;
-            //string[] names = fullName.Split(' ');
-            //var nodeOrg = await DBContext.Employees.Where(e => e.Name.Equals(Name)).FirstOrDefaultAsync();
-            //if(nodeOrg == null)
-            //    await DBContext.Employees.Where(e => e.Name.Equals(Name)).FirstOrDefaultAsync();
-            //var nodeDTO = Mapper.Map<EmpDTO>(nodeOrg);
-            //return nodeDTO;
+            var emp = await DBContext.Employees.Where(e => e.LastName.ToUpper().Equals(lastName.ToUpper())).FirstOrDefaultAsync();
+            var empDTO = Mapper.Map<EmpDTO>(emp);
+            return empDTO;
         }
 
         public async Task<string> AddEmployee(EmpDTO emp)

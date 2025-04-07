@@ -10,6 +10,14 @@ public partial class Param
 
     public DateTime? ProcessingDate { get; set; }
 
+    public short AdvanceDay { get; set; }
+
+    public short NormatedRegime { get; set; }
+
+    public short NoDaysForWhichAdvanceisPaid { get; set; }
+
+    public short? LiquidationDay { get; set; }
+
     public string FiscalCode { get; set; } = null!;
 
     public decimal CaenCode { get; set; }
@@ -17,8 +25,6 @@ public partial class Param
     public decimal AdvancePercentRate { get; set; }
 
     public short WorkRegime8Hours { get; set; }
-
-    public short? NormatedRegime { get; set; }
 
     public string? Bank1Code { get; set; }
 
@@ -29,8 +35,6 @@ public partial class Param
     public short? NormalWorkHoursSchedule { get; set; }
 
     public decimal? MinimSalaryGovt { get; set; }
-
-    public short? NoDaysForWhichAdvanceisPaid { get; set; }
 
     public string? EcnDirectorName { get; set; }
 
@@ -43,8 +47,6 @@ public partial class Param
     public HierarchyId? GenDirector { get; set; }
 
     public HierarchyId? FinDirector { get; set; }
-
-    public short? LiquidationDate { get; set; }
 
     public decimal? PercUnion { get; set; }
 

@@ -5,7 +5,7 @@ namespace ContabApi.Controllers
 {
     [ApiController]
     [Route("api/v1/report")]
-    [Authorize]
+    //[Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class ReportController : ControllerBase
     {

@@ -6,7 +6,7 @@ namespace Contracts.Models;
 
 public partial class Organisation
 {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
     public HierarchyId? Node { get; set; }
 

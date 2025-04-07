@@ -37,7 +37,7 @@ namespace Services
                     emp = await empSvc.GetEmployeeById(employee);
                     break;
                 case EmpType.Name:
-                    emp = await empSvc.GetEmployeeByFullName(employee);
+                    emp = await empSvc.GetEmployeeByLastName(employee);
                     break;
                 case EmpType.Node:
                     emp = await empSvc.GetEmployeeByNode(employee);

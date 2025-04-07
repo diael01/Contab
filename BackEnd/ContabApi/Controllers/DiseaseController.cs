@@ -8,7 +8,7 @@ namespace ContabApi.Controllers
 
     [Route("api/v1/disease")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class DiseaseController : ControllerBase
     {

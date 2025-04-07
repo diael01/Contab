@@ -8,7 +8,7 @@ namespace ContabApi.Controllers
     [ApiController]
     [Route("api/v1/clock")]
     //[Authorize]
-    [Authorize(Policy = "isAdmin")] //for testing purpose
+    //[Authorize(Policy = "isAdmin")] //for testing purpose
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class ClockingController : ControllerBase
     {
