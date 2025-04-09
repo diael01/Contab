@@ -120,7 +120,7 @@ namespace Services
                 //return node1.EmpNode.ToString();
                 //todo: use cloning lib for all fields
                 node.LastName = emp.LastName;
-
+                node.MoneyAdvance = emp.MoneyAdvance;//todo: not a good way to make another trip to DB; update correctly via cloning
                 node.UpdatedAt = DateTime.Now;
                 node.UpdatedBy = "system";
                 new EmpValidator().ValidateAndThrow(node);
