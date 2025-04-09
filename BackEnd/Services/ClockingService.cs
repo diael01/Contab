@@ -4,6 +4,7 @@ using Contracts.Models;
 using Contracts.Utils;
 using Contracts.Validation;
 using FluentValidation;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace Services
 {
@@ -27,10 +28,12 @@ namespace Services
 
         public async Task<decimal?> UpdateClocking1Async(string employee)
         {
-            var param = await paramSvc.GetByIdAsync(1);//the one and only updated record in this table
+            var p = await paramSvc.GetAllAsync();//the one and only updated record in this table
+            var param = Enumerable.FirstOrDefault(p);
+            new ParamValidator().ValidateAndThrow(param);
             //find out if an employee is an Id=numer, or a Name(only letters, no numbers), or a node (/s and numbers)
             var typ = Utils.GetEmployeeType(employee);
-            EmpDTO emp = null;
+            EmpDTO? emp = null;
             switch (typ)
             {
                 case EmpType.Id:
@@ -47,13 +50,19 @@ namespace Services
             }
 
             new EmpDTOValidator().ValidateAndThrow(emp);
-            if (param.FiscalCode == "12345")
+            /* if (param.FiscalCode == "12345") //daca angajatorul vrea o formulta difereita se face pe cod fiscal pt alta firma
             {
-                emp.MoneyAdvance = ((decimal)(emp.MainSalary / param.NormatedRegime * param.NoDaysForWhichAdvanceisPaid) / 10) * 10; //avans pt oamenii normali dar sunt si exceptii
-            } else if (emp.ExceptedRetributionDays == 0)
+                //regim normat la 8 ore  = nr de zile din luna => pt aprilie este 20 zile
+                //var nrm = 20;
+
+                //emp.MoneyAdvance = ((decimal)(emp.MainSalary / param.NormatedRegime * param.NoDaysForWhichAdvanceisPaid) / 10) * 10; //avans pt oamenii normali dar sunt si exceptii
+                //emp.MoneyAdvance = ((decimal)(emp.MainSalary * (param.AdvancePercentRate/100)/ nrm * param.NoDaysForWhichAdvanceisPaid) / 10) * 10; 
+                            }  */
+            if (emp.ExceptedRetributionDays == null || emp.ExceptedRetributionDays == 0)
             {
-                emp.MoneyAdvance = emp.MainSalary * (decimal)0.5 * param.AdvancePercentRate;
-            } else
+                emp.MoneyAdvance = emp.MainSalary * (decimal)0.5 * param.AdvancePercentRate/100;
+            }  
+            else
             {
                 emp.MoneyAdvance = emp.MainSalary * (decimal)0.5 * emp.ExceptedRetributionDays * param.AdvancePercentRate /
                     (100 * param.NoDaysForWhichAdvanceisPaid);
@@ -70,7 +79,7 @@ namespace Services
             //AdvancePercentate=CAV
             //NormatedRegime = RN8
             //NoOfDaysForWhichAdvanceisPaid = ZAP8
-            //pt constructii unu dna cociorva a decis asta
+            //sample c1
             //----------------------------------------
             //if (zire == 0)
             //    var avc = (retrib * 0.5 * CAV) / 100;
