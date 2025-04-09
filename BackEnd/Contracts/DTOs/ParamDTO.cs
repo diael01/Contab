@@ -17,6 +17,10 @@ namespace Contracts.Models
 
         public short? NormatedRegime { get; set; }
 
+         public short AdvanceDay { get; set; }
+
+        public short LiquidationDay { get; set; }
+
         public string? Bank1Code { get; set; }
 
         public string? Bank2Code { get; set; }

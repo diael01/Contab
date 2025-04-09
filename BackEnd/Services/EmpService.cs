@@ -63,7 +63,8 @@ namespace Services
                 string.IsNullOrWhiteSpace(emp.ManagerNodeText))
             {
                 empdb.EmpNode = empdb.ManagerNode = HierarchyId.GetRoot();
-            } else //if is not top level, get the manager also from same EMployee table
+            } 
+            else //if is not top level, get the manager also from same EMployee table
             {
                 HierarchyId node = await GetManagerNode(emp);
                 empdb.ManagerNode = node;
@@ -74,7 +75,9 @@ namespace Services
                         empdb.EmpNode = node!.GetDescendant(lastChild, null);
                     else
                         empdb.EmpNode = node!.GetDescendant(null, null);
-                } else return null;
+                } 
+                else 
+                    return null;
 
             }
             empdb.EmpNodeText = empdb.EmpNode.ToString();

@@ -61,7 +61,6 @@ public partial class ContabContext : DbContext
 
     public virtual DbSet<WorkTypeCode> WorkTypeCodes { get; set; }
 
-  
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AspNetRole>(entity =>

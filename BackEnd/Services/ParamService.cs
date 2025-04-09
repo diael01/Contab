@@ -23,30 +23,31 @@ namespace Services
             return await _repository.GetAllAsync();
         }
 
-        public async Task<Param> GetByIdAsync(short id)
+        public async Task<Param> GetByIdAsync(int id)
         {
             return await _repository.GetByIdAsync(id);
         }
 
-        public async Task AddAsync(ParamDTO dto)
+        public async Task<int> AddAsync(ParamDTO dto)
         {
              var param = Mapper.Map<Param>(dto);
              param.CreatedAt = param.UpdatedAt = DateTime.Now;
-             param.CreatedBy = param.UpdatedBy = "system";
-             new ParamValidator().ValidateAndThrow(param);   
-             await _repository.AddAsync(param);
+             param.CreatedBy = param.UpdatedBy = "system";   
+             return await _repository.AddAsync(param);
         }
 
-        public async Task UpdateAsync(ParamDTO dto)
+        public async Task<int> UpdateAsync(ParamDTO dto)
         {
-             var param = Mapper.Map<Param>(dto);
+            var param = Mapper.Map<Param>(dto);
+            param.UpdatedAt = DateTime.Now;
+            param.CreatedBy = param.UpdatedBy = "system";   
             new ParamValidator().ValidateAndThrow(param);   
-            await _repository.UpdateAsync(param);
+            return await _repository.UpdateAsync(param);
         }
 
-        public async Task DeleteAsync(short id)
+        public async Task DeleteAsync(int id)
         {
-            await _repository.DeleteAsync(id);
+             await _repository.DeleteAsync(id);
         }
     }
 

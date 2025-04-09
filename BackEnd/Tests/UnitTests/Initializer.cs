@@ -12,6 +12,7 @@ namespace CommonTestHelper
             {
                 mc.AddProfile(new OrganisationProfile());
                 mc.AddProfile(new EmployeeProfile());
+                mc.AddProfile(new ParamProfile());
             });
             return mappingConfig.CreateMapper();
         }

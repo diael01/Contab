@@ -6,9 +6,9 @@ namespace Contracts.Models;
 
 public partial class Param
 {
-    public short Id { get; set; }
+    public int Id { get; set; }
 
-    public DateTime? ProcessingDate { get; set; }
+    public DateTime ProcessingDate { get; set; }
 
     public short AdvanceDay { get; set; }
 

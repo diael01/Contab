@@ -4,6 +4,7 @@ using Contracts.Interfaces;
 using Contracts.Models;
 using Microsoft.EntityFrameworkCore;
 using Moq;
+using Repository.Impl;
 using Services;
 using static CommonTestHelper.CommonHelper;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
@@ -14,10 +15,10 @@ namespace UnitTests
     public class BaseUnitTest
     {
         protected Mock<IServiceProvider> mockService = new Mock<IServiceProvider>();
-
         protected ContabContext DBContext;
-        protected IOrg orgService;
-        protected IEmp empService;
+        protected IOrgService orgService;
+        protected IEmpService empService;
+        protected IParamService paramService;
         protected IMapper mapper;
 
         public BaseUnitTest() : base()
@@ -36,8 +37,13 @@ namespace UnitTests
 
             orgService = new OrgService(DBContext, mapper);
             Assert.IsNotNull(orgService);
+
             empService = new EmpService(DBContext, mapper);
             Assert.IsNotNull(empService);
+
+            IParamRepository pRepo= new ParamRepository(DBContext);
+            paramService = new ParamService(pRepo, mapper);
+            Assert.IsNotNull(paramService);
 
             SetTestParams(DBContext, orgService, empService, mapper);
         }

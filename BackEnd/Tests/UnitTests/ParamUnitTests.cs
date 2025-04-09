@@ -1,24 +1,32 @@
-﻿using Contracts.Models;
+﻿using AutoMapper;
+using Contracts.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Moq;
 using Repository.Impl;
+using Services;
 
 namespace UnitTests
 {
 
-    public class ParamRepositoryTests
+    public class ParamRepositoryTests : BaseUnitTest
     {
         private readonly Mock<ContabContext> _mockContext;
         private readonly Mock<DbSet<Param>> _mockDbSet;
         private readonly ParamRepository _repository;
         private readonly Param param;
 
+          private readonly ParamDTO pDTO;
+
         public ParamRepositoryTests()
         {
-            param = new Param { AdvanceDay=10, NormatedRegime = 0, NoDaysForWhichAdvanceisPaid=10, 
-            FiscalCode="12345", CaenCode=6203,AdvancePercentRate=10, WorkRegime8Hours = 0,
-            ApplicationVersion = "1.0", UpdatedBy = "User1" , UpdatedAt=DateTime.Now};
+            param = new Param { ProcessingDate = DateTime.Now, AdvanceDay=10, NormatedRegime = 8, NoDaysForWhichAdvanceisPaid=10, 
+            FiscalCode="12345", CaenCode=6203, AdvancePercentRate=35, WorkRegime8Hours = 1,
+            CreatedBy = "User1" , CreatedAt=DateTime.Now, UpdatedBy = "User1" , UpdatedAt=DateTime.Now};
+
+            pDTO = new ParamDTO { ProcessingDate = DateTime.Now, AdvanceDay=10, NormatedRegime = 8, NoDaysForWhichAdvanceisPaid=10, 
+            FiscalCode="12345", CaenCode=6203, AdvancePercentRate=35, WorkRegime8Hours = 1};
+            
             
             _mockContext = new Mock<ContabContext>(new DbContextOptions<ContabContext>());
             _mockDbSet = new Mock<DbSet<Param>>();
@@ -84,19 +92,16 @@ namespace UnitTests
         public async Task AddAsync_NoMockAddParam()
         {
             // Arrange
-            // var param = new Param { Id = 1, AdvanceDay=10, NormatedRegime = 0, NoDaysForWhichAdvanceisPaid, 
-            // FiscalCode="12345", CaenCode=6203,AdvancePercentRate=10, WorkRegime8Hours = 0,
-            // ApplicationVersion = "1.0", UpdatedBy = "User1" , UpdatedAt=DateTime.Now};
-            //_mockDbSet.Setup(m => m.AddAsync(param, default)).ReturnsAsync((EntityEntry<Param>)null);
+            ParamDTO pdto = mapper.Map<ParamDTO>(param);
 
             // Act
-            await _repository.AddAsync(param);
-
-            Param res = await _repository.GetByIdAsync(1);
+            var id = await paramService.AddAsync(pdto);
+            
+            var res = await paramService.GetByIdAsync(id);
             Assert.NotNull(res);
             Assert.Equal(10, res.AdvanceDay);
 
-            //await _repository.DeleteAsync(param);
+            //await paramService.DeleteAsync(id);
             // Assert
             //_mockDbSet.Verify(m => m.AddAsync(param, default), Times.Once());
             //_mockContext.Verify(m => m.SaveChangesAsync(default), Times.Once());
