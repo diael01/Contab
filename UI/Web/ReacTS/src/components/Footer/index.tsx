@@ -18,7 +18,7 @@ function Footer() {
       >
         <Box>
           <Typography variant="subtitle1">
-            &copy; 2022 - Tokyo Free White React Typescript Admin Dashboard
+            &copy; 2025 - Contab App
           </Typography>
         </Box>
         <Typography
@@ -29,11 +29,11 @@ function Footer() {
         >
           Crafted by{' '}
           <Link
-            href="https://bloomui.com"
+            href="https://contab.ro"
             target="_blank"
             rel="noopener noreferrer"
           >
-            BloomUI.com
+            Saepient
           </Link>
         </Typography>
       </Box>
