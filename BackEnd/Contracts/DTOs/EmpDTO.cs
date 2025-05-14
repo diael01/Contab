@@ -80,5 +80,8 @@
 
         public decimal? MoneyAdvance { get; set; }
 
+         public short? IndividualAcord { get; set; }
+        public short? HoursIndivAccord { get; set; }
+
     }
 }
